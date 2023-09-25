@@ -10,9 +10,9 @@
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
 		FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6512AC134C800686B4F /* SceneDelegate.swift */; };
 		FF22B6542AC134C800686B4F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* ViewController.swift */; };
-		FF22B6572AC134C800686B4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF22B6552AC134C800686B4F /* Main.storyboard */; };
 		FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF22B6582AC134C900686B4F /* Assets.xcassets */; };
 		FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */; };
+		FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF8F2EF42AC1975300C2C85D /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +20,6 @@
 		FF22B64F2AC134C800686B4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF22B6512AC134C800686B4F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FF22B6532AC134C800686B4F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FF22B6562AC134C800686B4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FF22B6582AC134C900686B4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF22B65B2AC134C900686B4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF22B65D2AC134C900686B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -31,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,6 @@
 				FF22B64F2AC134C800686B4F /* AppDelegate.swift */,
 				FF22B6512AC134C800686B4F /* SceneDelegate.swift */,
 				FF22B6532AC134C800686B4F /* ViewController.swift */,
-				FF22B6552AC134C800686B4F /* Main.storyboard */,
 				FF22B6582AC134C900686B4F /* Assets.xcassets */,
 				FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */,
 				FF22B65D2AC134C900686B4F /* Info.plist */,
@@ -83,6 +82,9 @@
 			dependencies = (
 			);
 			name = ECWeather;
+			packageProductDependencies = (
+				FF8F2EF42AC1975300C2C85D /* SnapKit */,
+			);
 			productName = ECWeather;
 			productReference = FF22B64C2AC134C800686B4F /* ECWeather.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +113,9 @@
 				Base,
 			);
 			mainGroup = FF22B6432AC134C800686B4F;
+			packageReferences = (
+				FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = FF22B64D2AC134C800686B4F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,7 +132,6 @@
 			files = (
 				FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */,
 				FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */,
-				FF22B6572AC134C800686B4F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,14 +151,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		FF22B6552AC134C800686B4F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FF22B6562AC134C800686B4F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +288,6 @@
 				INFOPLIST_FILE = ECWeather/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +315,6 @@
 				INFOPLIST_FILE = ECWeather/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -358,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FF8F2EF42AC1975300C2C85D /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FF22B6442AC134C800686B4F /* Project object */;
 }
