@@ -6,6 +6,7 @@
 //
 
 //import CoreLocation
+import SnapKit
 import MapKit
 import UIKit
 
@@ -40,27 +41,6 @@ class RegionalViewController: UIViewController {
         pin.title = "내배캠"
         pin.subtitle = "스파르타 코딩클럽"
         mapView.map.addAnnotation(pin)
-    }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !annotation.isKind(of: MKUserLocation.self) else {
-            return nil
-        }
-        var annotationView = self.mapView.map.dequeueReusableAnnotationView(withIdentifier: "Custom")
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "Custom")
-            annotationView?.canShowCallout = true
-            
-            let miniButton = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-            miniButton.setImage(UIImage(systemName: "person"), for: .normal)
-            miniButton.tintColor = .blue
-            annotationView?.rightCalloutAccessoryView = miniButton
-        } else {
-            annotationView?.annotation = annotation
-        }
-        
-        annotationView?.image = UIImage(systemName: "heart.fill")
-        return annotationView
     }
     
     func buttonActions() {
@@ -133,30 +113,44 @@ class RegionalViewController: UIViewController {
     }
     
     @objc func findNbcLocation() {
-        
         mapView.map.showsUserLocation = false
-        
-        mapView.map.userTrackingMode = .none
-        
-        mapView.map.setRegion(MKCoordinateRegion(center: nbcCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.11)), animated: true)
+        mapView.map.userTrackingMode = .followWithHeading
+        mapView.map.setRegion(MKCoordinateRegion(center: nbcCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.01)), animated: true)
     }
     
     @objc func findMyLocation() {
-        
         guard locationManager.location != nil else {
             locationManager.requestWhenInUseAuthorization()
             return
         }
-        
         mapView.map.showsUserLocation = true
-        
         mapView.map.setUserTrackingMode(.follow, animated: true)
-        
     }
 }
 
 extension RegionalViewController: MKMapViewDelegate {
-    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
+            return nil
+        }
+        var annotationView = self.mapView.map.dequeueReusableAnnotationView(withIdentifier: "Custom")
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "Custom")
+            annotationView?.canShowCallout = true
+            
+            let miniButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            miniButton.setImage(UIImage(systemName: "person"), for: .normal)
+            miniButton.tintColor = .blue
+            annotationView?.rightCalloutAccessoryView = miniButton
+        } else {
+            annotationView?.annotation = annotation
+        }
+        annotationView?.image = UIImage(systemName: "heart.fill")
+        annotationView?.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+        }
+        return annotationView
+    }
 }
 
 extension RegionalViewController: CLLocationManagerDelegate {
