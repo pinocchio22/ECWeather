@@ -10,17 +10,24 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-
+    
+    /**
+     @brief  navigationBarController 객체
+     */
+    var navigationController : UINavigationController?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-            // guard let _ = (scene as? UIWindowScene) else { return } - 삭제
-            guard let windowScene = (scene as? UIWindowScene) else { return }
-            window = UIWindow(frame: UIScreen.main.bounds)
-            window?.windowScene = windowScene
-            window?.rootViewController = MainViewController()
-            window?.makeKeyAndVisible()
-        }
-
+        // guard let _ = (scene as? UIWindowScene) else { return } - 삭제
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        navigationController = UINavigationController(rootViewController: MainViewController())
+        //네비게이션바 히든
+        navigationController?.isNavigationBarHidden = true;
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
@@ -49,6 +56,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
+    /**
+     @brief navigationController의 쌓여있는 스택을 리턴
+     */
+    static func navigationViewControllers() -> [UIViewController]{
+        return SceneDelegate.applicationDelegate().navigationController!.viewControllers
+    }
+    /**
+     @brief Appdelegate의 객체를 리턴
+     */
+    static var realDelegate: SceneDelegate?;
+    static func applicationDelegate() -> SceneDelegate{
+        if Thread.isMainThread{
+            return UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate;
+        }
+        let dg = DispatchGroup()
+        dg.enter()
+        DispatchQueue.main.async{
+            realDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate;
+            dg.leave();
+        }
+        dg.wait();
+        return realDelegate!
+    }
 }
 
