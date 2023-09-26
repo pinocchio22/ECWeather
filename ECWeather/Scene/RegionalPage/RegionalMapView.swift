@@ -19,13 +19,22 @@ class RegionalMapView: UIView {
         return btn
     }()
     
+    var nbcLocationButton: UIButton = {
+        var btn = UIButton()
+        btn.setTitle("내배캠", for: .normal)
+        btn.backgroundColor = .darkGray
+        btn.setTitleColor(.yellow, for: .normal)
+        return btn
+    }()
+    
     let map = MKMapView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.addSubview(map)
-        self.addSubview(myLocationButton)
+        addSubview(map)
+        addSubview(myLocationButton)
+        addSubview(nbcLocationButton)
         
         configureUI()
         makeConstraintUI()
@@ -45,6 +54,12 @@ class RegionalMapView: UIView {
         
         myLocationButton.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide).inset(20)
+            $0.height.equalTo(50)
+        }
+        
+        nbcLocationButton.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(myLocationButton.snp.top).offset(-20)
             $0.height.equalTo(50)
         }
     }
