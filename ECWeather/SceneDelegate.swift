@@ -37,10 +37,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 items[1].title = "지역별"
                 items[1].image = UIImage(systemName: "map")
                 items[1].selectedImage = UIImage(systemName: "map.fill")
-                items[2].title = "현재"
-                items[2].image = UIImage(systemName: "clock")
-                items[2].selectedImage = UIImage(systemName: "clock.fill")
-                items[3].title = "알람"
+                items[2].title = "오늘"
+                if let originalImage = UIImage(named: "AppLogo") {
+                    let newSize = CGSize(width: 50, height: 50)
+                    UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+                    originalImage.draw(in: CGRect(origin: .zero, size: newSize))
+                    let resizedImage = UIGraphicsGetImageFromCurrentImageContext()?.withRenderingMode(.alwaysOriginal)
+                    UIGraphicsEndImageContext()
+                    let resizedImageBW = resizedImage?.withRenderingMode(.alwaysTemplate)
+                    items[2].image = resizedImageBW
+                    items[2].selectedImage = resizedImage
+                }
+                items[3].title = "알림"
                 items[3].image = UIImage(systemName: "bell")
                 items[3].selectedImage = UIImage(systemName: "bell.badge.fill")
                 items[4].title = "설정"
