@@ -17,7 +17,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let windowScene = (scene as? UIWindowScene) else { return }
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.windowScene = windowScene
-            window?.rootViewController = MainViewController()
+        
+            let tabBarController = UITabBarController()
+        
+            let firstTab = UINavigationController(rootViewController: WeeklyViewController())
+            let secondTab = UINavigationController(rootViewController: RegionalViewController())
+            let thirdTab = UINavigationController(rootViewController: MainViewController())
+            let forthTab = UINavigationController(rootViewController: AlarmViewController())
+            let fifthTab = UINavigationController(rootViewController: SettingViewController())
+            
+            tabBarController.setViewControllers([firstTab,secondTab,thirdTab,forthTab,fifthTab], animated: true)
+        
+            if let items = tabBarController.tabBar.items {
+                
+                items[0].title = "주간"
+                items[0].image = UIImage(systemName: "calendar")
+                items[0].selectedImage = UIImage(systemName: "calendar")
+                items[1].title = "지역별"
+                items[1].image = UIImage(systemName: "map")
+                items[1].selectedImage = UIImage(systemName: "map.fill")
+                items[2].title = "현재"
+                items[2].image = UIImage(systemName: "clock")
+                items[2].selectedImage = UIImage(systemName: "clock.fill")
+                items[3].title = "알람"
+                items[3].image = UIImage(systemName: "bell")
+                items[3].selectedImage = UIImage(systemName: "bell.badge.fill")
+                items[4].title = "설정"
+                items[4].image = UIImage(systemName: "gear")
+                items[4].selectedImage = UIImage(systemName: "gear")
+            }
+        
+            tabBarController.selectedIndex = 2
+            window?.rootViewController = tabBarController
             window?.makeKeyAndVisible()
         }
 
