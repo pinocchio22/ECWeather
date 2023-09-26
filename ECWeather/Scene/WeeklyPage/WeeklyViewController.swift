@@ -51,8 +51,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        title = "Weekly Weather Forecast"
         
         view.addSubview(tableView)
         
