@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.windowScene = windowScene
         
+            // MARK: - TabBar
             let tabBarController = UITabBarController()
         
             let firstTab = UINavigationController(rootViewController: WeeklyViewController())
@@ -43,11 +44,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 items[3].image = UIImage(systemName: "bell")
                 items[3].selectedImage = UIImage(systemName: "bell.badge.fill")
                 items[4].title = "설정"
-                items[4].image = UIImage(systemName: "gear")
-                items[4].selectedImage = UIImage(systemName: "gear")
+                items[4].image = UIImage(systemName: "gear.circle")
+                items[4].selectedImage = UIImage(systemName: "gear.circle.fill")
             }
         
             tabBarController.selectedIndex = 2
+        
             window?.rootViewController = tabBarController
             window?.makeKeyAndVisible()
         }
