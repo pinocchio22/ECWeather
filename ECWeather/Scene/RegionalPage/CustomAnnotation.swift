@@ -10,12 +10,12 @@ import UIKit
 
 class CustomAnnotation: NSObject, MKAnnotation {
     var title: String?
-    var temperature: String?
+    var subtitle: String?
     @objc dynamic var coordinate: CLLocationCoordinate2D
 
-    init(title: String, temperature: String, coordinate: CLLocationCoordinate2D) {
+    init(title: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
         self.title = title
-        self.temperature = temperature
+        self.subtitle = subtitle
         self.coordinate = coordinate
     }
 }

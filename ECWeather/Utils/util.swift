@@ -27,18 +27,18 @@ struct Util {
 }
 
 enum Region: String {
-    case incheon = "인천"
     case seoul = "서울"
+    case gwanak = "관악"
     case uijeongbu = "의정부"
+    case namyangju = "남양주"
     case chuncheon = "춘천"
     case gangneung = "강릉"
-    case suwon = "수원"
     case bucheon = "부천"
+    case bundang = "분당"
     case cheongju = "청주"
     case andong = "안동"
     case daegu = "대구"
     case jeonju = "전주"
-    case gwangju = "광주"
     case mokpo = "목포"
     case yeosu = "여수"
     case changwon = "창원"

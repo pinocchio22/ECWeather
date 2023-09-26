@@ -19,6 +19,8 @@ class RegionalViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     
+    lazy var locationList = self.viewModel.fetchweather()
+    
     override func loadView() {
         view = mapView
     }
@@ -45,7 +47,6 @@ class RegionalViewController: UIViewController {
 //    }
     
     func addCustomPin() {
-        var locationList = viewModel.fetchweather()
         mapView.map.addAnnotations(locationList)
     }
     
@@ -151,12 +152,44 @@ extension RegionalViewController: MKMapViewDelegate {
         } else {
             annotationView?.annotation = annotation
         }
-        annotationView?.image = UIImage(systemName: "heart.fill")
+        if let title = annotation.title {
+            switch title {
+            case Region.seoul.rawValue : annotationView?.image = UIImage(systemName: "sun.min")
+            case Region.gwanak.rawValue : annotationView?.image = UIImage(systemName: "sun.min.fill")
+            case Region.uijeongbu.rawValue : annotationView?.image = UIImage(systemName: "sun.max")
+            case Region.namyangju.rawValue : annotationView?.image = UIImage(systemName: "sun.max.fill")
+            case Region.chuncheon.rawValue : annotationView?.image = UIImage(systemName: "moon")
+            case Region.gangneung.rawValue : annotationView?.image = UIImage(systemName: "moon.fill")
+            case Region.bucheon.rawValue : annotationView?.image = UIImage(systemName: "cloud")
+            case Region.bundang.rawValue : annotationView?.image = UIImage(systemName: "cloud.fill")
+            case Region.cheongju.rawValue : annotationView?.image = UIImage(systemName: "cloud.drizzle")
+            case Region.andong.rawValue : annotationView?.image = UIImage(systemName: "cloud.drizzle.fill")
+            case Region.daegu.rawValue : annotationView?.image = UIImage(systemName: "cloud.bolt")
+            case Region.jeonju.rawValue : annotationView?.image = UIImage(systemName: "cloud.bolt.fill")
+            case Region.mokpo.rawValue : annotationView?.image = UIImage(systemName: "cloud.sun.fill")
+            case Region.yeosu.rawValue : annotationView?.image = UIImage(systemName: "snowflake")
+            case Region.changwon.rawValue : annotationView?.image = UIImage(systemName: "wind.snow")
+            case Region.busan.rawValue : annotationView?.image = UIImage(systemName: "tornado")
+            case Region.jeju.rawValue : annotationView?.image = UIImage(systemName: "aqi.medium")
+            case .none:
+                print("nil")
+            default: annotationView?.image = UIImage(systemName: "heart.fill")
+            }
+        }
+//        annotationView?.image = UIImage(systemName: "heart.fill")
         annotationView?.snp.makeConstraints {
             $0.width.height.equalTo(30)
         }
         return annotationView
     }
+    
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        return self.locationList.count
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return self.locationList[row].title ?? "No title"
+//    }
 }
 
 extension RegionalViewController: CLLocationManagerDelegate {
