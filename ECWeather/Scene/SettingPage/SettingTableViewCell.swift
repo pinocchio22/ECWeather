@@ -14,9 +14,16 @@ class SettingTableViewCell: UITableViewCell {
         return label
     }()
     
+    lazy var segmentedControl: UISegmentedControl = {
+       let segmentedControl = UISegmentedControl(items: ["℃", "℉"])
+        return segmentedControl
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setLayout()
+        segmentedControl.isHidden = true
+        segmentedControl.selectedSegmentIndex = 0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -26,12 +33,22 @@ class SettingTableViewCell: UITableViewCell {
 
     func setLayout() {
         self.addSubview(titleLabel)
+        self.addSubview(segmentedControl)
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(self).offset(20)
             $0.bottom.equalTo(self).offset(-20)
             $0.leading.equalTo(self).offset(10)
+        }
+        
+        segmentedControl.snp.makeConstraints {
+            $0.centerY.equalTo(self)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(10)
             $0.trailing.equalTo(self).offset(-10)
         }
+    }
+    
+    @objc private func didChangeValue(segment: UISegmentedControl) {
+
     }
 }

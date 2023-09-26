@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 
-class SettingViewController: UIViewController {
+class SettingViewController: BaseViewController {
     
+    /// 설정 title label
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "설정"
@@ -17,11 +18,13 @@ class SettingViewController: UIViewController {
         return label
     }()
     
+    /// main table view
     lazy var mainTableView: UITableView = {
         let tableview = UITableView()
         tableview.layer.cornerRadius = 10
         return tableview
     }()
+    
     
     let items: [String] = ["단위 변환", "현재 위치 재설정", "지역 추가"]
     
@@ -63,6 +66,16 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingTableViewCell", for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
         cell.titleLabel.text = items[indexPath.row]
+        cell.segmentedControl.isHidden = indexPath.row != 0
+        cell.segmentedControl.tag = indexPath.row
+//        cell.segmentedControl.addTarget(self, action: #selector(segmentedControlButtonTapped(sender:)), for: .touchUpInside)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 2 {
+            let vc = SearchViewController()
+            self.navigationPushController(viewController: vc, animated: false)
+        }
     }
 }
