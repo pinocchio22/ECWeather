@@ -18,7 +18,16 @@ class AlarmViewController: UIViewController {
         label.textColor = .black
         return label
     }()
-    private let timePicker: UIPickerView! = nil // TODO: - 시간 피커
+    
+    private let timePicker: UIDatePicker = {
+        let pickerView = UIDatePicker()
+        pickerView.datePickerMode = .time
+        pickerView.preferredDatePickerStyle = .wheels
+        pickerView.locale = Locale(identifier: "en_US")
+        pickerView.tintColor = UIColor(red: 0.02, green: 0.23, blue: 0.31, alpha: 1.00) // TODO: - tintColor 안먹음..
+        pickerView.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3)
+        return pickerView
+    }()
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -31,10 +40,17 @@ class AlarmViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(titleLabel)
+        view.addSubview(timePicker)
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().offset(20)
+        }
+        
+        timePicker.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(50)
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview().offset(-100)
         }
         
     }
