@@ -9,7 +9,7 @@ import MapKit
 import SnapKit
 import UIKit
 
-class MapView: UIView {
+class RegionalMapView: UIView {
     
     var myLocationButton: UIButton = {
         var btn = UIButton()
