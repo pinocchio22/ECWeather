@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // guard let _ = (scene as? UIWindowScene) else { return } - 삭제
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        navigationController = UINavigationController(rootViewController: MainViewController())
+        navigationController = UINavigationController(rootViewController: SettingViewController())
         //네비게이션바 히든
         navigationController?.isNavigationBarHidden = true;
         window = UIWindow(frame: UIScreen.main.bounds)
