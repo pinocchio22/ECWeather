@@ -23,9 +23,9 @@ class MainViewController: UIViewController {
         // Auto layout, variables, and unit scale are not yet supported
         var nowFrameView = UIView()
         nowFrameView.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        nowFrameView.layer.backgroundColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 0.00).cgColor
-        nowFrameView.layer.borderWidth = 5
-        nowFrameView.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
+        nowFrameView.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
+//        nowFrameView.layer.borderWidth = 5
+//        nowFrameView.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
 
         var parent = self.view!
         parent.addSubview(nowFrameView)
@@ -147,9 +147,9 @@ class MainViewController: UIViewController {
         // Auto layout, variables, and unit scale are not yet supported
         var view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        view.layer.backgroundColor = UIColor(red: 0, green: 0.8, blue: 0.8, alpha: 1.00).cgColor
-        view.layer.borderWidth = 5
-        view.layer.borderColor = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0).cgColor
+        view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
+//        view.layer.borderWidth = 5
+//        view.layer.borderColor = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0).cgColor
 
         var parent = self.view!
         parent.addSubview(view)
@@ -165,7 +165,7 @@ class MainViewController: UIViewController {
     func weatherMent() {
         let view = UILabel()
         view.frame = CGRect(x: 0, y: 0, width: 210, height: 22)
-        view.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        view.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
         view.font = UIFont(name: "Helvetica-Bold", size: 16.5)
         // Line height: 22.47 pt
         view.textAlignment = .center
@@ -188,9 +188,9 @@ class MainViewController: UIViewController {
         // Auto layout, variables, and unit scale are not yet supported
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        view.layer.backgroundColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 0.00).cgColor
-        view.layer.borderWidth = 5
-        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
+        view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
+//        view.layer.borderWidth = 5
+//        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
 
 
         let parent = self.view!
@@ -207,9 +207,9 @@ class MainViewController: UIViewController {
         // Auto layout, variables, and unit scale are not yet supported
         var view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        view.layer.backgroundColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 0.00).cgColor
-        view.layer.borderWidth = 5
-        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
+        view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
+//        view.layer.borderWidth = 5
+//        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
 
 
         var parent = self.view!
