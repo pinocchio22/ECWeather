@@ -16,7 +16,7 @@ class AlarmViewController: UIViewController {
         let label = UILabel()
         label.text = "날씨 알림"
         label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-        label.textColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 0.7)
+        label.textColor = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
         return label
     }()
     
@@ -34,7 +34,7 @@ class AlarmViewController: UIViewController {
         let label = UILabel()
         label.text = "요일별 알림"
         label.font = UIFont.boldSystemFont(ofSize: 10)
-        label.textColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 0.7)
+        label.textColor = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
         return label
     }()
     
@@ -89,6 +89,7 @@ class AlarmViewController: UIViewController {
         weekdaysBtnStack.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(30)
+//            $0.centerX.equalToSuperview()
         }
         
         tableView.snp.makeConstraints {
@@ -116,7 +117,7 @@ class AlarmViewController: UIViewController {
 
     @objc private func weekdaysButtonTapped(sender: UIButton) {
         if sender.backgroundColor == UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3) {
-            sender.backgroundColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 0.3)
+            sender.backgroundColor = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 0.5)
             // TODO: - 요일 눌렀을때 이벤트 처리
         } else {
             sender.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3)
@@ -146,7 +147,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
 //        
         let headerLabel = UILabel()
         headerLabel.font = UIFont.boldSystemFont(ofSize: 10)
-        headerLabel.textColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 0.7)
+        headerLabel.textColor = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
         headerView.addSubview(headerLabel)
         
         if section == 0 {
