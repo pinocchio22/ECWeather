@@ -11,6 +11,7 @@ import MapKit
 import UIKit
 
 class RegionalViewController: UIViewController {
+    let viewModel = RegionalViewModel()
     
     let mapView = RegionalMapView()
     
@@ -35,12 +36,17 @@ class RegionalViewController: UIViewController {
         buttonActions()
     }
     
+//    func addCustomPin() {
+//        let pin = MKPointAnnotation()
+//        pin.coordinate = nbcCoordinate
+//        pin.title = "내배캠"
+//        pin.subtitle = "스파르타 코딩클럽"
+//        mapView.map.addAnnotation(pin)
+//    }
+    
     func addCustomPin() {
-        let pin = MKPointAnnotation()
-        pin.coordinate = nbcCoordinate
-        pin.title = "내배캠"
-        pin.subtitle = "스파르타 코딩클럽"
-        mapView.map.addAnnotation(pin)
+        var locationList = viewModel.fetchweather()
+        mapView.map.addAnnotations(locationList)
     }
     
     func buttonActions() {
