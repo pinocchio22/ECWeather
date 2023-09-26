@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		56062ED92AC266C600142FDE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56062ED82AC266C600142FDE /* BaseViewController.swift */; };
+		56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AD42AC2D08E006EB784 /* SettingTableViewCell.swift */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
 		FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6512AC134C800686B4F /* SceneDelegate.swift */; };
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		56062ED82AC266C600142FDE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		56D88AD42AC2D08E006EB784 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF22B64F2AC134C800686B4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF22B6512AC134C800686B4F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				FF8F2F0D2AC1A7A400C2C85D /* SettingViewController.swift */,
+				56D88AD42AC2D08E006EB784 /* SettingTableViewCell.swift */,
 			);
 			path = SettingPage;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,
 				FF8F2F052AC1A05E00C2C85D /* Util.swift in Sources */,
+				56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */,
 				FF8F2F0E2AC1A7A400C2C85D /* SettingViewController.swift in Sources */,
 				FF8F2F0C2AC1A79900C2C85D /* AlarmViewController.swift in Sources */,
 				FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */,
