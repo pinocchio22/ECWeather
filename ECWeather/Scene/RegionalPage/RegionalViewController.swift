@@ -125,9 +125,10 @@ extension RegionalViewController: MKMapViewDelegate {
         guard !annotation.isKind(of: MKUserLocation.self) else {
             return nil
         }
+        // nil?
         var annotationView = self.mapView.map.dequeueReusableAnnotationView(withIdentifier: "Custom")
         if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "Custom")
+//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "Custom")
             annotationView?.canShowCallout = true
             
             let miniButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
