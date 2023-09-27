@@ -68,14 +68,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.titleLabel.text = items[indexPath.row]
         cell.segmentedControl.isHidden = indexPath.row != 0
         cell.segmentedControl.tag = indexPath.row
-//        cell.segmentedControl.addTarget(self, action: #selector(segmentedControlButtonTapped(sender:)), for: .touchUpInside)
+        cell.segmentedControl.addTarget(self, action: #selector(cell.didChangeValueSegement(segment:)), for: .touchUpInside)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
             let vc = SearchViewController()
-            self.navigationPushController(viewController: vc, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
