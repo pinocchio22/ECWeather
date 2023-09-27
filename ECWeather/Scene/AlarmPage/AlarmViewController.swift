@@ -11,13 +11,22 @@ import UIKit
 class AlarmViewController: UIViewController {
     
     // MARK: - Properties
-    private let weekdays:[String] = ["일","월","화","수","목","금","토"]
+    private let weekdays: [String] = ["일","월","화","수","목","금","토"]
+    private var headerLabelColor: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "날씨 알림"
         label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         label.textColor = .ECWeatherColor3
         return label
+    }()
+    
+    private let notificationSwitch: UISwitch = {
+        let notificationSwitch = UISwitch()
+        notificationSwitch.isOn = true
+        notificationSwitch.onTintColor = .ECWeatherColor3
+        notificationSwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
+        return notificationSwitch
     }()
     
     private let timePicker: UIDatePicker = {
@@ -65,6 +74,7 @@ class AlarmViewController: UIViewController {
         makeWeekdaysBtnStack()
         configureTableView()
         view.addSubview(titleLabel)
+        view.addSubview(notificationSwitch)
         view.addSubview(timePicker)
         view.addSubview(weekdaysBtnLabel)
         view.addSubview(weekdaysBtnStack)
@@ -73,6 +83,11 @@ class AlarmViewController: UIViewController {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().offset(25)
+        }
+        
+        notificationSwitch.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel)
+            $0.trailing.equalToSuperview().offset(-35)
         }
         
         timePicker.snp.makeConstraints {
@@ -126,11 +141,30 @@ class AlarmViewController: UIViewController {
     }
     
     @objc private func weekdaysButtonTapped(sender: UIButton) {
-        if sender.backgroundColor == .ECWeatherColor4?.withAlphaComponent(0.3) {
-            sender.backgroundColor = .ECWeatherColor3?.withAlphaComponent(0.5)
-            // TODO: - 요일 눌렀을때 이벤트 처리
+        if notificationSwitch.isOn {
+            if sender.backgroundColor == .ECWeatherColor4?.withAlphaComponent(0.3) {
+                sender.backgroundColor = .ECWeatherColor3?.withAlphaComponent(0.5)
+                // TODO: - 요일 눌렀을때 이벤트 처리
+            } else {
+                sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+            }
         } else {
             sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+        }
+    }
+    
+    @objc private func switchValueChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            timePicker.isEnabled = true
+            weekdaysBtnLabel.textColor = .ECWeatherColor3
+            headerLabelColor = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
+            tableView.reloadData()
+        } else {
+            timePicker.isEnabled = false
+            weekdaysBtnLabel.textColor = .systemGray4
+            headerLabelColor = .systemGray4
+            tableView.reloadData()
+           
         }
     }
 }
@@ -148,7 +182,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
 //        
         let headerLabel = UILabel()
         headerLabel.font = UIFont.boldSystemFont(ofSize: 10)
-        headerLabel.textColor = .ECWeatherColor3
+        headerLabel.textColor = headerLabelColor
         headerView.addSubview(headerLabel)
         
         if section == 0 {
@@ -201,12 +235,14 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 && indexPath.row == 0 {
-            print("알람 소리 cell 터치 이벤트 들어옴!!")
-        } else if indexPath.section == 1 && indexPath.row == 0 {
-            print("날씨 cell 터치 이벤트 들어옴!! ")
-        } else if indexPath.section == 1 && indexPath.row == 1 {
-            print("온도 cell 터치 이벤트 들어옴!! ")
+        if notificationSwitch.isOn {
+            if indexPath.section == 0 && indexPath.row == 0 {
+                print("알람 소리 cell 터치 이벤트 들어옴!!")
+            } else if indexPath.section == 1 && indexPath.row == 0 {
+                print("날씨 cell 터치 이벤트 들어옴!! ")
+            } else if indexPath.section == 1 && indexPath.row == 1 {
+                print("온도 cell 터치 이벤트 들어옴!! ")
+            }
         }
     }
     
