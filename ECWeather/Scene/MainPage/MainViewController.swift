@@ -8,6 +8,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    
+    private let dailyWeatherInfo = ["지금", "12시", "1시", "2시", "3시", "4시", "5시", "6시"]
+    
  
     // MARK: - weatherNowView
     
@@ -31,7 +34,7 @@ class MainViewController: UIViewController {
         parent.addSubview(weatherNowFrameTopLine)
         weatherNowFrameTopLine.translatesAutoresizingMaskIntoConstraints = false
         weatherNowFrameTopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrameTopLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherNowFrameTopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherNowFrameTopLine.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
         weatherNowFrameTopLine.topAnchor.constraint(equalTo: parent.topAnchor, constant: 105).isActive = true
         weatherNowFrameTopLine.layer.cornerRadius = 5
@@ -45,7 +48,7 @@ class MainViewController: UIViewController {
         parent2.addSubview(weatherNowFrameBottomLine)
         weatherNowFrameBottomLine.translatesAutoresizingMaskIntoConstraints = false
         weatherNowFrameBottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrameBottomLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherNowFrameBottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherNowFrameBottomLine.centerXAnchor.constraint(equalTo: parent2.centerXAnchor).isActive = true
         weatherNowFrameBottomLine.topAnchor.constraint(equalTo: parent2.topAnchor, constant: 405).isActive = true
         weatherNowFrameBottomLine.layer.cornerRadius = 5
@@ -184,7 +187,7 @@ class MainViewController: UIViewController {
         parent.addSubview(weatherTodayFrameTopLine)
         weatherTodayFrameTopLine.translatesAutoresizingMaskIntoConstraints = false
         weatherTodayFrameTopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherTodayFrameTopLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherTodayFrameTopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherTodayFrameTopLine.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
         weatherTodayFrameTopLine.topAnchor.constraint(equalTo: parent.topAnchor, constant: 427).isActive = true
         weatherTodayFrameTopLine.layer.cornerRadius = 5
@@ -198,7 +201,7 @@ class MainViewController: UIViewController {
         parent2.addSubview(weatherTodayFrameBottomLine)
         weatherTodayFrameBottomLine.translatesAutoresizingMaskIntoConstraints = false
         weatherTodayFrameBottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherTodayFrameBottomLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherTodayFrameBottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherTodayFrameBottomLine.centerXAnchor.constraint(equalTo: parent2.centerXAnchor).isActive = true
         weatherTodayFrameBottomLine.topAnchor.constraint(equalTo: parent2.topAnchor, constant: 537).isActive = true
         weatherTodayFrameBottomLine.layer.cornerRadius = 5
@@ -253,7 +256,7 @@ class MainViewController: UIViewController {
         parent.addSubview(weatherTodayMentUnderLine)
         weatherTodayMentUnderLine.translatesAutoresizingMaskIntoConstraints = false
         weatherTodayMentUnderLine.widthAnchor.constraint(equalToConstant: 330).isActive = true
-        weatherTodayMentUnderLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherTodayMentUnderLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherTodayMentUnderLine.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
         weatherTodayMentUnderLine.topAnchor.constraint(equalTo: parent.topAnchor, constant: 460).isActive = true
         weatherTodayMentUnderLine.layer.cornerRadius = 15
@@ -367,7 +370,7 @@ class MainViewController: UIViewController {
         parent.addSubview(weatherNowFrame3TopLine)
         weatherNowFrame3TopLine.translatesAutoresizingMaskIntoConstraints = false
         weatherNowFrame3TopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame3TopLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherNowFrame3TopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherNowFrame3TopLine.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
         weatherNowFrame3TopLine.topAnchor.constraint(equalTo: parent.topAnchor, constant: 560).isActive = true
         weatherNowFrame3TopLine.layer.cornerRadius = 5
@@ -380,7 +383,7 @@ class MainViewController: UIViewController {
         parent2.addSubview(weatherNowFrame3BottomLine)
         weatherNowFrame3BottomLine.translatesAutoresizingMaskIntoConstraints = false
         weatherNowFrame3BottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame3BottomLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherNowFrame3BottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherNowFrame3BottomLine.centerXAnchor.constraint(equalTo: parent2.centerXAnchor).isActive = true
         weatherNowFrame3BottomLine.topAnchor.constraint(equalTo: parent2.topAnchor, constant: 620).isActive = true
         weatherNowFrame3BottomLine.layer.cornerRadius = 5
@@ -394,7 +397,7 @@ class MainViewController: UIViewController {
         parent3.addSubview(weatherNowFrame4TopLine)
         weatherNowFrame4TopLine.translatesAutoresizingMaskIntoConstraints = false
         weatherNowFrame4TopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame4TopLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherNowFrame4TopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherNowFrame4TopLine.centerXAnchor.constraint(equalTo: parent3.centerXAnchor).isActive = true
         weatherNowFrame4TopLine.topAnchor.constraint(equalTo: parent3.topAnchor, constant: 640).isActive = true
         weatherNowFrame4TopLine.layer.cornerRadius = 5
@@ -407,7 +410,7 @@ class MainViewController: UIViewController {
         parent4.addSubview(weatherNowFrame4BottomLine)
         weatherNowFrame4BottomLine.translatesAutoresizingMaskIntoConstraints = false
         weatherNowFrame4BottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame4BottomLine.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        weatherNowFrame4BottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
         weatherNowFrame4BottomLine.centerXAnchor.constraint(equalTo: parent4.centerXAnchor).isActive = true
         weatherNowFrame4BottomLine.topAnchor.constraint(equalTo: parent4.topAnchor, constant: 700).isActive = true
         weatherNowFrame4BottomLine.layer.cornerRadius = 5
@@ -429,15 +432,85 @@ class MainViewController: UIViewController {
 
 
 
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
-    }
 
 
 
-}
+//extension MainViewController {
+//    var collectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        
+//        layout.scrollDirection = .vertical
+//        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width / 2) - 20, height: 200)
+//        
+//        let collectionView = UICollectionView(frame: .zoro, collectionViewLayout: layout)
+//        collectionView.backgroundColor = .white
+//        collectionView.regi
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+//
+//
+//
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return self.dailyWeatherInfo.count
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cellId = String(describing: MainViewControllerCell.self)
+//        print("cellId : \(cellId)")
+//
+//        // 셀 인스턴스
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MainViewControllerCell
+////        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MyCustomCollectionViewCell.self), for: indexPath) as! MyCustomCollectionViewCell
+//
+//        cell.imageName = self.dailyWeatherInfo[indexPath.item]
+//
+//        cell.contentView.backgroundColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
+//        cell.contentView.layer.cornerRadius = 8
+//        cell.contentView.layer.borderWidth = 1
+//        cell.contentView.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+//
+//
+//         //데이터에 따른 셀UI 변경
+//         //이미지에 대한 설정
+////        cell.profileImage.image = UIImage(systemName: self.systemimageNameArray[indexPath.item])
+////        // 라벨 설정
+////        cell.profileLavel.text = self.systemimageNameArray[indexPath.item]
+////
+//        return cell
+//    }
+//}
+//
+//
+//
+//class MainViewControllerCell: UICollectionViewCell {
+//
+//    var dailyWeatherImage: UIImageView!
+//    var dailyWeatherTime: UILabel!
+//
+//
+//    var imageName : String = ""{
+//        didSet{
+//            print("MyCollectionViewCell imageName - didSet() : \(imageName)")
+//            // 셀의 UI 설정
+//            self.dailyWeatherImage.image = UIImage(systemName: imageName)
+//            // 라벨 설정
+//            self.dailyWeatherTime.text = imageName
+//        }
+//    }
+//}
