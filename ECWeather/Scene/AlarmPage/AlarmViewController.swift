@@ -174,8 +174,6 @@ class AlarmViewController: UIViewController {
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
         tableView.isScrollEnabled = false
-        tableView.layer.cornerRadius = 10
-        tableView.layer.masksToBounds = true
         tableView.separatorStyle = .none
     }
     
@@ -237,8 +235,6 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-//        headerView.backgroundColor = .white
-//        
         let headerLabel = UILabel()
         headerLabel.font = UIFont.boldSystemFont(ofSize: 10)
         headerLabel.textColor = tempColorForSwitch
@@ -273,7 +269,6 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
         cell.textLabel?.textColor = .black
         cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
-        cell.selectionStyle = .none
         cell.tintColor = tempColorForSwitch
 
 
@@ -281,20 +276,27 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             if indexPath.row == 0 {
                 cell.textLabel?.text = "알람 소리"
                 cell.layer.cornerRadius = 10
+                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             }
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 cell.textLabel?.text = "날씨" // 현재 밖에 날씨는 ~~(맑음)입니다
+                cell.layer.cornerRadius = 10
+                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             } else if indexPath.row == 1 {
                 cell.textLabel?.text = "온도" // 현재 밖에 날씨는 ~~(18)도이고 체감온도는 ~~(25)입니다.
+                cell.layer.cornerRadius = 10
+                cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             }
-            cell.layer.cornerRadius = 10
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         if notificationSwitch.isOn {
             if let cell = tableView.cellForRow(at: indexPath) {
                 if indexPath.section == 0 && indexPath.row == 0 {
