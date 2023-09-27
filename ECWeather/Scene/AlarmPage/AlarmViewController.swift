@@ -13,7 +13,8 @@ class AlarmViewController: UIViewController {
     
     // MARK: - Properties
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
-    private var headerLabelColor: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
+    private var tempColorForSwitch: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "날씨 알림"
@@ -214,13 +215,13 @@ class AlarmViewController: UIViewController {
             timePicker.isEnabled = true
             descriptionLabel.text = "아래 지정된 시간에 날씨 정보 알림이 전송 됩니다.\n정보는 사용자 위치를 기준으로 제공 됩니다."
             weekdaysBtnLabel.textColor = .ECWeatherColor3
-            headerLabelColor = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
+            tempColorForSwitch = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
             tableView.reloadData()
         } else {
             timePicker.isEnabled = false
             descriptionLabel.text = "현재 알림이 꺼져 있습니다.\n"
             weekdaysBtnLabel.textColor = .systemGray4
-            headerLabelColor = .systemGray4
+            tempColorForSwitch = .systemGray4
             tableView.reloadData()
            
         }
@@ -240,7 +241,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
 //        
         let headerLabel = UILabel()
         headerLabel.font = UIFont.boldSystemFont(ofSize: 10)
-        headerLabel.textColor = headerLabelColor
+        headerLabel.textColor = tempColorForSwitch
         headerView.addSubview(headerLabel)
         
         if section == 0 {
@@ -273,7 +274,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.textColor = .black
         cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
         cell.selectionStyle = .none
-        cell.tintColor = .ECWeatherColor3
+        cell.tintColor = tempColorForSwitch
 
 
         if indexPath.section == 0 {
