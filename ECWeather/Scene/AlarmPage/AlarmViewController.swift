@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import UserNotifications
 
 class AlarmViewController: UIViewController {
     
@@ -24,7 +25,7 @@ class AlarmViewController: UIViewController {
     // !!BUTTON FOR TEST - 나중에 삭제
     private lazy var btnForTest: UIButton = {
         let button = UIButton()
-        button.setTitle("앱 푸시!", for: .normal)
+        button.setTitle("푸시알림테스트", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.backgroundColor = .systemYellow
@@ -76,6 +77,8 @@ class AlarmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
+
     }
 
     // MARK: - Methods & Selectors
@@ -158,7 +161,20 @@ class AlarmViewController: UIViewController {
     
     // !!BUTTON FOR TEST - 나중에 삭제
     @objc private func testBtnTapped() {
-        print("버튼 잘~눌림")
+        let content = UNMutableNotificationContent()
+        
+        content.title = "e편한날씨 - 날씨 알리미"
+        content.body = 
+        """
+        현재 밖의 날씨는 ☀️(맑음)입니다.
+        집 밖에 좀 나가십쇼.
+        """
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats:false)
+        let request = UNNotificationRequest(identifier: "weather", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
     }
     
     @objc private func weekdaysButtonTapped(sender: UIButton) {
