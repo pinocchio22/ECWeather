@@ -14,7 +14,7 @@ class RegionalMapView: UIView {
     var myLocationButton: UIButton = {
         var btn = UIButton()
         btn.setTitle("현재 위치로", for: .normal)
-        btn.backgroundColor = .ECWeatherColor2
+        btn.backgroundColor = .ECWeatherColor3
         btn.setTitleColor(.ECWeatherColor4, for: .normal)
         return btn
     }()
@@ -22,7 +22,7 @@ class RegionalMapView: UIView {
     var nbcLocationButton: UIButton = {
         var btn = UIButton()
         btn.setTitle("내배캠", for: .normal)
-        btn.backgroundColor = .ECWeatherColor2
+        btn.backgroundColor = .ECWeatherColor3
         btn.setTitleColor(.ECWeatherColor4, for: .normal)
         return btn
     }()
