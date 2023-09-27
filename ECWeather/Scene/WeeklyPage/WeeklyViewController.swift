@@ -44,20 +44,23 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let weather: String
         let highTemperature: Int
         let lowTemperature: Int
+        let weatherImageName: String
     }
     
     let weeklyForecast: [WeatherData] = [
-        WeatherData(day: "월요일", weather: "맑음", highTemperature: 28, lowTemperature: 15),
-        WeatherData(day: "화요일", weather: "흐림", highTemperature: 24, lowTemperature: 17),
-        WeatherData(day: "수요일", weather: "비", highTemperature: 20, lowTemperature: 14),
-        WeatherData(day: "목요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18),
-        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19),
-        WeatherData(day: "토요일", weather: "비", highTemperature: 21, lowTemperature: 15),
-        WeatherData(day: "일요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16)
+        WeatherData(day: "월요일", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "화요일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "수요일", weather: "비", highTemperature: 20, lowTemperature: 14, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "목요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "토요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "일요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.separatorColor = UIColor.ECWeatherColor3
+
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -82,7 +85,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
         
         let weatherData = weeklyForecast[indexPath.row]
-        cell.configure(day: weatherData.day, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature)
+        cell.configure(day: weatherData.day, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
         
         return cell
     }
@@ -100,18 +103,35 @@ class WeeklyTableViewCell: UITableViewCell {
     let dayLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = UIColor.ECWeatherColor2
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+
+
+        
         return label
+    }()
+    
+    let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     let weatherLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = UIColor.ECWeatherColor3
         return label
     }()
     
     let temperatureLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = UIColor.ECWeatherColor2
         return label
     }()
     
@@ -119,19 +139,30 @@ class WeeklyTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         addSubview(dayLabel)
+        addSubview(weatherImageView)
         addSubview(weatherLabel)
         addSubview(temperatureLabel)
         
         NSLayoutConstraint.activate([
-            dayLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            dayLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            dayLabel.topAnchor.constraint(equalTo: topAnchor),
+            dayLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            dayLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            dayLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
             
-            weatherLabel.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 16),
-            weatherLabel.centerYAnchor.constraint(equalTo: dayLabel.centerYAnchor),
+            weatherImageView.topAnchor.constraint(equalTo: topAnchor),
+            weatherImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            weatherImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor),
+            weatherImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
             
-            temperatureLabel.leadingAnchor.constraint(equalTo: weatherLabel.trailingAnchor, constant: 16),
-            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            temperatureLabel.centerYAnchor.constraint(equalTo: dayLabel.centerYAnchor),
+            weatherLabel.topAnchor.constraint(equalTo: topAnchor),
+            weatherLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            weatherLabel.leadingAnchor.constraint(equalTo: weatherImageView.trailingAnchor),
+            weatherLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3),
+            
+            temperatureLabel.topAnchor.constraint(equalTo: topAnchor),
+            temperatureLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            temperatureLabel.leadingAnchor.constraint(equalTo: weatherLabel.trailingAnchor),
+            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
     
@@ -139,9 +170,10 @@ class WeeklyTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(day: String, weather: String, highTemperature: Int, lowTemperature: Int) {
+    func configure(day: String, weather: String, highTemperature: Int, lowTemperature: Int, weatherImageName: String) {
         dayLabel.text = day
         weatherLabel.text = weather
         temperatureLabel.text = "\(highTemperature)° / \(lowTemperature)°"
+        weatherImageView.image = UIImage(named: weatherImageName)
     }
 }
