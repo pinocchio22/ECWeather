@@ -41,6 +41,8 @@ class AlarmViewController: UIViewController {
         button.setTitleColor(.gray, for: .normal)
         button.backgroundColor = .systemGray6
         button.addTarget(self, action: #selector(testBtnTapped), for: .touchUpInside)
+        button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20) // TODO: - 원형 만들기
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
         return button
     }()
     
@@ -73,9 +75,9 @@ class AlarmViewController: UIViewController {
     private let weekdaysBtnStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 1
         return stackView
     }()
     
@@ -159,7 +161,7 @@ class AlarmViewController: UIViewController {
             button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             button.addTarget(self, action: #selector(weekdaysButtonTapped), for: .touchUpInside)
             
-            button.bounds = CGRect(x: 0, y: 0, width: 25, height: 50) // TODO: - 원형 만들기
+            button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20) // TODO: - 원형 만들기
             button.layer.cornerRadius = 0.5 * button.bounds.size.width
             
             weekdaysBtnStack.addArrangedSubview(button)
@@ -271,6 +273,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.textColor = .black
         cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
         cell.selectionStyle = .none
+        cell.tintColor = .ECWeatherColor3
 
 
         if indexPath.section == 0 {
@@ -292,12 +295,16 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if notificationSwitch.isOn {
-            if indexPath.section == 0 && indexPath.row == 0 {
-                print("알람 소리 cell 터치 이벤트 들어옴!!")
-            } else if indexPath.section == 1 && indexPath.row == 0 {
-                print("날씨 cell 터치 이벤트 들어옴!! ")
-            } else if indexPath.section == 1 && indexPath.row == 1 {
-                print("온도 cell 터치 이벤트 들어옴!! ")
+            if let cell = tableView.cellForRow(at: indexPath) {
+                if indexPath.section == 0 && indexPath.row == 0 {
+                    print("알람 소리 cell 터치 이벤트 들어옴!!")
+                } else if indexPath.section == 1 && indexPath.row == 0 {
+                    cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
+                    print("날씨 cell 터치 이벤트 들어옴!! ")
+                } else if indexPath.section == 1 && indexPath.row == 1 {
+                    cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
+                    print("온도 cell 터치 이벤트 들어옴!! ")
+                }
             }
         }
     }
