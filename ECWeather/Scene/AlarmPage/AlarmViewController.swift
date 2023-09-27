@@ -22,13 +22,24 @@ class AlarmViewController: UIViewController {
         return label
     }()
     
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "아래 지정된 시간에 날씨 정보 알림이 전송 됩니다.\n정보는 사용자 위치를 기준으로 제공 됩니다."
+        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        return label
+    }()
+    
     // !!BUTTON FOR TEST - 나중에 삭제
     private lazy var btnForTest: UIButton = {
         let button = UIButton()
-        button.setTitle("푸시알림테스트", for: .normal)
+        button.setTitle("[테스트]", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.textAlignment = .center
-        button.backgroundColor = .systemYellow
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        button.setTitleColor(.gray, for: .normal)
+        button.backgroundColor = .systemGray6
         button.addTarget(self, action: #selector(testBtnTapped), for: .touchUpInside)
         return button
     }()
@@ -90,6 +101,7 @@ class AlarmViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(btnForTest) // !!BUTTON FOR TEST - 나중에 삭제
         view.addSubview(notificationSwitch)
+        view.addSubview(descriptionLabel)
         view.addSubview(timePicker)
         view.addSubview(weekdaysBtnLabel)
         view.addSubview(weekdaysBtnStack)
@@ -103,7 +115,7 @@ class AlarmViewController: UIViewController {
         // !!BUTTON FOR TEST - 나중에 삭제
         btnForTest.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
-            $0.leading.equalTo(titleLabel.snp.trailing).offset(25)
+            $0.trailing.equalTo(notificationSwitch.snp.leading).offset(-15)
         }
         
         notificationSwitch.snp.makeConstraints {
@@ -111,8 +123,13 @@ class AlarmViewController: UIViewController {
             $0.trailing.equalToSuperview().offset(-35)
         }
         
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().offset(30)
+        }
+        
         timePicker.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(50)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.width.equalToSuperview().offset(-100)
         }
@@ -193,11 +210,13 @@ class AlarmViewController: UIViewController {
     @objc private func switchValueChanged(_ sender: UISwitch) {
         if sender.isOn {
             timePicker.isEnabled = true
+            descriptionLabel.text = "아래 지정된 시간에 날씨 정보 알림이 전송 됩니다.\n정보는 사용자 위치를 기준으로 제공 됩니다."
             weekdaysBtnLabel.textColor = .ECWeatherColor3
             headerLabelColor = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
             tableView.reloadData()
         } else {
             timePicker.isEnabled = false
+            descriptionLabel.text = "현재 알림이 꺼져 있습니다.\n"
             weekdaysBtnLabel.textColor = .systemGray4
             headerLabelColor = .systemGray4
             tableView.reloadData()
