@@ -25,7 +25,7 @@ class RegionalViewModel {
         CustomAnnotation(title: Region.mokpo.rawValue, subtitle: "13", coordinate: CLLocationCoordinate2D(latitude: 34.80878889, longitude: 126.3944194)),
         CustomAnnotation(title: Region.yeosu.rawValue, subtitle: "14", coordinate: CLLocationCoordinate2D(latitude: 34.75731111, longitude: 127.6643861)),
         CustomAnnotation(title: Region.changwon.rawValue, subtitle: "15", coordinate: CLLocationCoordinate2D(latitude: 35.2540033, longitude: 128.6401544)),
-        CustomAnnotation(title: Region.busan.rawValue, subtitle: "16", coordinate: CLLocationCoordinate2D(latitude: 35.16001944, longitude: 129.1658083)),
+        CustomAnnotation(title: Region.busan.rawValue, subtitle: "16", coordinate: CLLocationCoordinate2D(latitude: 35.15995278, longitude: 129.0553194)),
         CustomAnnotation(title: Region.jeju.rawValue, subtitle: "17", coordinate: CLLocationCoordinate2D(latitude: 33.49631111, longitude: 126.5332083))
     ]
     

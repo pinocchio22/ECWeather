@@ -5,8 +5,8 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
-import Foundation
 import os.log
+import UIKit
 
 struct Util {
     static func print(output: Any = "", function: String = #function, file: String = #file, line: Int = #line) {
@@ -44,4 +44,11 @@ enum Region: String {
     case changwon = "창원"
     case busan = "부산"
     case jeju = "제주"
+    
+    var locationImage: UIImage {
+        switch self {
+        case .seoul : return UIImage(systemName: "sun.min")!
+        default : return UIImage(systemName: "pencil")!
+        }
+    }
 }

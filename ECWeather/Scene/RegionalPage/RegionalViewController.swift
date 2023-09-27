@@ -10,7 +10,7 @@ import SnapKit
 import MapKit
 import UIKit
 
-class RegionalViewController: UIViewController {
+class RegionalViewController: BaseViewController {
     let viewModel = RegionalViewModel()
     
     let mapView = RegionalMapView()
@@ -38,21 +38,12 @@ class RegionalViewController: UIViewController {
         buttonActions()
     }
     
-//    func addCustomPin() {
-//        let pin = MKPointAnnotation()
-//        pin.coordinate = nbcCoordinate
-//        pin.title = "내배캠"
-//        pin.subtitle = "스파르타 코딩클럽"
-//        mapView.map.addAnnotation(pin)
-//    }
-    
     func addCustomPin() {
         mapView.map.addAnnotations(locationList)
     }
     
     func buttonActions() {
         mapView.myLocationButton.addTarget(self, action: #selector(findMyLocation), for: .touchUpInside)
-        mapView.nbcLocationButton.addTarget(self, action: #selector(findNbcLocation), for: .touchUpInside)
     }
     
     func goSetting() {
@@ -119,12 +110,6 @@ class RegionalViewController: UIViewController {
         }
     }
     
-    @objc func findNbcLocation() {
-        mapView.map.showsUserLocation = false
-        mapView.map.userTrackingMode = .followWithHeading
-        mapView.map.setRegion(MKCoordinateRegion(center: nbcCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.01)), animated: true)
-    }
-    
     @objc func findMyLocation() {
         guard locationManager.location != nil else {
             locationManager.requestWhenInUseAuthorization()
@@ -154,7 +139,7 @@ extension RegionalViewController: MKMapViewDelegate {
         }
         if let title = annotation.title {
             switch title {
-            case Region.seoul.rawValue : annotationView?.image = UIImage(systemName: "sun.min")
+            case Region.seoul.rawValue : annotationView?.image = Region.seoul.locationImage
             case Region.gwanak.rawValue : annotationView?.image = UIImage(systemName: "sun.min.fill")
             case Region.uijeongbu.rawValue : annotationView?.image = UIImage(systemName: "sun.max")
             case Region.namyangju.rawValue : annotationView?.image = UIImage(systemName: "sun.max.fill")
@@ -176,20 +161,19 @@ extension RegionalViewController: MKMapViewDelegate {
             default: annotationView?.image = UIImage(systemName: "heart.fill")
             }
         }
-//        annotationView?.image = UIImage(systemName: "heart.fill")
         annotationView?.snp.makeConstraints {
             $0.width.height.equalTo(30)
         }
         return annotationView
     }
     
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        return self.locationList.count
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        return self.locationList[row].title ?? "No title"
-//    }
+    //    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    //        return self.locationList.count
+    //    }
+    //
+    //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    //        return self.locationList[row].title ?? "No title"
+    //    }
 }
 
 extension RegionalViewController: CLLocationManagerDelegate {
