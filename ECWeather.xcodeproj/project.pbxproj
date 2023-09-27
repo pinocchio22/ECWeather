@@ -12,6 +12,8 @@
 		56D88AD72AC2F979006EB784 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AD62AC2F979006EB784 /* SearchViewController.swift */; };
 		56D88ADF2AC30134006EB784 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88ADE2AC30134006EB784 /* Util.swift */; };
 		56D88AE32AC34811006EB784 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE22AC34811006EB784 /* UIColor+Extension.swift */; };
+		56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE42AC402BA006EB784 /* SearchTableViewCell.swift */; };
+		56D88AE72AC405B8006EB784 /* TemperatureCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
 		FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6512AC134C800686B4F /* SceneDelegate.swift */; };
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
@@ -35,6 +37,8 @@
 		56D88AD62AC2F979006EB784 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		56D88ADE2AC30134006EB784 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		56D88AE22AC34811006EB784 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		56D88AE42AC402BA006EB784 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF22B64F2AC134C800686B4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF22B6512AC134C800686B4F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 				FF8F2F0D2AC1A7A400C2C85D /* SettingViewController.swift */,
 				56D88AD42AC2D08E006EB784 /* SettingTableViewCell.swift */,
 				56D88AD62AC2F979006EB784 /* SearchViewController.swift */,
+				56D88AE42AC402BA006EB784 /* SearchTableViewCell.swift */,
+				56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */,
 			);
 			path = SettingPage;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8F2F082AC1A77A00C2C85D /* WeeklyViewController.swift in Sources */,
+				56D88AE72AC405B8006EB784 /* TemperatureCollectionViewCell.swift in Sources */,
 				FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */,
 				FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */,
 				56062ED92AC266C600142FDE /* BaseViewController.swift in Sources */,
@@ -289,6 +296,7 @@
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,
 				56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */,
+				56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */,
 				FF8F2F0E2AC1A7A400C2C85D /* SettingViewController.swift in Sources */,
 				56D88ADF2AC30134006EB784 /* Util.swift in Sources */,
 				56D88AD72AC2F979006EB784 /* SearchViewController.swift in Sources */,
