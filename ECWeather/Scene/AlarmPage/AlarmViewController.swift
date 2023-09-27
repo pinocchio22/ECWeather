@@ -21,7 +21,18 @@ class AlarmViewController: UIViewController {
         return label
     }()
     
-    private let notificationSwitch: UISwitch = {
+    // !!BUTTON FOR TEST - 나중에 삭제
+    private lazy var btnForTest: UIButton = {
+        let button = UIButton()
+        button.setTitle("앱 푸시!", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.textAlignment = .center
+        button.backgroundColor = .systemYellow
+        button.addTarget(self, action: #selector(testBtnTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var notificationSwitch: UISwitch = {
         let notificationSwitch = UISwitch()
         notificationSwitch.isOn = true
         notificationSwitch.onTintColor = .ECWeatherColor3
@@ -74,6 +85,7 @@ class AlarmViewController: UIViewController {
         makeWeekdaysBtnStack()
         configureTableView()
         view.addSubview(titleLabel)
+        view.addSubview(btnForTest) // !!BUTTON FOR TEST - 나중에 삭제
         view.addSubview(notificationSwitch)
         view.addSubview(timePicker)
         view.addSubview(weekdaysBtnLabel)
@@ -83,6 +95,12 @@ class AlarmViewController: UIViewController {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().offset(25)
+        }
+        
+        // !!BUTTON FOR TEST - 나중에 삭제
+        btnForTest.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(25)
         }
         
         notificationSwitch.snp.makeConstraints {
@@ -104,12 +122,10 @@ class AlarmViewController: UIViewController {
         weekdaysBtnStack.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(30)
-//            $0.centerX.equalToSuperview()
         }
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnStack.snp.bottom)
-//            $0.top.equalTo(weekdaysBtnStack.snp.bottom).offset(10)
             $0.leading.trailing.bottom.equalToSuperview().inset(20)
         }
     }
@@ -138,6 +154,11 @@ class AlarmViewController: UIViewController {
         tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
         tableView.separatorStyle = .none
+    }
+    
+    // !!BUTTON FOR TEST - 나중에 삭제
+    @objc private func testBtnTapped() {
+        print("버튼 잘~눌림")
     }
     
     @objc private func weekdaysButtonTapped(sender: UIButton) {
