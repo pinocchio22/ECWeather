@@ -50,7 +50,7 @@ class SettingTableViewCell: UITableViewCell {
         }
     }
     
-    @objc private func didChangeValue(segment: UISegmentedControl) {
-
+    @objc func didChangeValueSegement(segment: UISegmentedControl) {
+        segment.selectedSegmentIndex = (segment.selectedSegmentIndex != 0) ? 0 : 1
     }
 }
