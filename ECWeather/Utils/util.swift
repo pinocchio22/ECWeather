@@ -14,7 +14,7 @@ struct Util {
         filename = filename.lastPathComponent as NSString
         
         DispatchQueue.main.async {
-            let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Petmily")
+            let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "ECWeather")
             if #available(iOS 12.0, *) {
                 if let output = output as? CVarArg {
                     os_log(.default, log: log,"%@ ----- %i Line ----- %@ %@", filename,line,function,output)

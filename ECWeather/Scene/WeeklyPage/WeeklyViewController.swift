@@ -58,7 +58,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([

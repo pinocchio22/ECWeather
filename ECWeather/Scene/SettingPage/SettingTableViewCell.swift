@@ -32,6 +32,8 @@ class SettingTableViewCell: UITableViewCell {
     }
 
     func setLayout() {
+        self.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3)
+        
         self.addSubview(titleLabel)
         self.addSubview(segmentedControl)
         

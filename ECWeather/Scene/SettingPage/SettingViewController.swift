@@ -14,7 +14,8 @@ class SettingViewController: BaseViewController {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "설정"
-        label.font = UIFont.systemFont(ofSize: 40)
+        label.textColor = .ECWeatherColor3
+        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         return label
     }()
     
@@ -41,12 +42,11 @@ class SettingViewController: BaseViewController {
     }
     
     func setLayout() {
-        view.backgroundColor = #colorLiteral(red: 0.9594197869, green: 0.9599153399, blue: 0.975127399, alpha: 1)
         view.addSubview(titleLabel)
         view.addSubview(mainTableView)
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view).offset(78)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalTo(view).offset(34)
         }
         
