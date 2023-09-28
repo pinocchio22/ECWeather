@@ -24,7 +24,7 @@ class RegionalViewController: BaseViewController {
     override func loadView() {
         view = mapView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -122,7 +122,7 @@ class RegionalViewController: BaseViewController {
 }
 
 extension RegionalViewController: MKMapViewDelegate {
-
+    
     func setupAnnotationView(for annotation: CustomAnnotation, on mapView: MKMapView) -> MKAnnotationView {
         // dequeueReusableAnnotationView: 식별자를 확인하여 사용가능한 뷰가 있으면 해당 뷰를 반환
         return mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(CustomAnnotationView.self), for: annotation)
@@ -138,6 +138,13 @@ extension RegionalViewController: MKMapViewDelegate {
         if let customAnnotation = annotation as? CustomAnnotation {
             annotationView = setupAnnotationView(for: customAnnotation, on: mapView)
             annotationView?.canShowCallout = true
+            
+            let customCalloutView = CustomCalloutView()
+            annotationView?.detailCalloutAccessoryView = customCalloutView
+            
+            if let customCalloutView = annotationView?.detailCalloutAccessoryView as? CustomCalloutView {
+                customCalloutView.bind(title: customAnnotation.title!, subTitle: customAnnotation.subtitle!, image: customAnnotation.iconImage!)
+            }
         }
         return annotationView
     }

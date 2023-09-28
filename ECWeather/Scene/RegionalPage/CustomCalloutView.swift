@@ -1,16 +1,14 @@
 //
-//  CustomAnnotationView.swift
+//  CustomCalloutView.swift
 //  ECWeather
 //
 //  Created by t2023-m0056 on 2023/09/28.
 //
 
-import UIKit
-import MapKit
 import SnapKit
+import UIKit
 
-class CustomAnnotationView: MKAnnotationView {
-    
+class CustomCalloutView: UIView {
     lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
@@ -46,13 +44,13 @@ class CustomAnnotationView: MKAnnotationView {
         return label
     }()
     
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
-        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         configureUI()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -63,48 +61,31 @@ class CustomAnnotationView: MKAnnotationView {
         backgroundView.addSubview(temperatureLabel)
         
         backgroundView.snp.makeConstraints {
-            $0.width.height.equalTo(80)
+            $0.top.leading.trailing.bottom.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(5)
+            $0.top.leading.trailing.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(40)
         }
         
         customImageView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(40)
         }
         
         temperatureLabel.snp.makeConstraints {
             $0.top.equalTo(customImageView.snp.bottom)
-            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        customImageView.image = nil
-        titleLabel.text = nil
-    }
-    
-
-    override func prepareForDisplay() {
-        super.prepareForDisplay()
-        
-        guard let annotation = annotation as? CustomAnnotation else { return }
-        
-        titleLabel.text = annotation.title
-        customImageView.image = annotation.iconImage
-        
-        setNeedsLayout()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        bounds.size = CGSize(width: 80, height: 80)
-           centerOffset = CGPoint(x: 0, y: 40)
+    func bind(title: String, subTitle: String, image: UIImage) {
+        titleLabel.text = title
+        temperatureLabel.text = subTitle
+        customImageView.image = image
     }
 }
