@@ -247,6 +247,9 @@
 				FF8F2F092AC1A78B00C2C85D /* RegionalViewController.swift */,
 				FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */,
 				FF7D08202AC574780004CC4E /* View */,
+				FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */,
+				FF7D08172AC556590004CC4E /* CustomAnnotationView.swift */,
+				FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */,
 			);
 			path = RegionalPage;
 			sourceTree = "<group>";
