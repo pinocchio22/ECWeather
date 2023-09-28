@@ -10,7 +10,6 @@ import SnapKit
 import UIKit
 
 class RegionalMapView: UIView {
-    
     var myLocationButton: UIButton = {
         var btn = UIButton()
         btn.setTitle("현재 위치로", for: .normal)
@@ -39,12 +38,12 @@ class RegionalMapView: UIView {
         makeConstraintUI()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
-    }
+    func configureUI() {}
     
     func makeConstraintUI() {
         map.snp.makeConstraints {
@@ -56,5 +55,4 @@ class RegionalMapView: UIView {
             $0.height.equalTo(50)
         }
     }
-    
 }

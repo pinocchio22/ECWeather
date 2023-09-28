@@ -5,9 +5,9 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
-//import CoreLocation
-import SnapKit
 import MapKit
+// import CoreLocation
+import SnapKit
 import UIKit
 
 class RegionalViewController: BaseViewController {
@@ -24,7 +24,7 @@ class RegionalViewController: BaseViewController {
     override func loadView() {
         view = mapView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,16 +48,14 @@ class RegionalViewController: BaseViewController {
     }
     
     func goSetting() {
-        
         let alert = UIAlertController(title: "위치권한 요청", message: "항상 위치 권한이 필요합니다.", preferredStyle: .alert)
-        let settingAction = UIAlertAction(title: "설정", style: .default) { action in
+        let settingAction = UIAlertAction(title: "설정", style: .default) { _ in
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
             }
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { UIAlertAction in
-            
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
         }
         
         alert.addAction(settingAction)
@@ -122,7 +120,6 @@ class RegionalViewController: BaseViewController {
 }
 
 extension RegionalViewController: MKMapViewDelegate {
-
     func setupAnnotationView(for annotation: CustomAnnotation, on mapView: MKMapView) -> MKAnnotationView {
         // dequeueReusableAnnotationView: 식별자를 확인하여 사용가능한 뷰가 있으면 해당 뷰를 반환
         return mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(CustomAnnotationView.self), for: annotation)
@@ -138,6 +135,13 @@ extension RegionalViewController: MKMapViewDelegate {
         if let customAnnotation = annotation as? CustomAnnotation {
             annotationView = setupAnnotationView(for: customAnnotation, on: mapView)
             annotationView?.canShowCallout = true
+            
+            let customCalloutView = CustomCalloutView()
+            annotationView?.detailCalloutAccessoryView = customCalloutView
+            
+            if let customCalloutView = annotationView?.detailCalloutAccessoryView as? CustomCalloutView {
+                customCalloutView.bind(title: customAnnotation.title!, subTitle: customAnnotation.subtitle!, image: customAnnotation.iconImage!)
+            }
         }
         return annotationView
     }

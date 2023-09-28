@@ -32,5 +32,4 @@ class RegionalViewModel {
     func fetchweather() -> [CustomAnnotation] {
         return locationList
     }
-    
 }
