@@ -57,6 +57,8 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         WeatherData(day: "일요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
     ]
     
+    var selectedCellIndex: IndexPath?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = UIColor.ECWeatherColor3
@@ -94,7 +96,33 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let totalSpacingHeight = 16 * 2
         let cellSpacing = 8
         let cellHeight = 50
-        return CGFloat(cellHeight + cellSpacing + totalSpacingHeight)
+        
+        if selectedCellIndex == indexPath {
+            return CGFloat(cellHeight + cellSpacing + totalSpacingHeight) * 2.0
+        } else {
+            return CGFloat(cellHeight + cellSpacing + totalSpacingHeight)
+        }
+    }
+    
+    //선택한 셀 부분이 확대되는 기능을 추가한 부분
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let selectedIndexPath = selectedCellIndex {
+            tableView.deselectRow(at: selectedIndexPath, animated: true)
+        }
+        selectedCellIndex = indexPath
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        
+        
+        if let selectedCell = tableView.cellForRow(at: indexPath) {
+            let cellRect = tableView.convert(selectedCell.frame, to: tableView.superview)
+            tableView.scrollRectToVisible(cellRect, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        selectedCellIndex = nil
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
@@ -106,9 +134,6 @@ class WeeklyTableViewCell: UITableViewCell {
         label.textAlignment = .center
         label.textColor = UIColor.ECWeatherColor2
         label.font = UIFont.boldSystemFont(ofSize: 18)
-
-
-        
         return label
     }()
     
