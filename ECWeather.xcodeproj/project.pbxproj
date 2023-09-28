@@ -16,6 +16,8 @@
 		56D88AEA2AC55E26006EB784 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE92AC55E26006EB784 /* IntroViewController.swift */; };
 		56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */; };
 		56D88AF02AC714C5006EB784 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D88AEF2AC714C4006EB784 /* Main.storyboard */; };
+		E7C96EB12AC495FD00F53B52 /* SelectNotificationSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C96EB02AC495FD00F53B52 /* SelectNotificationSoundViewController.swift */; };
+		E7C96EB32AC53BFA00F53B52 /* SelectNotificationSoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C96EB22AC53BFA00F53B52 /* SelectNotificationSoundCell.swift */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
 		FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6512AC134C800686B4F /* SceneDelegate.swift */; };
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
@@ -47,6 +49,12 @@
 		56D88AE92AC55E26006EB784 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarViewController.swift; sourceTree = "<group>"; };
 		56D88AEF2AC714C4006EB784 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E7C96EAA2AC4954600F53B52 /* notification_sound_wow.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_wow.caf; sourceTree = "<group>"; };
+		E7C96EAB2AC4954600F53B52 /* notification_sound_moji.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_moji.caf; sourceTree = "<group>"; };
+		E7C96EAD2AC4954600F53B52 /* notification_sound_quack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_quack.caf; sourceTree = "<group>"; };
+		E7C96EAE2AC4954600F53B52 /* notification_sound_taddddaaaaa.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_taddddaaaaa.caf; sourceTree = "<group>"; };
+		E7C96EB02AC495FD00F53B52 /* SelectNotificationSoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNotificationSoundViewController.swift; sourceTree = "<group>"; };
+		E7C96EB22AC53BFA00F53B52 /* SelectNotificationSoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNotificationSoundCell.swift; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF22B64F2AC134C800686B4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF22B6512AC134C800686B4F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +112,15 @@
 				56D88AE92AC55E26006EB784 /* IntroViewController.swift */,
 			);
 			path = Intro;
+		E7C96EAF2AC4954F00F53B52 /* NotificationSounds */ = {
+			isa = PBXGroup;
+			children = (
+				E7C96EAB2AC4954600F53B52 /* notification_sound_moji.caf */,
+				E7C96EAD2AC4954600F53B52 /* notification_sound_quack.caf */,
+				E7C96EAE2AC4954600F53B52 /* notification_sound_taddddaaaaa.caf */,
+				E7C96EAA2AC4954600F53B52 /* notification_sound_wow.caf */,
+			);
+			path = NotificationSounds;
 			sourceTree = "<group>";
 		};
 		FF22B6432AC134C800686B4F = {
@@ -160,6 +177,7 @@
 		FF8F2EF62AC19E7000C2C85D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				E7C96EAF2AC4954F00F53B52 /* NotificationSounds */,
 				FF22B6582AC134C900686B4F /* Assets.xcassets */,
 				FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */,
 				FF22B65D2AC134C900686B4F /* Info.plist */,
@@ -217,6 +235,8 @@
 			isa = PBXGroup;
 			children = (
 				FF8F2F0B2AC1A79900C2C85D /* AlarmViewController.swift */,
+				E7C96EB02AC495FD00F53B52 /* SelectNotificationSoundViewController.swift */,
+				E7C96EB22AC53BFA00F53B52 /* SelectNotificationSoundCell.swift */,
 			);
 			path = AlarmPage;
 			sourceTree = "<group>";
@@ -327,12 +347,14 @@
 				FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */,
 				FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */,
 				56062ED92AC266C600142FDE /* BaseViewController.swift in Sources */,
+				E7C96EB12AC495FD00F53B52 /* SelectNotificationSoundViewController.swift in Sources */,
 				56D88AE32AC34811006EB784 /* UIColor+Extension.swift in Sources */,
 				FF7D08182AC556590004CC4E /* CustomAnnotationView.swift in Sources */,
 				FF7D081D2AC566BB0004CC4E /* Util.swift in Sources */,
 				FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */,
 				FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */,
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
+				E7C96EB32AC53BFA00F53B52 /* SelectNotificationSoundCell.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,
 				56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */,
 				56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */,

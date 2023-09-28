@@ -5,6 +5,7 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
+import AVFoundation
 import SnapKit
 import UIKit
 import UserNotifications
@@ -98,6 +99,8 @@ class AlarmViewController: BaseViewController {
     // MARK: - Methods & Selectors
     private func configureUI() {
         view.backgroundColor = .white
+        tableView.register(SelectNotificationSoundCell.self, forCellReuseIdentifier: "SelectNotificationSoundCell")
+
         
         makeWeekdaysBtnStack()
         configureTableView()
@@ -172,9 +175,9 @@ class AlarmViewController: BaseViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
+//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
         tableView.isScrollEnabled = false
-        tableView.separatorStyle = .none
+//        tableView.separatorStyle = .singleLine
     }
     
     // !!BUTTON FOR TEST - 나중에 삭제
@@ -224,6 +227,10 @@ class AlarmViewController: BaseViewController {
            
         }
     }
+    
+    @objc private func moveToSelectNotificationSoundViewController() {
+       
+    }
 }
 
 // MARK: - TableView
@@ -264,8 +271,9 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath)
-
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectNotificationSoundCell", for: indexPath) as! SelectNotificationSoundCell
+        
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
         cell.textLabel?.textColor = .black
         cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
@@ -274,19 +282,21 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                cell.textLabel?.text = "알람 소리"
-                cell.layer.cornerRadius = 10
-                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+                cell.leadingLabel.text = "알람 소리"
+//                cell.layer.cornerRadius = 10
+//                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             }
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
-                cell.textLabel?.text = "날씨" // 현재 밖에 날씨는 ~~(맑음)입니다
-                cell.layer.cornerRadius = 10
-                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                cell.leadingLabel.text = "날씨" // 현재 밖에 날씨는 ~~(맑음)입니다
+                cell.traillingImage.isHidden = true
+//                cell.layer.cornerRadius = 10
+//                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             } else if indexPath.row == 1 {
-                cell.textLabel?.text = "온도" // 현재 밖에 날씨는 ~~(18)도이고 체감온도는 ~~(25)입니다.
-                cell.layer.cornerRadius = 10
-                cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+                cell.leadingLabel.text = "온도" // 현재 밖에 날씨는 ~~(18)도이고 체감온도는 ~~(25)입니다.
+                cell.traillingImage.isHidden = true
+//                cell.layer.cornerRadius = 10
+//                cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             }
         }
         
@@ -300,13 +310,11 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
         if notificationSwitch.isOn {
             if let cell = tableView.cellForRow(at: indexPath) {
                 if indexPath.section == 0 && indexPath.row == 0 {
-                    print("알람 소리 cell 터치 이벤트 들어옴!!")
+                    self.navigationController?.pushViewController(SelectNotificationSoundViewController(), animated: true)
                 } else if indexPath.section == 1 && indexPath.row == 0 {
                     cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-                    print("날씨 cell 터치 이벤트 들어옴!! ")
                 } else if indexPath.section == 1 && indexPath.row == 1 {
                     cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-                    print("온도 cell 터치 이벤트 들어옴!! ")
                 }
             }
         }
