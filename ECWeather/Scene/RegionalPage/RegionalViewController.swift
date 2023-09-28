@@ -40,6 +40,7 @@ class RegionalViewController: BaseViewController {
     
     func addCustomPin() {
         mapView.map.addAnnotations(locationList)
+        mapView.map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(CustomAnnotationView.self))
     }
     
     func buttonActions() {
@@ -121,73 +122,22 @@ class RegionalViewController: BaseViewController {
 }
 
 extension RegionalViewController: MKMapViewDelegate {
+
+    func setupAnnotationView(for annotation: CustomAnnotation, on mapView: MKMapView) -> MKAnnotationView {
+        // dequeueReusableAnnotationView: 식별자를 확인하여 사용가능한 뷰가 있으면 해당 뷰를 반환
+        return mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(CustomAnnotationView.self), for: annotation)
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !annotation.isKind(of: MKUserLocation.self) else {
-            return nil
-        }
-        // nil?
-        var annotationView = self.mapView.map.dequeueReusableAnnotationView(withIdentifier: "Custom")
-        if annotationView == nil {
-//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "Custom")
+        // 현재 위치 표시(점)도 일종에 어노테이션이기 때문에, 이 처리를 안하게 되면, 유저 위치 어노테이션도 변경 된다.
+        guard !annotation.isKind(of: MKUserLocation.self) else { return nil }
+        
+        var annotationView: MKAnnotationView?
+        
+        // 다운캐스팅이 되면 CustomAnnotation를 갖고 CustomAnnotationView를 생성
+        if let customAnnotation = annotation as? CustomAnnotation {
+            annotationView = setupAnnotationView(for: customAnnotation, on: mapView)
             annotationView?.canShowCallout = true
-            
-            let miniButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-            miniButton.setImage(UIImage(systemName: "person"), for: .normal)
-            miniButton.tintColor = .blue
-            annotationView?.rightCalloutAccessoryView = miniButton
-            if let title = annotation.title {
-                switch title {
-                case Region.seoul.rawValue : annotationView?.image = Region.seoul.locationImage
-                case Region.gwanak.rawValue : annotationView?.image = UIImage(systemName: "sun.min.fill")
-                case Region.uijeongbu.rawValue : annotationView?.image = UIImage(systemName: "sun.max")
-                case Region.namyangju.rawValue : annotationView?.image = UIImage(systemName: "sun.max.fill")
-                case Region.chuncheon.rawValue : annotationView?.image = UIImage(systemName: "moon")
-                case Region.gangneung.rawValue : annotationView?.image = UIImage(systemName: "moon.fill")
-                case Region.bucheon.rawValue : annotationView?.image = UIImage(systemName: "cloud")
-                case Region.bundang.rawValue : annotationView?.image = UIImage(systemName: "cloud.fill")
-                case Region.cheongju.rawValue : annotationView?.image = UIImage(systemName: "cloud.drizzle")
-                case Region.andong.rawValue : annotationView?.image = UIImage(systemName: "cloud.drizzle.fill")
-                case Region.daegu.rawValue : annotationView?.image = UIImage(systemName: "cloud.bolt")
-                case Region.jeonju.rawValue : annotationView?.image = UIImage(systemName: "cloud.bolt.fill")
-                case Region.mokpo.rawValue : annotationView?.image = UIImage(systemName: "cloud.sun.fill")
-                case Region.yeosu.rawValue : annotationView?.image = UIImage(systemName: "snowflake")
-                case Region.changwon.rawValue : annotationView?.image = UIImage(systemName: "wind.snow")
-                case Region.busan.rawValue : annotationView?.image = UIImage(systemName: "tornado")
-                case Region.jeju.rawValue : annotationView?.image = UIImage(systemName: "aqi.medium")
-                case .none:
-                    print("nil")
-                default: annotationView?.image = UIImage(systemName: "heart.fill")
-                }
-            }
-        } else {
-            annotationView?.annotation = annotation
-        }
-        if let title = annotation.title {
-            switch title {
-            case Region.seoul.rawValue : annotationView?.image = Region.seoul.locationImage
-            case Region.gwanak.rawValue : annotationView?.image = UIImage(systemName: "sun.min.fill")
-            case Region.uijeongbu.rawValue : annotationView?.image = UIImage(systemName: "sun.max")
-            case Region.namyangju.rawValue : annotationView?.image = UIImage(systemName: "sun.max.fill")
-            case Region.chuncheon.rawValue : annotationView?.image = UIImage(systemName: "moon")
-            case Region.gangneung.rawValue : annotationView?.image = UIImage(systemName: "moon.fill")
-            case Region.bucheon.rawValue : annotationView?.image = UIImage(systemName: "cloud")
-            case Region.bundang.rawValue : annotationView?.image = UIImage(systemName: "cloud.fill")
-            case Region.cheongju.rawValue : annotationView?.image = UIImage(systemName: "cloud.drizzle")
-            case Region.andong.rawValue : annotationView?.image = UIImage(systemName: "cloud.drizzle.fill")
-            case Region.daegu.rawValue : annotationView?.image = UIImage(systemName: "cloud.bolt")
-            case Region.jeonju.rawValue : annotationView?.image = UIImage(systemName: "cloud.bolt.fill")
-            case Region.mokpo.rawValue : annotationView?.image = UIImage(systemName: "cloud.sun.fill")
-            case Region.yeosu.rawValue : annotationView?.image = UIImage(systemName: "snowflake")
-            case Region.changwon.rawValue : annotationView?.image = UIImage(systemName: "wind.snow")
-            case Region.busan.rawValue : annotationView?.image = UIImage(systemName: "tornado")
-            case Region.jeju.rawValue : annotationView?.image = UIImage(systemName: "aqi.medium")
-            case .none:
-                print("nil")
-            default: annotationView?.image = UIImage(systemName: "heart.fill")
-            }
-        }
-        annotationView?.snp.makeConstraints {
-            $0.width.height.equalTo(30)
         }
         return annotationView
     }
