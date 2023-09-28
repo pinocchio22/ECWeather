@@ -5,14 +5,14 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
-//import UIKit
+// import UIKit
 //
-//class WeeklyViewController: UIViewController {
+// class WeeklyViewController: UIViewController {
 //
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+// Do any additional setup after loading the view.
 //    }
 //
 //
@@ -26,13 +26,11 @@
 //    }
 //    */
 //
-//}
-
+// }
 
 import UIKit
 
 class WeeklyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +133,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
 }
 
 class WeeklyTableViewCell: UITableViewCell {
-    
     let dayLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -196,9 +193,11 @@ class WeeklyTableViewCell: UITableViewCell {
             temperatureLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             temperatureLabel.leadingAnchor.constraint(equalTo: weatherLabel.trailingAnchor),
             temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+
         ])
     }
     
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
