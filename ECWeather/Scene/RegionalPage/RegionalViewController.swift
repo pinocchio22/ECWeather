@@ -138,21 +138,14 @@ extension RegionalViewController: MKMapViewDelegate {
             
             let customCalloutView = CustomCalloutView()
             annotationView?.detailCalloutAccessoryView = customCalloutView
-            
-            if let customCalloutView = annotationView?.detailCalloutAccessoryView as? CustomCalloutView {
-       
-            }
         }
         return annotationView
     }
     
-    //    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    //        return self.locationList.count
-    //    }
-    //
-    //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    //        return self.locationList[row].title ?? "No title"
-    //    }
+    //TODO: callout의 타이틀을 없애거나 위치를 조정하거나..
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+    }
 }
 
 extension RegionalViewController: CLLocationManagerDelegate {
