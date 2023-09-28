@@ -83,7 +83,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         titleLabel.text = "주간 날씨"
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        titleLabel.textColor = .ECWeatherColor2 // 적절한 텍스트 색상을 선택해주세요.
+        titleLabel.textColor = .ECWeatherColor2
         navigationItem.titleView = titleLabel
     }
     
