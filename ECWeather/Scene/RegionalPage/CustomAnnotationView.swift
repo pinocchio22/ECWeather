@@ -5,12 +5,11 @@
 //  Created by t2023-m0056 on 2023/09/28.
 //
 
-import UIKit
 import MapKit
 import SnapKit
+import UIKit
 
 class CustomAnnotationView: MKAnnotationView {
-    
     lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
@@ -52,12 +51,13 @@ class CustomAnnotationView: MKAnnotationView {
         configureUI()
     }
     
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func configureUI() {
-        self.addSubview(backgroundView)
+        addSubview(backgroundView)
         backgroundView.addSubview(titleLabel)
         backgroundView.addSubview(customImageView)
         backgroundView.addSubview(temperatureLabel)
@@ -90,7 +90,6 @@ class CustomAnnotationView: MKAnnotationView {
         titleLabel.text = nil
     }
     
-
     override func prepareForDisplay() {
         super.prepareForDisplay()
         
@@ -105,6 +104,6 @@ class CustomAnnotationView: MKAnnotationView {
     override func layoutSubviews() {
         super.layoutSubviews()
         bounds.size = CGSize(width: 80, height: 80)
-           centerOffset = CGPoint(x: 0, y: 40)
+        centerOffset = CGPoint(x: 0, y: 40)
     }
 }

@@ -50,12 +50,13 @@ class CustomCalloutView: UIView {
         configureUI()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func configureUI() {
-        self.addSubview(backgroundView)
+        addSubview(backgroundView)
         backgroundView.addSubview(titleLabel)
         backgroundView.addSubview(customImageView)
         backgroundView.addSubview(temperatureLabel)
