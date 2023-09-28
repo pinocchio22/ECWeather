@@ -140,7 +140,7 @@ extension RegionalViewController: MKMapViewDelegate {
             annotationView?.detailCalloutAccessoryView = customCalloutView
             
             if let customCalloutView = annotationView?.detailCalloutAccessoryView as? CustomCalloutView {
-                customCalloutView.bind(title: customAnnotation.title!, subTitle: customAnnotation.subtitle!, image: customAnnotation.iconImage!)
+       
             }
         }
         return annotationView
@@ -164,5 +164,17 @@ extension RegionalViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print(#function)
         checkUserLocationServicesAuthorization()
+    }
+}
+
+extension RegionalViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+        cell.titleLabel.text = "관악구"
+        return cell
     }
 }
