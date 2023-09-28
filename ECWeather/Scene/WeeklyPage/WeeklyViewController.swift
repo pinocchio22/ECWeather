@@ -77,6 +77,14 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.register(WeeklyTableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "주간 날씨"
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 25)
+        titleLabel.textColor = .ECWeatherColor2 // 적절한 텍스트 색상을 선택해주세요.
+        navigationItem.titleView = titleLabel
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,7 +112,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    //선택한 셀 부분이 확대되는 기능을 추가한 부분
+   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let selectedIndexPath = selectedCellIndex {
             tableView.deselectRow(at: selectedIndexPath, animated: true)
