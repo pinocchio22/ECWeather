@@ -11,11 +11,13 @@ class SelectNotificationSoundCell: UITableViewCell {
     
     let leadingLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .black
         return label
     }()
     
     let traillingLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .gray
         return label
     }()
     

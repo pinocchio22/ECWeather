@@ -41,7 +41,7 @@ class AlarmViewController: BaseViewController {
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setTitleColor(.gray, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.backgroundColor = .gray.withAlphaComponent(0.3)
         button.addTarget(self, action: #selector(testBtnTapped), for: .touchUpInside)
         button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20) // TODO: - 원형 만들기
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
@@ -61,7 +61,7 @@ class AlarmViewController: BaseViewController {
         pickerView.datePickerMode = .time
         pickerView.preferredDatePickerStyle = .wheels
         pickerView.locale = Locale(identifier: "en_US")
-        pickerView.tintColor = .ECWeatherColor3 // TODO: - tintColor 안먹음..
+        pickerView.setValue(UIColor.black, forKey: "textColor")
         pickerView.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
         return pickerView
     }()
@@ -175,6 +175,7 @@ class AlarmViewController: BaseViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = .white
 //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
         tableView.isScrollEnabled = false
 //        tableView.separatorStyle = .singleLine
@@ -227,10 +228,7 @@ class AlarmViewController: BaseViewController {
            
         }
     }
-    
-    @objc private func moveToSelectNotificationSoundViewController() {
-       
-    }
+
 }
 
 // MARK: - TableView
@@ -282,7 +280,8 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                cell.leadingLabel.text = "알람 소리"
+                cell.leadingLabel.text = "알림 수신음"
+                cell.traillingLabel.text = "꽥" // TODO: - 선택한 알림음이 나오도록
 //                cell.layer.cornerRadius = 10
 //                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             }
