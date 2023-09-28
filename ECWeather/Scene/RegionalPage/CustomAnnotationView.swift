@@ -13,7 +13,8 @@ class CustomAnnotationView: MKAnnotationView {
     
     lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .ECWeatherColor2?.withAlphaComponent(0.5)
+        view.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
+        view.layer.cornerRadius = 10
         return view
     }()
     
@@ -61,7 +62,12 @@ class CustomAnnotationView: MKAnnotationView {
         backgroundView.addSubview(customImageView)
         backgroundView.addSubview(temperatureLabel)
         
+        backgroundView.snp.makeConstraints {
+            $0.width.height.equalTo(80)
+        }
+        
         titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(5)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(40)
         }
@@ -69,7 +75,7 @@ class CustomAnnotationView: MKAnnotationView {
         customImageView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom)
             $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(50)
+            $0.width.height.equalTo(40)
         }
         
         temperatureLabel.snp.makeConstraints {
@@ -98,7 +104,7 @@ class CustomAnnotationView: MKAnnotationView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bounds.size = CGSize(width: 60, height: 60)
-           centerOffset = CGPoint(x: 0, y: 30)
+        bounds.size = CGSize(width: 80, height: 80)
+           centerOffset = CGPoint(x: 0, y: 40)
     }
 }
