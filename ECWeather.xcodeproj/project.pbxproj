@@ -24,6 +24,7 @@
 		FF7D08182AC556590004CC4E /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D08172AC556590004CC4E /* CustomAnnotationView.swift */; };
 		FF7D081D2AC566BB0004CC4E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D081C2AC566BB0004CC4E /* Util.swift */; };
 		FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */; };
+		FF85789E2AC7086400902A69 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FF85789D2AC7086400902A69 /* Alamofire */; };
 		FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF8F2EF42AC1975300C2C85D /* SnapKit */; };
 		FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2EFF2AC1A02000C2C85D /* NetworkService.swift */; };
 		FF8F2F022AC1A03500C2C85D /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F012AC1A03500C2C85D /* Weather.swift */; };
@@ -67,6 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */,
+				FF85789E2AC7086400902A69 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +244,7 @@
 			name = ECWeather;
 			packageProductDependencies = (
 				FF8F2EF42AC1975300C2C85D /* SnapKit */,
+				FF85789D2AC7086400902A69 /* Alamofire */,
 			);
 			productName = ECWeather;
 			productReference = FF22B64C2AC134C800686B4F /* ECWeather.app */;
@@ -273,6 +276,7 @@
 			mainGroup = FF22B6432AC134C800686B4F;
 			packageReferences = (
 				FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = FF22B64D2AC134C800686B4F /* Products */;
 			projectDirPath = "";
@@ -530,6 +534,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -541,6 +553,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FF85789D2AC7086400902A69 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		FF8F2EF42AC1975300C2C85D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */;
