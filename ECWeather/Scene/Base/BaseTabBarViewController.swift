@@ -27,11 +27,11 @@ class BaseTabBarViewController: UITabBarController {
      @brief TabBarController의 item 이미지 및 컬러 설정
      */
     func setTabControllers() {
-        let weeklyVC = WeeklyViewController(nibName: "WeeklyViewController", bundle: nil)
-        let regionalVC = RegionalViewController(nibName: "RegionalViewController", bundle: nil)
-        let mainVC = MainViewController(nibName: "MainViewController", bundle: nil)
-        let alarmVC = AlarmViewController(nibName: "AlarmViewController", bundle: nil)
-        let settingVC = SettingViewController(nibName: "SettingViewController", bundle: nil)
+        let weeklyVC = WeeklyViewController()
+        let regionalVC = RegionalViewController()
+        let mainVC = MainViewController()
+        let alarmVC = AlarmViewController()
+        let settingVC = SettingViewController()
         
         // init tabbar controller
         let controllers = [weeklyVC, regionalVC, mainVC, alarmVC, settingVC]
@@ -43,13 +43,13 @@ class BaseTabBarViewController: UITabBarController {
         // 주간
         self.tabBar.items![0].imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         self.tabBar.items![0].image = UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal).withTintColor(.black)
-        self.tabBar.items![0].selectedImage = UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal).withTintColor(.black)
+        self.tabBar.items![0].selectedImage = UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal).withTintColor(.ECWeatherColor3!)
         self.tabBar.items![0].title = "주간"
         
         // 지역별
         self.tabBar.items![1].imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         self.tabBar.items![1].image = UIImage(systemName: "map")?.withRenderingMode(.alwaysOriginal)
-        self.tabBar.items![1].selectedImage = UIImage(systemName: "map.fill")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items![1].selectedImage = UIImage(systemName: "map.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.ECWeatherColor3!)
         self.tabBar.items![1].title = "지역별"
         
         // 오늘
@@ -58,9 +58,9 @@ class BaseTabBarViewController: UITabBarController {
             let newSize = CGSize(width: 50, height: 50)
             UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
             originalImage.draw(in: CGRect(origin: .zero, size: newSize))
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()?.withRenderingMode(.alwaysOriginal)
+            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()?.withRenderingMode(.alwaysOriginal).withTintColor(.ECWeatherColor3!)
             UIGraphicsEndImageContext()
-            let resizedImageBW = resizedImage?.withRenderingMode(.alwaysTemplate)
+            let resizedImageBW = resizedImage?.withRenderingMode(.alwaysTemplate).withTintColor(.black)
             self.tabBar.items![2].image = resizedImageBW
             self.tabBar.items![2].selectedImage = resizedImage
         }
@@ -68,14 +68,14 @@ class BaseTabBarViewController: UITabBarController {
         
         // 알림
         self.tabBar.items![3].imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
-        self.tabBar.items![3].image = UIImage(systemName: "bell")?.withRenderingMode(.alwaysOriginal).withTintColor(.black) // 항상 원본 색상으로 설정하고, 갈색으로 변경
-        self.tabBar.items![3].selectedImage = UIImage(systemName: "bell.badge.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.black) // 항상 원본 색상으로 설정하고, 갈색으로 변경
+        self.tabBar.items![3].image = UIImage(systemName: "bell")?.withRenderingMode(.alwaysOriginal).withTintColor(.black)
+        self.tabBar.items![3].selectedImage = UIImage(systemName: "bell.badge.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.ECWeatherColor3!)
         self.tabBar.items![3].title = "알림"
         
         // 설정
         self.tabBar.items![4].imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         self.tabBar.items![4].image = UIImage(systemName: "gear.circle")?.withRenderingMode(.alwaysOriginal)
-        self.tabBar.items![4].selectedImage = UIImage(systemName: "gear.circle.fill")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items![4].selectedImage = UIImage(systemName: "gear.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.ECWeatherColor3!)
         self.tabBar.items![4].title = "설정"
     }
     
