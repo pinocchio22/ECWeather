@@ -45,13 +45,13 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     let weeklyForecast: [WeatherData] = [
-        WeatherData(day: "월요일", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
-        WeatherData(day: "화요일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
-        WeatherData(day: "수요일", weather: "비", highTemperature: 20, lowTemperature: 14, weatherImageName: "WeatherIcon-rain"),
-        WeatherData(day: "목요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18, weatherImageName: "WeatherIcon-cloudy"),
-        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19, weatherImageName: "WeatherIcon-sun"),
-        WeatherData(day: "토요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
-        WeatherData(day: "일요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
+        WeatherData(day: "오늘", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "내일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "월요일", weather: "비", highTemperature: 20, lowTemperature: 14, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "화요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "수요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "목요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
     ]
     
     var selectedCellIndex: IndexPath?
@@ -59,7 +59,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = UIColor.ECWeatherColor3
-
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -90,20 +89,15 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
-        
         let weatherData = weeklyForecast[indexPath.row]
         
-        
-        let dayLabel = getLocalizedDayLabel(for: weatherData.day)
-        cell.configure(day: dayLabel, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
-        
+        cell.configure(day: weatherData.day, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
         
         if selectedCellIndex == indexPath {
             cell.selectionStyle = .none
         } else {
             cell.selectionStyle = .default
         }
-        
         return cell
     }
     
@@ -121,7 +115,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedCellIndex == indexPath {
-            
             selectedCellIndex = nil
         } else {
             selectedCellIndex = indexPath
@@ -129,24 +122,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.beginUpdates()
         tableView.endUpdates()
-        
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    
-    func getLocalizedDayLabel(for day: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        let today = dateFormatter.string(from: Date())
-        
-        switch day {
-        case today:
-            return "오늘"
-        case Calendar.current.date(byAdding: .day, value: 1, to: Date()).map({ dateFormatter.string(from: $0) }) ?? "":
-            return "내일"
-        default:
-            return day
-        }
     }
 }
 
@@ -211,7 +187,6 @@ class WeeklyTableViewCell: UITableViewCell {
             temperatureLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             temperatureLabel.leadingAnchor.constraint(equalTo: weatherLabel.trailingAnchor),
             temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
-
         ])
     }
     
