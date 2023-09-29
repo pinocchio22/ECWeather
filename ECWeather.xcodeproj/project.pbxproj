@@ -10,7 +10,6 @@
 		56062ED92AC266C600142FDE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56062ED82AC266C600142FDE /* BaseViewController.swift */; };
 		56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AD42AC2D08E006EB784 /* SettingTableViewCell.swift */; };
 		56D88AD72AC2F979006EB784 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AD62AC2F979006EB784 /* SearchViewController.swift */; };
-		56D88ADF2AC30134006EB784 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88ADE2AC30134006EB784 /* Util.swift */; };
 		56D88AE32AC34811006EB784 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE22AC34811006EB784 /* UIColor+Extension.swift */; };
 		56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE42AC402BA006EB784 /* SearchTableViewCell.swift */; };
 		56D88AE72AC405B8006EB784 /* TemperatureCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */; };
@@ -25,6 +24,10 @@
 		FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */; };
 		FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */; };
 		FF7B08602AC2C69D00ACDE03 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */; };
+		FF7D08182AC556590004CC4E /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D08172AC556590004CC4E /* CustomAnnotationView.swift */; };
+		FF7D081D2AC566BB0004CC4E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D081C2AC566BB0004CC4E /* Util.swift */; };
+		FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */; };
+		FF85789E2AC7086400902A69 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FF85789D2AC7086400902A69 /* Alamofire */; };
 		FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF8F2EF42AC1975300C2C85D /* SnapKit */; };
 		FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2EFF2AC1A02000C2C85D /* NetworkService.swift */; };
 		FF8F2F022AC1A03500C2C85D /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F012AC1A03500C2C85D /* Weather.swift */; };
@@ -38,7 +41,6 @@
 		56062ED82AC266C600142FDE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		56D88AD42AC2D08E006EB784 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		56D88AD62AC2F979006EB784 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		56D88ADE2AC30134006EB784 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		56D88AE22AC34811006EB784 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		56D88AE42AC402BA006EB784 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -55,6 +57,9 @@
 		FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalMapView.swift; sourceTree = "<group>"; };
 		FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalViewModel.swift; sourceTree = "<group>"; };
 		FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
+		FF7D08172AC556590004CC4E /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
+		FF7D081C2AC566BB0004CC4E /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
 		FF8F2EFF2AC1A02000C2C85D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		FF8F2F012AC1A03500C2C85D /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		FF8F2F072AC1A77A00C2C85D /* WeeklyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */,
+				FF85789E2AC7086400902A69 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,14 +88,6 @@
 				56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */,
 			);
 			path = Base;
-			sourceTree = "<group>";
-		};
-		56D88AE02AC30137006EB784 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				56D88ADE2AC30134006EB784 /* Util.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		56D88AE12AC347D8006EB784 /* Extension */ = {
@@ -130,14 +128,33 @@
 				FF22B64F2AC134C800686B4F /* AppDelegate.swift */,
 				FF22B6512AC134C800686B4F /* SceneDelegate.swift */,
 				56D88AEF2AC714C4006EB784 /* Main.storyboard */,
-				56D88AE02AC30137006EB784 /* Utils */,
 				56D88AE12AC347D8006EB784 /* Extension */,
+				FF7D081B2AC566AD0004CC4E /* Utils */,
 				FF8F2EF92AC19E9500C2C85D /* Scene */,
 				FF8F2EF82AC19E8A00C2C85D /* Model */,
 				FF8F2EF72AC19E7B00C2C85D /* Network */,
 				FF8F2EF62AC19E7000C2C85D /* Resource */,
 			);
 			path = ECWeather;
+			sourceTree = "<group>";
+		};
+		FF7D081B2AC566AD0004CC4E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				FF7D081C2AC566BB0004CC4E /* Util.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		FF7D08202AC574780004CC4E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */,
+				FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */,
+				FF7D08172AC556590004CC4E /* CustomAnnotationView.swift */,
+				FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		FF8F2EF62AC19E7000C2C85D /* Resource */ = {
@@ -208,9 +225,8 @@
 			isa = PBXGroup;
 			children = (
 				FF8F2F092AC1A78B00C2C85D /* RegionalViewController.swift */,
-				FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */,
 				FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */,
-				FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */,
+				FF7D08202AC574780004CC4E /* View */,
 			);
 			path = RegionalPage;
 			sourceTree = "<group>";
@@ -245,6 +261,7 @@
 			name = ECWeather;
 			packageProductDependencies = (
 				FF8F2EF42AC1975300C2C85D /* SnapKit */,
+				FF85789D2AC7086400902A69 /* Alamofire */,
 			);
 			productName = ECWeather;
 			productReference = FF22B64C2AC134C800686B4F /* ECWeather.app */;
@@ -276,6 +293,7 @@
 			mainGroup = FF22B6432AC134C800686B4F;
 			packageReferences = (
 				FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = FF22B64D2AC134C800686B4F /* Products */;
 			projectDirPath = "";
@@ -310,13 +328,15 @@
 				FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */,
 				56062ED92AC266C600142FDE /* BaseViewController.swift in Sources */,
 				56D88AE32AC34811006EB784 /* UIColor+Extension.swift in Sources */,
+				FF7D08182AC556590004CC4E /* CustomAnnotationView.swift in Sources */,
+				FF7D081D2AC566BB0004CC4E /* Util.swift in Sources */,
 				FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */,
+				FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */,
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,
 				56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */,
 				56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */,
 				FF8F2F0E2AC1A7A400C2C85D /* SettingViewController.swift in Sources */,
-				56D88ADF2AC30134006EB784 /* Util.swift in Sources */,
 				56D88AD72AC2F979006EB784 /* SearchViewController.swift in Sources */,
 				56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */,
 				FF8F2F0C2AC1A79900C2C85D /* AlarmViewController.swift in Sources */,
@@ -534,6 +554,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -545,6 +573,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FF85789D2AC7086400902A69 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		FF8F2EF42AC1975300C2C85D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */;

@@ -10,20 +10,19 @@ import SnapKit
 import UIKit
 
 class RegionalMapView: UIView {
-    
     var myLocationButton: UIButton = {
         var btn = UIButton()
         btn.setTitle("현재 위치로", for: .normal)
-        btn.backgroundColor = .darkGray
-        btn.setTitleColor(.yellow, for: .normal)
+        btn.backgroundColor = .ECWeatherColor3
+        btn.setTitleColor(.ECWeatherColor4, for: .normal)
         return btn
     }()
     
     var nbcLocationButton: UIButton = {
         var btn = UIButton()
         btn.setTitle("내배캠", for: .normal)
-        btn.backgroundColor = .darkGray
-        btn.setTitleColor(.yellow, for: .normal)
+        btn.backgroundColor = .ECWeatherColor3
+        btn.setTitleColor(.ECWeatherColor4, for: .normal)
         return btn
     }()
     
@@ -34,18 +33,17 @@ class RegionalMapView: UIView {
         
         addSubview(map)
         addSubview(myLocationButton)
-        addSubview(nbcLocationButton)
         
         configureUI()
         makeConstraintUI()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
-    }
+    func configureUI() {}
     
     func makeConstraintUI() {
         map.snp.makeConstraints {
@@ -56,12 +54,5 @@ class RegionalMapView: UIView {
             $0.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide).inset(20)
             $0.height.equalTo(50)
         }
-        
-        nbcLocationButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(myLocationButton.snp.top).offset(-20)
-            $0.height.equalTo(50)
-        }
     }
-    
 }
