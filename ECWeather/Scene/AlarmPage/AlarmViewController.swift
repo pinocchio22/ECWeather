@@ -221,7 +221,6 @@ class AlarmViewController: UIViewController {
             weekdaysBtnLabel.textColor = .systemGray4
             tempColorForSwitch = .systemGray4
             tableView.reloadData()
-           
         }
     }
 }
@@ -311,6 +310,5 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
-    
 }
 

@@ -7,11 +7,101 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    let cellIdentifier = "WeatherCell"
+    let numberOfHours = 7
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = .white
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        return collectionView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        
+        // collectionView 설정
+        view.addSubview(collectionView)
+        
+        // Auto Layout 설정
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 445),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -300)
+        ])
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        
+        
+        weatherNowFramePart()
+        weatherTodayPart()
+        weatherFramePart3()
+        weatherNowFramePart4()
+        restFrameLine()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return numberOfHours
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+        cell.backgroundColor = .white
+        cell.layer.cornerRadius = 10
+        // 각 시간대에 해당하는 날씨 데이터를 가져와서 cell에 표시
+        let imageName = "WeatherIcon-sun" // 에셋 카탈로그에 등록한 이미지 이름
+        if let image = UIImage(named: imageName) {
+            let imageView = UIImageView(image: image)
+            imageView.contentMode = .scaleAspectFit
+            imageView.frame = cell.contentView.bounds
+            cell.contentView.addSubview(imageView)
+        }
+        return cell
+        
+        
+        let hour = indexPath.item
+        let weatherLabel = UILabel(frame: cell.bounds)
+        weatherLabel.textAlignment = .center
+        weatherLabel.text = getWeatherDataForHour(hour)
+        cell.contentView.addSubview(weatherLabel)
+        return cell
+    }
+    // 시간대에 따른 가상의 날씨 데이터를 반환하는 함수
+    func getWeatherDataForHour(_ hour: Int) -> String {
+        // 실제 날씨 데이터를 가져오거나 시뮬레이션할 수 있습니다.
+        // 이 함수에서는 시간대를 기반으로 가상의 데이터를 반환합니다.
+        return "예시 날씨 데이터 \(hour)시"
+    }
+    // 컬렉션 뷰 셀의 크기를 조정하는 메서드
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = collectionView.bounds.width - 20
+        let cellHeight = collectionView.bounds.height - 40
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+    // 컬렉션 뷰의 여백을 조정하는 메서드
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+    }
+    
+    
+    
+    
+    
     
     private let dailyWeatherInfo = ["지금", "12시", "1시", "2시", "3시", "4시", "5시", "6시"]
     
- 
+    
     // MARK: - weatherNowView
     
     func weatherNowFramePart() {
@@ -29,7 +119,7 @@ class MainViewController: UIViewController {
         let weatherNowFrameTopLine = UIView()
         weatherNowFrameTopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherNowFrameTopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent = view!
         parent.addSubview(weatherNowFrameTopLine)
         weatherNowFrameTopLine.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +133,7 @@ class MainViewController: UIViewController {
         let weatherNowFrameBottomLine = UIView()
         weatherNowFrameBottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherNowFrameBottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent2 = view!
         parent2.addSubview(weatherNowFrameBottomLine)
         weatherNowFrameBottomLine.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +148,7 @@ class MainViewController: UIViewController {
         let nowFrameView = UIView()
         nowFrameView.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         nowFrameView.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-
+        
         let parent = view!
         parent.addSubview(nowFrameView)
         nowFrameView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +158,7 @@ class MainViewController: UIViewController {
         nowFrameView.topAnchor.constraint(equalTo: parent.topAnchor, constant: 105).isActive = true
         nowFrameView.layer.cornerRadius = 15
     }
-
+    
     // 날씨 클래스, 지역명
     func localWeather() {
         let localLabel = UILabel()
@@ -100,7 +190,7 @@ class MainViewController: UIViewController {
         weatherLayer.bounds = imageView.bounds
         weatherLayer.position = imageView.center
         imageView.layer.addSublayer(weatherLayer)
-
+        
         let parent = view!
         parent.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,8 +233,8 @@ class MainViewController: UIViewController {
         weatherNameLabel.translatesAutoresizingMaskIntoConstraints = false
         weatherNameLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
         weatherNameLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
-//        view.leadingAnchor.constraint(equalTo: parent.leadingAnchor).isActive = true
-//        view.trailingAnchor.constraint(equalTo: parent.trailingAnchor).isActive = true
+        //        view.leadingAnchor.constraint(equalTo: parent.leadingAnchor).isActive = true
+        //        view.trailingAnchor.constraint(equalTo: parent.trailingAnchor).isActive = true
         weatherNameLabel.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
         weatherNameLabel.topAnchor.constraint(equalTo: parent.topAnchor, constant: 340).isActive = true
     }
@@ -175,6 +265,11 @@ class MainViewController: UIViewController {
         weatherTodayFrame()
         weatherMent()
         weatherTodayMentUnderLine()
+        
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 465).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+        collectionView.widthAnchor.constraint(equalToConstant: 310).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     func weatherTodayFrameLine() {
@@ -182,7 +277,7 @@ class MainViewController: UIViewController {
         let weatherTodayFrameTopLine = UIView()
         weatherTodayFrameTopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherTodayFrameTopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent = view!
         parent.addSubview(weatherTodayFrameTopLine)
         weatherTodayFrameTopLine.translatesAutoresizingMaskIntoConstraints = false
@@ -196,7 +291,7 @@ class MainViewController: UIViewController {
         let weatherTodayFrameBottomLine = UIView()
         weatherTodayFrameBottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherTodayFrameBottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent2 = view!
         parent2.addSubview(weatherTodayFrameBottomLine)
         weatherTodayFrameBottomLine.translatesAutoresizingMaskIntoConstraints = false
@@ -212,9 +307,9 @@ class MainViewController: UIViewController {
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-//        view.layer.borderWidth = 5
-//        view.layer.borderColor = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0).cgColor
-
+        //        view.layer.borderWidth = 5
+        //        view.layer.borderColor = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0).cgColor
+        
         let parent = self.view!
         parent.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -249,9 +344,9 @@ class MainViewController: UIViewController {
         let weatherTodayMentUnderLine = UIView()
         weatherTodayMentUnderLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherTodayMentUnderLine.layer.backgroundColor = UIColor(red: 0.88, green: 0.88, blue: 0.88, alpha: 0.7).cgColor
-//        nowFrameView.layer.borderWidth = 5
-//        nowFrameView.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
-
+        //        nowFrameView.layer.borderWidth = 5
+        //        nowFrameView.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
+        
         let parent = view!
         parent.addSubview(weatherTodayMentUnderLine)
         weatherTodayMentUnderLine.translatesAutoresizingMaskIntoConstraints = false
@@ -278,9 +373,9 @@ class MainViewController: UIViewController {
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-//        view.layer.borderWidth = 5
-//        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
-
+        //        view.layer.borderWidth = 5
+        //        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
+        
         let parent = self.view!
         parent.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -326,9 +421,9 @@ class MainViewController: UIViewController {
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-//        view.layer.borderWidth = 5
-//        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
-
+        //        view.layer.borderWidth = 5
+        //        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
+        
         let parent = self.view!
         parent.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -365,7 +460,7 @@ class MainViewController: UIViewController {
         let weatherNowFrame3TopLine = UIView()
         weatherNowFrame3TopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherNowFrame3TopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent = view!
         parent.addSubview(weatherNowFrame3TopLine)
         weatherNowFrame3TopLine.translatesAutoresizingMaskIntoConstraints = false
@@ -378,7 +473,7 @@ class MainViewController: UIViewController {
         let weatherNowFrame3BottomLine = UIView()
         weatherNowFrame3BottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherNowFrame3BottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent2 = view!
         parent2.addSubview(weatherNowFrame3BottomLine)
         weatherNowFrame3BottomLine.translatesAutoresizingMaskIntoConstraints = false
@@ -392,7 +487,7 @@ class MainViewController: UIViewController {
         let weatherNowFrame4TopLine = UIView()
         weatherNowFrame4TopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherNowFrame4TopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent3 = view!
         parent3.addSubview(weatherNowFrame4TopLine)
         weatherNowFrame4TopLine.translatesAutoresizingMaskIntoConstraints = false
@@ -401,11 +496,11 @@ class MainViewController: UIViewController {
         weatherNowFrame4TopLine.centerXAnchor.constraint(equalTo: parent3.centerXAnchor).isActive = true
         weatherNowFrame4TopLine.topAnchor.constraint(equalTo: parent3.topAnchor, constant: 640).isActive = true
         weatherNowFrame4TopLine.layer.cornerRadius = 5
-    
+        
         let weatherNowFrame4BottomLine = UIView()
         weatherNowFrame4BottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
         weatherNowFrame4BottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
+        
         let parent4 = view!
         parent4.addSubview(weatherNowFrame4BottomLine)
         weatherNowFrame4BottomLine.translatesAutoresizingMaskIntoConstraints = false
@@ -415,102 +510,4 @@ class MainViewController: UIViewController {
         weatherNowFrame4BottomLine.topAnchor.constraint(equalTo: parent4.topAnchor, constant: 700).isActive = true
         weatherNowFrame4BottomLine.layer.cornerRadius = 5
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .white
-        
-        weatherNowFramePart()
-        weatherTodayPart()
-        weatherFramePart3()
-        weatherNowFramePart4()
-        restFrameLine()
-    }
 }
-
-
-
-
-
-
-
-//extension MainViewController {
-//    var collectionView: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        
-//        layout.scrollDirection = .vertical
-//        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width / 2) - 20, height: 200)
-//        
-//        let collectionView = UICollectionView(frame: .zoro, collectionViewLayout: layout)
-//        collectionView.backgroundColor = .white
-//        collectionView.regi
-//    }
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//
-//
-//
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return self.dailyWeatherInfo.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cellId = String(describing: MainViewControllerCell.self)
-//        print("cellId : \(cellId)")
-//
-//        // 셀 인스턴스
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MainViewControllerCell
-////        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MyCustomCollectionViewCell.self), for: indexPath) as! MyCustomCollectionViewCell
-//
-//        cell.imageName = self.dailyWeatherInfo[indexPath.item]
-//
-//        cell.contentView.backgroundColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
-//        cell.contentView.layer.cornerRadius = 8
-//        cell.contentView.layer.borderWidth = 1
-//        cell.contentView.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-//
-//
-//         //데이터에 따른 셀UI 변경
-//         //이미지에 대한 설정
-////        cell.profileImage.image = UIImage(systemName: self.systemimageNameArray[indexPath.item])
-////        // 라벨 설정
-////        cell.profileLavel.text = self.systemimageNameArray[indexPath.item]
-////
-//        return cell
-//    }
-//}
-//
-//
-//
-//class MainViewControllerCell: UICollectionViewCell {
-//
-//    var dailyWeatherImage: UIImageView!
-//    var dailyWeatherTime: UILabel!
-//
-//
-//    var imageName : String = ""{
-//        didSet{
-//            print("MyCollectionViewCell imageName - didSet() : \(imageName)")
-//            // 셀의 UI 설정
-//            self.dailyWeatherImage.image = UIImage(systemName: imageName)
-//            // 라벨 설정
-//            self.dailyWeatherTime.text = imageName
-//        }
-//    }
-//}
