@@ -73,3 +73,34 @@ struct Wind: Codable {
     let deg: Int
     let gust: Double?
 }
+
+struct CustomWeather {
+    let cloud: Int
+    let currentTemp: Double
+    let maxTemp: Double
+    let minTemp: Double
+    let feelTemp: Double
+    let pressure: Int
+    let humidity: Int
+    var sunriseTimestamp: Double
+    var sunrise: String {
+        let sunriseDate = Date(timeIntervalSince1970: sunriseTimestamp)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        return dateFormatter.string(from: sunriseDate)
+    }
+    var sunsetTimestamp: Double
+    var sunset: String {
+        let sunsetDate = Date(timeIntervalSince1970: sunsetTimestamp)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        return dateFormatter.string(from: sunsetDate)
+    }
+    let id: Int
+    let descriotion: String
+    let icon: String
+    let windSpeed: Double
+    let windDeg: Int
+}
