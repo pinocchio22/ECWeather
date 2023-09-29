@@ -19,7 +19,7 @@ class RegionalViewController: BaseViewController {
     
     let locationManager = CLLocationManager()
     
-    lazy var locationList = self.viewModel.fetchweather()
+    lazy var locationList:Array<CustomAnnotation> = []
     
     override func loadView() {
         view = mapView
@@ -33,9 +33,32 @@ class RegionalViewController: BaseViewController {
         mapView.map.delegate = self
         locationManager.delegate = self
         
+        getLoactionWeather()
+        
         addCustomPin()
         
         buttonActions()
+    }
+    
+    func getLoactionWeather() {
+        locationList.append(contentsOf: [
+            viewModel.getCustomAnnotation(cityName: "Seoul"),
+            viewModel.getCustomAnnotation(cityName: "Uijeongbu-si"),
+            viewModel.getCustomAnnotation(cityName: "Namyangju"),
+            viewModel.getCustomAnnotation(cityName: "chuncheon"),
+            viewModel.getCustomAnnotation(cityName: "gangneung"),
+            viewModel.getCustomAnnotation(cityName: "Bucheon-si"),
+            viewModel.getCustomAnnotation(cityName: "Seongnam-si"),
+            viewModel.getCustomAnnotation(cityName: "Cheongju-si"),
+            viewModel.getCustomAnnotation(cityName: "Andong"),
+            viewModel.getCustomAnnotation(cityName: "Daegu"),
+            viewModel.getCustomAnnotation(cityName: "Jeonju"),
+            viewModel.getCustomAnnotation(cityName: "Mokpo"),
+            viewModel.getCustomAnnotation(cityName: "Changwon"),
+            viewModel.getCustomAnnotation(cityName: "Busan"),
+            viewModel.getCustomAnnotation(cityName: "Jeju-do"),
+        ])
+        print(locationList)
     }
     
     func addCustomPin() {
