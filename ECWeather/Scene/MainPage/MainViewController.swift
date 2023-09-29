@@ -427,7 +427,6 @@ class MainViewController: UIViewController {
         weatherNowFramePart4()
         restFrameLine()
         
-        NetworkService.getCurrentWeather(cityName: "seoul")
     }
 }
 
