@@ -37,10 +37,9 @@ struct Coord: Codable {
 
 // MARK: - Main
 struct Main: Codable {
-    // 온도, 체감온도, 최저, 최고
     let temp, feelsLike, tempMin, tempMax: Double
-    // 기압, 습도
     let pressure, humidity: Int
+    let seaLevel, grndLevel: Int?
 
     enum CodingKeys: String, CodingKey {
         case temp
@@ -48,13 +47,24 @@ struct Main: Codable {
         case tempMin = "temp_min"
         case tempMax = "temp_max"
         case pressure, humidity
+        case seaLevel = "sea_level"
+        case grndLevel = "grnd_level"
+    }
+}
+
+// MARK: - Rain
+struct Rain: Codable {
+    let the1H: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case the1H = "1h"
     }
 }
 
 // MARK: - Sys
 struct Sys: Codable {
     // type, id, 국가코드, 일출시간, 일몰시간
-    let type, id: Int
+    let type, id: Int?
     let country: String
     let sunrise, sunset: Int
 }
@@ -75,6 +85,8 @@ struct Wind: Codable {
 }
 
 struct CustomWeather {
+    let lat: Double
+    let lon: Double
     let cloud: Int
     let currentTemp: Double
     let maxTemp: Double
