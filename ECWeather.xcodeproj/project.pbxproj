@@ -13,6 +13,9 @@
 		56D88AE32AC34811006EB784 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE22AC34811006EB784 /* UIColor+Extension.swift */; };
 		56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE42AC402BA006EB784 /* SearchTableViewCell.swift */; };
 		56D88AE72AC405B8006EB784 /* TemperatureCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */; };
+		56D88AEA2AC55E26006EB784 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE92AC55E26006EB784 /* IntroViewController.swift */; };
+		56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */; };
+		56D88AF02AC714C5006EB784 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D88AEF2AC714C4006EB784 /* Main.storyboard */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
 		FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6512AC134C800686B4F /* SceneDelegate.swift */; };
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
@@ -41,6 +44,9 @@
 		56D88AE22AC34811006EB784 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		56D88AE42AC402BA006EB784 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureCollectionViewCell.swift; sourceTree = "<group>"; };
+		56D88AE92AC55E26006EB784 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarViewController.swift; sourceTree = "<group>"; };
+		56D88AEF2AC714C4006EB784 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF22B64F2AC134C800686B4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF22B6512AC134C800686B4F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				56062ED82AC266C600142FDE /* BaseViewController.swift */,
+				56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -89,6 +96,14 @@
 				56D88AE22AC34811006EB784 /* UIColor+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		56D88AE82AC55E12006EB784 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				56D88AE92AC55E26006EB784 /* IntroViewController.swift */,
+			);
+			path = Intro;
 			sourceTree = "<group>";
 		};
 		FF22B6432AC134C800686B4F = {
@@ -112,6 +127,7 @@
 			children = (
 				FF22B64F2AC134C800686B4F /* AppDelegate.swift */,
 				FF22B6512AC134C800686B4F /* SceneDelegate.swift */,
+				56D88AEF2AC714C4006EB784 /* Main.storyboard */,
 				56D88AE12AC347D8006EB784 /* Extension */,
 				FF7D081B2AC566AD0004CC4E /* Utils */,
 				FF8F2EF92AC19E9500C2C85D /* Scene */,
@@ -171,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				56062EDA2AC266CB00142FDE /* Base */,
+				56D88AE82AC55E12006EB784 /* Intro */,
 				FF8F2EFB2AC19ED500C2C85D /* WeeklyPage */,
 				FF8F2EFD2AC19F0200C2C85D /* RegionalPage */,
 				FF8F2EFA2AC19ECA00C2C85D /* MainPage */,
@@ -292,6 +309,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56D88AF02AC714C5006EB784 /* Main.storyboard in Resources */,
 				FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */,
 				FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */,
 			);
@@ -320,7 +338,9 @@
 				56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */,
 				FF8F2F0E2AC1A7A400C2C85D /* SettingViewController.swift in Sources */,
 				56D88AD72AC2F979006EB784 /* SearchViewController.swift in Sources */,
+				56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */,
 				FF8F2F0C2AC1A79900C2C85D /* AlarmViewController.swift in Sources */,
+				56D88AEA2AC55E26006EB784 /* IntroViewController.swift in Sources */,
 				FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */,
 				FF8F2F022AC1A03500C2C85D /* Weather.swift in Sources */,
 				FF8F2F0A2AC1A78B00C2C85D /* RegionalViewController.swift in Sources */,
