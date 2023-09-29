@@ -90,17 +90,17 @@ struct CustomWeather {
         return dateFormatter.string(from: dataDate)
     }
     let humidity: Int
-    var sunrise: Double
+    var sunrise: Int
     var sunriseTimestamp: String {
-        let sunriseDate = Date(timeIntervalSince1970: sunrise)
+        let sunriseDate = Date(timeIntervalSince1970: Double(sunrise))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return dateFormatter.string(from: sunriseDate)
     }
-    var sunset: Double
+    var sunset: Int
     var sunsetTimestamp: String {
-        let sunsetDate = Date(timeIntervalSince1970: sunset)
+        let sunsetDate = Date(timeIntervalSince1970: Double(sunset))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
