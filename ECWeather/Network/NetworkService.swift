@@ -43,13 +43,14 @@ class NetworkService {
         }
     }
     
-    static func getIcon(iconCode: String) {
+    static func getIcon(iconCode: String, completion: @escaping (Data?) -> Void) {
         let iconURLString = "https://openweathermap.org/img/w/\(iconCode).png"
         if let iconURL = URL(string: iconURLString) {
             // 이미지를 다운로드
             if let data = try? Data(contentsOf: iconURL) {
-//                    UIImage(data: data)
+                completion(data)
             }
         }
+        completion(nil)
     }
 }
