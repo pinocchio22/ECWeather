@@ -32,7 +32,7 @@ class CustomAnnotationView: MKAnnotationView {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.backgroundColor = .clear
-        view.image = UIImage(systemName: "pencil")
+        view.image = UIImage(systemName: "photo")
         return view
     }()
     
@@ -44,6 +44,8 @@ class CustomAnnotationView: MKAnnotationView {
         label.textAlignment = .center
         return label
     }()
+    
+    lazy var indicator = UIActivityIndicatorView()
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -57,6 +59,7 @@ class CustomAnnotationView: MKAnnotationView {
     }
     
     func configureUI() {
+        addSubview(indicator)
         addSubview(backgroundView)
         backgroundView.addSubview(titleLabel)
         backgroundView.addSubview(customImageView)
@@ -95,8 +98,10 @@ class CustomAnnotationView: MKAnnotationView {
         
         guard let annotation = annotation as? CustomAnnotation else { return }
         
+        temperatureLabel.text = annotation.subtitle
         titleLabel.text = annotation.title
         customImageView.image = annotation.iconImage
+        indicator.stopAnimating()
         
         setNeedsLayout()
     }
