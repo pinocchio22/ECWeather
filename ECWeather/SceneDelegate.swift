@@ -16,21 +16,57 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
      */
     var navigationController : UINavigationController?
     
-    /**
-     @brief  tabBarController 객체
-     */
-    var tabBarController : BaseTabBarViewController?
-    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
             // guard let _ = (scene as? UIWindowScene) else { return } - 삭제
             guard let windowScene = (scene as? UIWindowScene) else { return }
-            navigationController = UINavigationController(rootViewController: IntroViewController())
+            navigationController = UINavigationController(rootViewController: MainViewController())
             //네비게이션바 히든
             navigationController?.isNavigationBarHidden = true;
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.windowScene = windowScene
             window?.backgroundColor = .white
-            window?.rootViewController = navigationController
+            
+            // MARK: - TabBar
+            let tabBarController = UITabBarController()
+        
+            let firstTab = UINavigationController(rootViewController: WeeklyViewController())
+            let secondTab = UINavigationController(rootViewController: RegionalViewController())
+            let thirdTab = UINavigationController(rootViewController: MainViewController())
+            let forthTab = UINavigationController(rootViewController: AlarmViewController())
+            let fifthTab = UINavigationController(rootViewController: SettingViewController())
+            
+            tabBarController.setViewControllers([firstTab,secondTab,thirdTab,forthTab,fifthTab], animated: true)
+        
+            if let items = tabBarController.tabBar.items {
+                
+                items[0].title = "주간"
+                items[0].image = UIImage(systemName: "calendar")
+                items[0].selectedImage = UIImage(systemName: "calendar")
+                items[1].title = "지역별"
+                items[1].image = UIImage(systemName: "map")
+                items[1].selectedImage = UIImage(systemName: "map.fill")
+                items[2].title = "오늘"
+                if let originalImage = UIImage(named: "AppLogo") {
+                    let newSize = CGSize(width: 50, height: 50)
+                    UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+                    originalImage.draw(in: CGRect(origin: .zero, size: newSize))
+                    let resizedImage = UIGraphicsGetImageFromCurrentImageContext()?.withRenderingMode(.alwaysOriginal)
+                    UIGraphicsEndImageContext()
+                    let resizedImageBW = resizedImage?.withRenderingMode(.alwaysTemplate)
+                    items[2].image = resizedImageBW
+                    items[2].selectedImage = resizedImage
+                }
+                items[3].title = "알림"
+                items[3].image = UIImage(systemName: "bell")
+                items[3].selectedImage = UIImage(systemName: "bell.badge.fill")
+                items[4].title = "설정"
+                items[4].image = UIImage(systemName: "gear.circle")
+                items[4].selectedImage = UIImage(systemName: "gear.circle.fill")
+            }
+        
+            tabBarController.selectedIndex = 2
+        
+            window?.rootViewController = tabBarController
             window?.makeKeyAndVisible()
     }
     
@@ -84,40 +120,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         dg.wait();
         return realDelegate!
-    }
-    
-    /**
-     @brief storyBoard를 변경한다.
-     */
-    func changeInitViewController() {
-        tabBarController = nil
-        self.navigationController = nil
-        self.tabBarController = nil
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let navigationController : UINavigationController?
-        navigationController = storyBoard.instantiateInitialViewController() as? UINavigationController
-        if  navigationController?.topViewController is UITabBarController {
-            tabBarController = navigationController!.topViewController as? BaseTabBarViewController
-        }
-        self.navigationController = navigationController
-        
-        //네비게이션바 히든
-        navigationController?.isNavigationBarHidden = true;
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
-            SceneDelegate.applicationDelegate().window?.rootViewController?.view.alpha = 0
-        }) {[weak self] (finished) in
-            guard let strongSelf = self else {
-                return
-            }
-            DispatchQueue.main.async {
-                strongSelf.window?.rootViewController = strongSelf.navigationController
-                strongSelf.window?.rootViewController?.view.alpha = 0
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
-                    SceneDelegate.applicationDelegate().window?.rootViewController?.view.alpha = 1
-                }, completion: { (finished) in
-                })
-            }
-        }
     }
 }
 

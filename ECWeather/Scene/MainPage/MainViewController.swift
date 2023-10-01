@@ -426,7 +426,6 @@ class MainViewController: UIViewController {
         weatherFramePart3()
         weatherNowFramePart4()
         restFrameLine()
-        
     }
 }
 
