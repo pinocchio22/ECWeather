@@ -10,7 +10,7 @@ import SnapKit
 import UIKit
 import UserNotifications
 
-class AlarmViewController: UIViewController {
+class AlarmViewController: BaseViewController {
     
     // MARK: - Properties
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
