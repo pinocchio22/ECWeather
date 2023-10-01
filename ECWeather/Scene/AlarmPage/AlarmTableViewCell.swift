@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectNotificationSoundCell: UITableViewCell {
+class AlarmTableViewCell: UITableViewCell {
     
     let leadingLabel: UILabel = {
         let label = UILabel()
