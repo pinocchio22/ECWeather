@@ -36,34 +36,38 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         return tableView
     }()
     
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "주간 날씨"
+        label.textColor = .ECWeatherColor3
+        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     struct WeatherData {
-        let day: String
+        var day: String
         let weather: String
         let highTemperature: Int
         let lowTemperature: Int
         let weatherImageName: String
     }
     
-    let weeklyForecast: [WeatherData] = [
-        WeatherData(day: "월요일", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
-        WeatherData(day: "화요일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
-        WeatherData(day: "수요일", weather: "비", highTemperature: 20, lowTemperature: 14, weatherImageName: "WeatherIcon-rain"),
-        WeatherData(day: "목요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18, weatherImageName: "WeatherIcon-cloudy"),
-        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19, weatherImageName: "WeatherIcon-sun"),
-        WeatherData(day: "토요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
-        WeatherData(day: "일요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
-    ]
-    
     var selectedCellIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = UIColor.ECWeatherColor3
-
         view.addSubview(tableView)
+        view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+        ])
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -75,13 +79,35 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         
+        updateWeatherData()
+    }
+
+    lazy var weeklyForecast: [WeatherData] = [
+        WeatherData(day: "오늘", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "내일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "월요일", weather: "비", highTemperature: 20, lowTemperature: 14, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "화요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "수요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "목요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
+    ]
+    
+    func updateWeatherData() {
+        let calendar = Calendar.current
+        let today = calendar.component(.weekday, from: Date())
         
-        let titleLabel = UILabel()
-        titleLabel.text = "주간 날씨"
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        titleLabel.textColor = .ECWeatherColor2
-        navigationItem.titleView = titleLabel
+        for (index, var weatherData) in weeklyForecast.enumerated() {
+            if index == 0 {
+                weatherData.day = "오늘"
+            } else if index == 1 {
+                weatherData.day = "내일"
+            } else {
+                let dayOfWeek = (today + index - 1) % 7
+                let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
+                weatherData.day = weekdays[dayOfWeek]
+            }
+            weeklyForecast[index] = weatherData
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,20 +116,15 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
-        
         let weatherData = weeklyForecast[indexPath.row]
         
-        
-        let dayLabel = getLocalizedDayLabel(for: weatherData.day)
-        cell.configure(day: dayLabel, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
-        
+        cell.configure(day: weatherData.day, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
         
         if selectedCellIndex == indexPath {
             cell.selectionStyle = .none
         } else {
             cell.selectionStyle = .default
         }
-        
         return cell
     }
     
@@ -211,7 +232,6 @@ class WeeklyTableViewCell: UITableViewCell {
             temperatureLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             temperatureLabel.leadingAnchor.constraint(equalTo: weatherLabel.trailingAnchor),
             temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
-
         ])
     }
     
