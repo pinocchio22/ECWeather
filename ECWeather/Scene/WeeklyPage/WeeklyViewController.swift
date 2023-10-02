@@ -36,8 +36,17 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         return tableView
     }()
     
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "주간 날씨"
+        label.textColor = .ECWeatherColor3
+        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     struct WeatherData {
-        var day: String // 'let' 대신 'var'로 변경
+        var day: String
         let weather: String
         let highTemperature: Int
         let lowTemperature: Int
@@ -50,9 +59,15 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         tableView.separatorColor = UIColor.ECWeatherColor3
         view.addSubview(tableView)
+        view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+        ])
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -64,12 +79,9 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         
-        // 타이틀을 navigationController를 통해 설정
-        self.title = "주간 날씨"
-        
         updateWeatherData()
     }
-    
+
     lazy var weeklyForecast: [WeatherData] = [
         WeatherData(day: "오늘", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
         WeatherData(day: "내일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
@@ -84,7 +96,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let calendar = Calendar.current
         let today = calendar.component(.weekday, from: Date())
         
-        for (index, var weatherData) in weeklyForecast.enumerated() { // 'var' 사용
+        for (index, var weatherData) in weeklyForecast.enumerated() {
             if index == 0 {
                 weatherData.day = "오늘"
             } else if index == 1 {
@@ -94,7 +106,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
                 let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
                 weatherData.day = weekdays[dayOfWeek]
             }
-            weeklyForecast[index] = weatherData // 수정된 weatherData 다시 할당
+            weeklyForecast[index] = weatherData
         }
     }
     
