@@ -5,6 +5,12 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
+// TODO: - 1. 테스트버튼으로 알림 받던것 -> 설정한 시간 요일에 따라 알림 울리도록
+// TODO: - 2. 알림 울리는 시간/요일 정보를 앱 내 저장 필요.. (UserDefaults?)
+// TODO: - 3. 날씨에 따른 알림 메세지 문구 설정 필요.. (API 반환 값 확인)
+// TODO: - 4. 알림 울릴 API 요청할 기준 도시는 어떻게? -> 이것도 앱내 따로 저장 필요..
+// TODO: - 5. AVFoundation으로 알림음 연결
+
 import AVFoundation
 import SnapKit
 import UIKit
@@ -260,8 +266,6 @@ class AlarmViewController: BaseViewController {
             } else {
                 sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             }
-        } else {
-            sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
         }
     }
     
