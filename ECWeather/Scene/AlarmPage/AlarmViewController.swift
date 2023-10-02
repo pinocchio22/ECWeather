@@ -134,6 +134,7 @@ class AlarmViewController: BaseViewController {
     // MARK: - Methods & Selectors
     private func configureUI() {
         view.backgroundColor = .white
+        navigationController?.isNavigationBarHidden = false
         tableView1.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
         tableView2.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
 

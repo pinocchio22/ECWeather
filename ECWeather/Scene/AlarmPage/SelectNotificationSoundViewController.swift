@@ -41,6 +41,7 @@ class SelectNotificationSoundViewController: BaseViewController {
     private func configureUI() {
         
         view.backgroundColor = .white
+        navigationController?.isNavigationBarHidden = false
         
         configureNavigationBar()
         configureTableView()
