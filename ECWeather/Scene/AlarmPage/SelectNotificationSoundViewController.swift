@@ -17,10 +17,10 @@ class SelectNotificationSoundViewController: BaseViewController {
     private var selectedCellIndex: Int?
     
     private let notificationSoundList: [String: String] = [
-        "뭐지": "notification_sound_moji",
-        "꽥": "notification_sound_quack",
-        "탸댜아아ㅏ" : "notification_sound_taddddaaaaa",
-        "오와우우으" : "notification_sound_wow",
+        "뭐지": "notification_sound_moji.caf",
+        "꽥": "notification_sound_quack.caf",
+        "탸댜아아ㅏ" : "notification_sound_taddddaaaaa.caf",
+        "오와우우으" : "notification_sound_wow.caf",
     ]
 
     
@@ -122,21 +122,22 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           
         tableView.deselectRow(at: indexPath, animated: true)
         
         selectedCellIndex = indexPath.row
         tableView.reloadData()
        
-        let soundKeys = Array(notificationSoundList.values)
-            if soundKeys.indices.contains(indexPath.row) {
-                let soundName = soundKeys[indexPath.row]
-                if let fileName = notificationSoundList[soundName] {
-                    playNotificationSound(fileName)
-                }
+        let soundNames = Array(notificationSoundList.keys).sorted()
+        if soundNames.indices.contains(indexPath.row) {
+            let soundName = soundNames[indexPath.row]
+            print("soundName : ", soundName)
+            if let fileName = notificationSoundList[soundName] {
+                print("fileName : ", fileName)
+                playNotificationSound(fileName)
+            }
         }
-       
-       }
+    }
+
 
     
 }
