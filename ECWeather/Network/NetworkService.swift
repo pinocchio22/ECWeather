@@ -54,7 +54,7 @@ class NetworkService {
             case .success(let weeklyWeather):
                 weeklyWeather.list.forEach { item in
                     if let weather = item.weather.first {
-                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, descriotion: item.weather.description, icon: weather.icon))
+                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, descriotion: weather.description, icon: weather.icon))
                     }
                 }
                 completion(weatherList)
@@ -76,7 +76,7 @@ class NetworkService {
             case .success(let weeklyWeather):
                 weeklyWeather.list.forEach { item in
                     if let weather = item.weather.first {
-                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, descriotion: item.weather.description, icon: weather.icon))
+                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, descriotion: weather.description, icon: weather.icon))
                     }
                 }
                 completion(weatherList)
