@@ -15,8 +15,6 @@ class RegionalViewController: BaseViewController {
     
     let mapView = RegionalMapView()
     
-    let nbcCoordinate = CLLocationCoordinate2D(latitude: 37.502330, longitude: 127.044466)
-    
     let locationManager = CLLocationManager()
     var latitude: Double?
     var longitude: Double?
@@ -59,7 +57,7 @@ class RegionalViewController: BaseViewController {
         
         self.viewModel.getCustomAnnotation(cityName: "Namyangju") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Namyangju?.title" }?.title = "남양주"
+            self.locationList.first{ $0.title == "Namyangju" }?.title = "남양주"
             self.addCustomPin()
         }
         
@@ -215,7 +213,6 @@ class RegionalViewController: BaseViewController {
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
         
-        print(latitude)
         self.viewModel.getMyLocationAnnotation(latitude: latitude!, longitude: longitude!) { item in
             self.mapView.map.addAnnotation(item!)
         }
@@ -266,7 +263,6 @@ extension RegionalViewController: CLLocationManagerDelegate {
             if let location = locations.last {
                 self.latitude = location.coordinate.latitude
                 self.longitude = location.coordinate.longitude
-                print("현재 위치 - 위도: \(latitude), 경도: \(longitude)")
             }
         }
 }
