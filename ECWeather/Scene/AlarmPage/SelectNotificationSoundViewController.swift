@@ -144,6 +144,7 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
                 playNotificationSound(fileName)
                 
                 UserDefaults.standard.setValue(selectedCellIndex, forKey: "SelectedCellIndex")
+                UserDefaults.standard.setValue(fileName, forKey: "SelectedFileName")
             }
         }
     }

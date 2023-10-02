@@ -302,6 +302,14 @@ class AlarmViewController: BaseViewController {
         현재 밖의 날씨는 ☀️(맑음)입니다.
         집 밖에 좀 나가십쇼.
         """
+
+        if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
+            content.sound = UNNotificationSound(named: UNNotificationSoundName("\(selectedSoundName).caf"))
+        } else {
+            content.sound = UNNotificationSound.default
+        }
+
+
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats:false)
         let request = UNNotificationRequest(identifier: "weather", content: content, trigger: trigger)
@@ -326,6 +334,14 @@ class AlarmViewController: BaseViewController {
         타임피커 알림 발송 테스트 입니다..ㅁㄴㅇㅁㄴㅇㅁㄴ!!
         """
             
+        
+        if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
+            content.sound = UNNotificationSound(named: UNNotificationSoundName("\(selectedSoundName).caf"))
+        } else {
+            content.sound = UNNotificationSound.default
+        }
+
+        
         // 요일과 시간대 설정
         
         let calendar = Calendar.current
@@ -337,7 +353,7 @@ class AlarmViewController: BaseViewController {
         
         print("SELECTED HOUR : ",selectedHour)
         print("SELECTED MINUTE : ",selectedMinute)
-        dateComponents.weekday = 2
+        dateComponents.weekday = 3
         dateComponents.hour = selectedHour
         dateComponents.minute = selectedMinute
             
@@ -416,13 +432,10 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             cell.leadingLabel.text = "알림 수신음"
             if let selectedCellIndex = UserDefaults.standard.value(forKey: "SelectedCellIndex") as? Int {
                 let soundNames = Array(notificationSoundList.keys).sorted()
-                if selectedCellIndex >= 0 && selectedCellIndex < soundNames.count {
-                    let selectedSoundName = soundNames[selectedCellIndex]
-                    cell.traillingLabel.text = selectedSoundName
-                }
-                
+                let selectedSoundName = soundNames[selectedCellIndex]
+                cell.traillingLabel.text = selectedSoundName
             } else {
-                cell.traillingLabel.text = "" // 선택한 값이 없으면 빈 문자열로 표시
+                cell.traillingLabel.text = ""
             }
             return cell
         } else if tableView == tableView2 {
