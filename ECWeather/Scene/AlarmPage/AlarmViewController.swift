@@ -21,6 +21,7 @@ class AlarmViewController: BaseViewController {
     
     // MARK: - Properties
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
+    private let weekdays2222: [String:Int] = ["일":0, "월":1, "화":2, "수":3, "목":4, "금":5, "토":6]
     private var tempColorForSwitch: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
     
     private let titleLabel: UILabel = {
@@ -143,6 +144,7 @@ class AlarmViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
+
         configureUI()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
     }
@@ -207,7 +209,7 @@ class AlarmViewController: BaseViewController {
         }
         
         contentView.snp.makeConstraints {
-            $0.leading.trailing.width.equalToSuperview()
+            $0.top.leading.trailing.bottom.centerX.equalTo(scrollView)
             $0.height.equalTo(500)
         }
         
@@ -296,11 +298,56 @@ class AlarmViewController: BaseViewController {
         
     }
     
+    // 타임피커에 저장된 시간에 알림 (나중에 테스트 버튼 대체..)
+    private func scheduleNotification() {
+        
+        // 시간 불러오기
+        let selectedDate = timePicker.date
+
+        print("👏🏼👏🏼👏🏼selectedDate : ",selectedDate)
+
+        // 메세지 내용
+        let content = UNMutableNotificationContent()
+        content.title = "e편한날씨 - 날씨 알리미"
+        content.body =
+        """
+        타임피커 알림 발송 테스트 입니다..ㅁㄴㅇㅁㄴㅇㅁㄴ!!
+        """
+            
+        // 요일과 시간대 설정
+        
+        let calendar = Calendar.current
+        let selectedHour = calendar.component(.hour, from: selectedDate)
+        let selectedMinute = calendar.component(.minute, from: selectedDate)
+        
+        var dateComponents = DateComponents()
+        dateComponents.calendar = calendar
+        
+        print("SELECTED HOUR : ",selectedHour)
+        print("SELECTED MINUTE : ",selectedMinute)
+        dateComponents.weekday = 2
+        dateComponents.hour = selectedHour
+        dateComponents.minute = selectedMinute
+            
+        // UNCalendarNotificationTrigger : 특정 요일과 시간대에 알림 스케줄
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        // 알림 요청 생성
+        let request = UNNotificationRequest(identifier: "scheduledNotification", content: content, trigger: trigger)
+      
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if let error = error {
+                print("알림 실패: \(error.localizedDescription)")
+            } else {
+                print("알림 성공.")
+            }
+        }
+    }
+    
     @objc private func weekdaysButtonTapped(sender: UIButton) {
         if notificationSwitch.isOn {
             if sender.backgroundColor == .ECWeatherColor4?.withAlphaComponent(0.3) {
                 sender.backgroundColor = .ECWeatherColor3?.withAlphaComponent(0.5)
-                // TODO: - 요일 눌렀을때 이벤트 처리
             } else {
                 sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             }
@@ -317,6 +364,8 @@ class AlarmViewController: BaseViewController {
             tempColorForSwitch = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
             tableView1.reloadData()
             tableView2.reloadData()
+            
+            scheduleNotification()
         } else {
             timePicker.isEnabled = false
             descriptionLabel.text = "현재 알림이 꺼져 있습니다.\n"
@@ -324,9 +373,10 @@ class AlarmViewController: BaseViewController {
             tableViewLabel1.textColor = .systemGray4
             tableViewLabel2.textColor = .systemGray4
             tempColorForSwitch = .systemGray4
-
             tableView1.reloadData()
             tableView2.reloadData()
+            
+            scheduleNotification()
         
         }
     }
