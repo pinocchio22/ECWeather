@@ -87,12 +87,10 @@ struct Wind: Codable {
 struct CustomWeather {
     let lat: Double
     let lon: Double
-    let cloud: Int
     let currentTemp: Double
     let maxTemp: Double
     let minTemp: Double
     let feelTemp: Double
-    let pressure: Int
     var dt: Int
     var dataTimestamp: String {
         let dataDate = Date(timeIntervalSince1970: Double(dt))
@@ -122,5 +120,4 @@ struct CustomWeather {
     let descriotion: String
     let icon: String
     let windSpeed: Double
-    let windDeg: Int
 }

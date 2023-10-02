@@ -31,7 +31,11 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         // collectionView 설정
         view.addSubview(collectionView)
         
-        
+        weatherNowFramePart()
+        weatherTodayPart()
+        weatherFramePart3()
+        weatherNowFramePart4()
+        restFrameLine() 
         
         // Auto Layout 설정
         NSLayoutConstraint.activate([
