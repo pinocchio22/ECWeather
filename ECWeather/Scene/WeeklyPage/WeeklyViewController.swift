@@ -130,6 +130,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedCellIndex == indexPath {
+            
             selectedCellIndex = nil
         } else {
             selectedCellIndex = indexPath
@@ -137,7 +138,24 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.beginUpdates()
         tableView.endUpdates()
+        
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    
+    func getLocalizedDayLabel(for day: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let today = dateFormatter.string(from: Date())
+        
+        switch day {
+        case today:
+            return "오늘"
+        case Calendar.current.date(byAdding: .day, value: 1, to: Date()).map({ dateFormatter.string(from: $0) }) ?? "":
+            return "내일"
+        default:
+            return day
+        }
     }
 }
 
