@@ -26,7 +26,7 @@ class RegionalViewModel {
     
     func getMyLocationAnnotation(latitude: Double, longitude: Double, completion: @escaping (CustomAnnotation?) -> Void) {
         var location: CustomAnnotation?
-        NetworkService.getMyLocationWeather(lat: latitude, lon: longitude) { item in
+        NetworkService.getCurrentWeather(lat: latitude, lon: longitude) { item in
             if let item = item {
                 location = CustomAnnotation(
                     title: "내 위치",
