@@ -9,7 +9,6 @@
 // TODO: - 2. 알림 울리는 시간/요일 정보를 앱 내 저장 필요.. (UserDefaults?)
 // TODO: - 3. 날씨에 따른 알림 메세지 문구 설정 필요.. (API 반환 값 확인)
 // TODO: - 4. 알림 울릴 API 요청할 기준 도시는 어떻게? -> 이것도 앱내 따로 저장 필요..
-// TODO: - 5. 요일별알림 scrollview 넣기
 
 
 import AVFoundation
@@ -22,6 +21,14 @@ class AlarmViewController: BaseViewController {
     // MARK: - Properties
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
     private let weekdays2222: [String:Int] = ["일":0, "월":1, "화":2, "수":3, "목":4, "금":5, "토":6]
+    
+    private let notificationSoundList: [String: String] = [
+        "뭐지": "notification_sound_moji",
+        "꽥": "notification_sound_quack",
+        "탸댜아아ㅏ" : "notification_sound_taddddaaaaa",
+        "오와우우으" : "notification_sound_wow",
+    ]
+    
     private var tempColorForSwitch: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
     
     private let titleLabel: UILabel = {
@@ -141,6 +148,11 @@ class AlarmViewController: BaseViewController {
     }()
     
     // MARK: - View Life Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView1.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -402,7 +414,16 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             cell.tintColor = tempColorForSwitch
             cell.leadingLabel.text = "알림 수신음"
-            cell.traillingLabel.text = "꽥"
+            if let selectedCellIndex = UserDefaults.standard.value(forKey: "SelectedCellIndex") as? Int {
+                let soundNames = Array(notificationSoundList.keys).sorted()
+                if selectedCellIndex >= 0 && selectedCellIndex < soundNames.count {
+                    let selectedSoundName = soundNames[selectedCellIndex]
+                    cell.traillingLabel.text = selectedSoundName
+                }
+                
+            } else {
+                cell.traillingLabel.text = "" // 선택한 값이 없으면 빈 문자열로 표시
+            }
             return cell
         } else if tableView == tableView2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
