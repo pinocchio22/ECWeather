@@ -27,6 +27,7 @@
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
 		FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF22B6582AC134C900686B4F /* Assets.xcassets */; };
 		FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */; };
+		FF4939862ACA9D410063B274 /* WeeklyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4939852ACA9D410063B274 /* WeeklyWeather.swift */; };
 		FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */; };
 		FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */; };
 		FF7B08602AC2C69D00ACDE03 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */; };
@@ -36,7 +37,7 @@
 		FF85789E2AC7086400902A69 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FF85789D2AC7086400902A69 /* Alamofire */; };
 		FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF8F2EF42AC1975300C2C85D /* SnapKit */; };
 		FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2EFF2AC1A02000C2C85D /* NetworkService.swift */; };
-		FF8F2F022AC1A03500C2C85D /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F012AC1A03500C2C85D /* Weather.swift */; };
+		FF8F2F022AC1A03500C2C85D /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F012AC1A03500C2C85D /* CurrentWeather.swift */; };
 		FF8F2F082AC1A77A00C2C85D /* WeeklyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F072AC1A77A00C2C85D /* WeeklyViewController.swift */; };
 		FF8F2F0A2AC1A78B00C2C85D /* RegionalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F092AC1A78B00C2C85D /* RegionalViewController.swift */; };
 		FF8F2F0C2AC1A79900C2C85D /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F0B2AC1A79900C2C85D /* AlarmViewController.swift */; };
@@ -66,6 +67,7 @@
 		FF22B6582AC134C900686B4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF22B65B2AC134C900686B4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF22B65D2AC134C900686B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF4939852ACA9D410063B274 /* WeeklyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyWeather.swift; sourceTree = "<group>"; };
 		FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalMapView.swift; sourceTree = "<group>"; };
 		FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalViewModel.swift; sourceTree = "<group>"; };
 		FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
@@ -73,7 +75,7 @@
 		FF7D081C2AC566BB0004CC4E /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
 		FF8F2EFF2AC1A02000C2C85D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		FF8F2F012AC1A03500C2C85D /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		FF8F2F012AC1A03500C2C85D /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		FF8F2F072AC1A77A00C2C85D /* WeeklyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyViewController.swift; sourceTree = "<group>"; };
 		FF8F2F092AC1A78B00C2C85D /* RegionalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalViewController.swift; sourceTree = "<group>"; };
 		FF8F2F0B2AC1A79900C2C85D /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
@@ -203,7 +205,8 @@
 		FF8F2EF82AC19E8A00C2C85D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FF8F2F012AC1A03500C2C85D /* Weather.swift */,
+				FF8F2F012AC1A03500C2C85D /* CurrentWeather.swift */,
+				FF4939852ACA9D410063B274 /* WeeklyWeather.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				E777D6F22AC989020066C559 /* AlarmTableViewCell.swift in Sources */,
 				56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */,
 				56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */,
+				FF4939862ACA9D410063B274 /* WeeklyWeather.swift in Sources */,
 				FF8F2F0E2AC1A7A400C2C85D /* SettingViewController.swift in Sources */,
 				56D88AD72AC2F979006EB784 /* SearchViewController.swift in Sources */,
 				56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */,
@@ -375,7 +379,7 @@
 				56D88AEA2AC55E26006EB784 /* IntroViewController.swift in Sources */,
 				E777D6F32AC989020066C559 /* SelectNotificationSoundViewController.swift in Sources */,
 				FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */,
-				FF8F2F022AC1A03500C2C85D /* Weather.swift in Sources */,
+				FF8F2F022AC1A03500C2C85D /* CurrentWeather.swift in Sources */,
 				FF8F2F0A2AC1A78B00C2C85D /* RegionalViewController.swift in Sources */,
 				FF7B08602AC2C69D00ACDE03 /* CustomAnnotation.swift in Sources */,
 			);

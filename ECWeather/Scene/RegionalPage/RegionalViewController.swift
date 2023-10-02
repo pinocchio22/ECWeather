@@ -215,7 +215,6 @@ class RegionalViewController: BaseViewController {
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
         
-        print(latitude)
         self.viewModel.getMyLocationAnnotation(latitude: latitude!, longitude: longitude!) { item in
             self.mapView.map.addAnnotation(item!)
         }
