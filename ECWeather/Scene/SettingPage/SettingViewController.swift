@@ -122,7 +122,6 @@ class SettingViewController: BaseViewController {
             checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
         }
     }
-    
 }
 
 extension SettingViewController: CLLocationManagerDelegate {
@@ -158,9 +157,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.segmentedControl.isHidden = indexPath.row != 0
         cell.segmentedControl.tag = indexPath.row
         cell.segmentedControl.selectedSegmentIndex = DataManager.shared.temperatureType
-        if cell.segmentedControl.isSelected {
-            print("qqq")
-        }
         return cell
     }
     

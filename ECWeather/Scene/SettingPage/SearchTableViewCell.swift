@@ -27,6 +27,8 @@ class SearchTableViewCell: UITableViewCell {
         return label
     }()
     
+    var weatherData: [CustomWeeklyWeather]?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         registerTableview()
@@ -60,19 +62,29 @@ class SearchTableViewCell: UITableViewCell {
             $0.height.equalTo(100)
             $0.bottom.equalToSuperview()
         }
+        
+        getWeeklyWeatherAPI()
+    }
+    
+    func getWeeklyWeatherAPI() {
+        let datamanger = DataManager.shared
+        NetworkService.getWeeklyWeather(lat: datamanger.latitude ?? 0, lon: datamanger.longitude ?? 0) { data in
+            self.weatherData = data
+            self.collectionView.reloadData()
+        }
     }
     
 }
 extension SearchTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return weatherData?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TemperatureCollectionViewCell", for: indexPath) as? TemperatureCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.timeLabel.text = "12시"
-        cell.temperatureLabel.text = "20c"
+        cell.timeLabel.text = weatherData?[indexPath.row].dateTime
+        cell.temperatureLabel.text = weatherData?[indexPath.row].descriotion
         
         return cell
     }
