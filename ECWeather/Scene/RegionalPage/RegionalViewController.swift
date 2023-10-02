@@ -59,7 +59,7 @@ class RegionalViewController: BaseViewController {
         
         self.viewModel.getCustomAnnotation(cityName: "Namyangju") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Namyangju?.title" }?.title = "남양주"
+            self.locationList.first{ $0.title == "Namyangju" }?.title = "남양주"
             self.addCustomPin()
         }
         
@@ -265,7 +265,6 @@ extension RegionalViewController: CLLocationManagerDelegate {
             if let location = locations.last {
                 self.latitude = location.coordinate.latitude
                 self.longitude = location.coordinate.longitude
-                print("현재 위치 - 위도: \(latitude), 경도: \(longitude)")
             }
         }
 }
