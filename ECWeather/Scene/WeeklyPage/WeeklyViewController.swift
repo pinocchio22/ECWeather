@@ -37,22 +37,12 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     }()
     
     struct WeatherData {
-        let day: String
+        var day: String // 'let' 대신 'var'로 변경
         let weather: String
         let highTemperature: Int
         let lowTemperature: Int
         let weatherImageName: String
     }
-    
-    let weeklyForecast: [WeatherData] = [
-        WeatherData(day: "오늘", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
-        WeatherData(day: "내일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
-        WeatherData(day: "월요일", weather: "비", highTemperature: 20, lowTemperature: 14, weatherImageName: "WeatherIcon-rain"),
-        WeatherData(day: "화요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18, weatherImageName: "WeatherIcon-cloudy"),
-        WeatherData(day: "수요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19, weatherImageName: "WeatherIcon-sun"),
-        WeatherData(day: "목요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
-        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
-    ]
     
     var selectedCellIndex: IndexPath?
     
@@ -74,13 +64,38 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         
+        // 타이틀을 navigationController를 통해 설정
+        self.title = "주간 날씨"
         
-        let titleLabel = UILabel()
-        titleLabel.text = "주간 날씨"
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        titleLabel.textColor = .ECWeatherColor3
-        navigationItem.titleView = titleLabel
+        updateWeatherData()
+    }
+    
+    lazy var weeklyForecast: [WeatherData] = [
+        WeatherData(day: "오늘", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "내일", weather: "흐림", highTemperature: 24, lowTemperature: 17, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "월요일", weather: "비", highTemperature: 20, lowTemperature: 14, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "화요일", weather: "국지적 흐림", highTemperature: 27, lowTemperature: 18, weatherImageName: "WeatherIcon-cloudy"),
+        WeatherData(day: "수요일", weather: "쨍쨍", highTemperature: 30, lowTemperature: 19, weatherImageName: "WeatherIcon-sun"),
+        WeatherData(day: "목요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
+        WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
+    ]
+    
+    func updateWeatherData() {
+        let calendar = Calendar.current
+        let today = calendar.component(.weekday, from: Date())
+        
+        for (index, var weatherData) in weeklyForecast.enumerated() { // 'var' 사용
+            if index == 0 {
+                weatherData.day = "오늘"
+            } else if index == 1 {
+                weatherData.day = "내일"
+            } else {
+                let dayOfWeek = (today + index - 1) % 7
+                let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
+                weatherData.day = weekdays[dayOfWeek]
+            }
+            weeklyForecast[index] = weatherData // 수정된 weatherData 다시 할당
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
