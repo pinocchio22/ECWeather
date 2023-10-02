@@ -15,8 +15,6 @@ class RegionalViewController: BaseViewController {
     
     let mapView = RegionalMapView()
     
-    let nbcCoordinate = CLLocationCoordinate2D(latitude: 37.502330, longitude: 127.044466)
-    
     let locationManager = CLLocationManager()
     var latitude: Double?
     var longitude: Double?
