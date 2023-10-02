@@ -287,9 +287,10 @@ class AlarmViewController: BaseViewController {
             tableViewLabel1.textColor = .systemGray4
             tableViewLabel2.textColor = .systemGray4
             tempColorForSwitch = .systemGray4
+
             tableView1.reloadData()
             tableView2.reloadData()
-           
+        
         }
     }
 
@@ -357,6 +358,5 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
-    
 }
 
