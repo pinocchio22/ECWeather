@@ -20,7 +20,7 @@ class AlarmViewController: BaseViewController {
     
     // MARK: - Properties
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
-    private let weekdays2222: [String:Int] = ["일":0, "월":1, "화":2, "수":3, "목":4, "금":5, "토":6]
+    private var selectedWeekdays: [String] = [] 
     
     private let notificationSoundList: [String: String] = [
         "뭐지": "notification_sound_moji",
@@ -376,8 +376,24 @@ class AlarmViewController: BaseViewController {
         if notificationSwitch.isOn {
             if sender.backgroundColor == .ECWeatherColor4?.withAlphaComponent(0.3) {
                 sender.backgroundColor = .ECWeatherColor3?.withAlphaComponent(0.5)
+                if let title = sender.currentTitle {
+                    // 선택되지 않은 요일이면 추가
+                    selectedWeekdays.append(title)
+                    print(selectedWeekdays)
+                }
             } else {
                 sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+                if let title = sender.currentTitle {
+                    if selectedWeekdays.contains(title) {
+                        // 이미 선택된 요일이면 제거
+                        print("제거11")
+                        if let index = selectedWeekdays.firstIndex(of: title) {
+                            print("제거222")
+                            selectedWeekdays.remove(at: index)
+                            print(selectedWeekdays)
+                        }
+                    }
+                }
             }
         }
     }
