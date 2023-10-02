@@ -5,12 +5,12 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
-//import CoreLocation
-import SnapKit
 import MapKit
+// import CoreLocation
+import SnapKit
 import UIKit
 
-class RegionalViewController: UIViewController {
+class RegionalViewController: BaseViewController {
     let viewModel = RegionalViewModel()
     
     let mapView = RegionalMapView()
@@ -18,11 +18,15 @@ class RegionalViewController: UIViewController {
     let nbcCoordinate = CLLocationCoordinate2D(latitude: 37.502330, longitude: 127.044466)
     
     let locationManager = CLLocationManager()
+    var latitude: Double?
+    var longitude: Double?
+    
+    lazy var locationList:Array<CustomAnnotation> = []
     
     override func loadView() {
         view = mapView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,40 +35,125 @@ class RegionalViewController: UIViewController {
         mapView.map.delegate = self
         locationManager.delegate = self
         
+        locationManager.startUpdatingLocation()
+        
+        getLoactionWeather()
+        
         addCustomPin()
         
         buttonActions()
     }
     
-//    func addCustomPin() {
-//        let pin = MKPointAnnotation()
-//        pin.coordinate = nbcCoordinate
-//        pin.title = "내배캠"
-//        pin.subtitle = "스파르타 코딩클럽"
-//        mapView.map.addAnnotation(pin)
-//    }
+    func getLoactionWeather() {
+        self.viewModel.getCustomAnnotation(cityName: "Seoul") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Seoul" }?.title = "서울"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Uijeongbu-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Uijeongbu-si" }?.title = "의정부"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Namyangju") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Namyangju?.title" }?.title = "남양주"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "chuncheon") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "chuncheon" }?.title = "춘천"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "gangneung") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "gangneung" }?.title = "강릉"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Bucheon-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Bucheon-si" }?.title = "부천"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Seongnam-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Seongnam-si" }?.title = "성남"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Cheongju-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Cheongju-si" }?.title = "청주"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Andong") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Andong" }?.title = "안동"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Daegu") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Daegu" }?.title = "대구"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Jeonju") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Jeonju" }?.title = "전주"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Mokpo") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Mokpo" }?.title = "목표"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Changwon") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Changwon" }?.title = "창원"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Busan") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Busan" }?.title = "부산"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Jeju-do") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Jeju-do" }?.title = "제주"
+            self.addCustomPin()
+        }
+    }
     
     func addCustomPin() {
-        var locationList = viewModel.fetchweather()
         mapView.map.addAnnotations(locationList)
+        mapView.map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(CustomAnnotationView.self))
     }
     
     func buttonActions() {
         mapView.myLocationButton.addTarget(self, action: #selector(findMyLocation), for: .touchUpInside)
-        mapView.nbcLocationButton.addTarget(self, action: #selector(findNbcLocation), for: .touchUpInside)
     }
     
     func goSetting() {
-        
         let alert = UIAlertController(title: "위치권한 요청", message: "항상 위치 권한이 필요합니다.", preferredStyle: .alert)
-        let settingAction = UIAlertAction(title: "설정", style: .default) { action in
+        let settingAction = UIAlertAction(title: "설정", style: .default) { _ in
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
             }
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { UIAlertAction in
-            
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
         }
         
         alert.addAction(settingAction)
@@ -118,12 +207,6 @@ class RegionalViewController: UIViewController {
         }
     }
     
-    @objc func findNbcLocation() {
-        mapView.map.showsUserLocation = false
-        mapView.map.userTrackingMode = .followWithHeading
-        mapView.map.setRegion(MKCoordinateRegion(center: nbcCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.01)), animated: true)
-    }
-    
     @objc func findMyLocation() {
         guard locationManager.location != nil else {
             locationManager.requestWhenInUseAuthorization()
@@ -131,31 +214,40 @@ class RegionalViewController: UIViewController {
         }
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
+        
+        print(latitude)
+        self.viewModel.getMyLocationAnnotation(latitude: latitude!, longitude: longitude!) { item in
+            self.mapView.map.addAnnotation(item!)
+        }
     }
 }
 
 extension RegionalViewController: MKMapViewDelegate {
+    func setupAnnotationView(for annotation: CustomAnnotation, on mapView: MKMapView) -> MKAnnotationView {
+        // dequeueReusableAnnotationView: 식별자를 확인하여 사용가능한 뷰가 있으면 해당 뷰를 반환
+        return mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(CustomAnnotationView.self), for: annotation)
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !annotation.isKind(of: MKUserLocation.self) else {
-            return nil
-        }
-        var annotationView = self.mapView.map.dequeueReusableAnnotationView(withIdentifier: "Custom")
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "Custom")
+        // 현재 위치 표시(점)도 일종에 어노테이션이기 때문에, 이 처리를 안하게 되면, 유저 위치 어노테이션도 변경 된다.
+        guard !annotation.isKind(of: MKUserLocation.self) else { return nil }
+        
+        var annotationView: MKAnnotationView?
+        
+        // 다운캐스팅이 되면 CustomAnnotation를 갖고 CustomAnnotationView를 생성
+        if let customAnnotation = annotation as? CustomAnnotation {
+            annotationView = setupAnnotationView(for: customAnnotation, on: mapView)
             annotationView?.canShowCallout = true
             
-            let miniButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-            miniButton.setImage(UIImage(systemName: "person"), for: .normal)
-            miniButton.tintColor = .blue
-            annotationView?.rightCalloutAccessoryView = miniButton
-        } else {
-            annotationView?.annotation = annotation
-        }
-        annotationView?.image = UIImage(systemName: "heart.fill")
-        annotationView?.snp.makeConstraints {
-            $0.width.height.equalTo(30)
+            let customCalloutView = CustomCalloutView()
+            annotationView?.detailCalloutAccessoryView = customCalloutView
         }
         return annotationView
+    }
+    
+    //TODO: callout의 타이틀을 없애거나 위치를 조정하거나..
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
     }
 }
 
@@ -168,5 +260,25 @@ extension RegionalViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print(#function)
         checkUserLocationServicesAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            if let location = locations.last {
+                self.latitude = location.coordinate.latitude
+                self.longitude = location.coordinate.longitude
+                print("현재 위치 - 위도: \(latitude), 경도: \(longitude)")
+            }
+        }
+}
+
+extension RegionalViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+        cell.titleLabel.text = "관악구"
+        return cell
     }
 }

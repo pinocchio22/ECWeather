@@ -5,11 +5,18 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
+// TODO: - 1. 테스트버튼으로 알림 받던것 -> 설정한 시간 요일에 따라 알림 울리도록
+// TODO: - 2. 알림 울리는 시간/요일 정보를 앱 내 저장 필요.. (UserDefaults?)
+// TODO: - 3. 날씨에 따른 알림 메세지 문구 설정 필요.. (API 반환 값 확인)
+// TODO: - 4. 알림 울릴 API 요청할 기준 도시는 어떻게? -> 이것도 앱내 따로 저장 필요..
+// TODO: - 5. AVFoundation으로 알림음 연결
+
+import AVFoundation
 import SnapKit
 import UIKit
 import UserNotifications
 
-class AlarmViewController: UIViewController {
+class AlarmViewController: BaseViewController {
     
     // MARK: - Properties
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
@@ -40,7 +47,7 @@ class AlarmViewController: UIViewController {
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setTitleColor(.gray, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.backgroundColor = .gray.withAlphaComponent(0.3)
         button.addTarget(self, action: #selector(testBtnTapped), for: .touchUpInside)
         button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20) // TODO: - 원형 만들기
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
@@ -60,7 +67,7 @@ class AlarmViewController: UIViewController {
         pickerView.datePickerMode = .time
         pickerView.preferredDatePickerStyle = .wheels
         pickerView.locale = Locale(identifier: "en_US")
-        pickerView.tintColor = .ECWeatherColor3 // TODO: - tintColor 안먹음..
+        pickerView.setValue(UIColor.black, forKey: "textColor")
         pickerView.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
         return pickerView
     }()
@@ -82,8 +89,37 @@ class AlarmViewController: UIViewController {
         return stackView
     }()
     
-    private let tableView: UITableView = {
+    private let tableViewLabel1: UILabel = {
+        let label = UILabel()
+        label.text = "사운드"
+        label.font = UIFont.boldSystemFont(ofSize: 10)
+        label.textColor = .ECWeatherColor3
+        return label
+    }()
+    
+    private let tableView1: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .white
+        tableView.isScrollEnabled = false
+        tableView.separatorInset.left = 0
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+    
+    private let tableViewLabel2: UILabel = {
+        let label = UILabel()
+        label.text = "알림 내용 선택"
+        label.font = UIFont.boldSystemFont(ofSize: 10)
+        label.textColor = .ECWeatherColor3
+        return label
+    }()
+    
+    private let tableView2: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = .white
+        tableView.isScrollEnabled = false
+        tableView.separatorInset.left = 0
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -98,6 +134,10 @@ class AlarmViewController: UIViewController {
     // MARK: - Methods & Selectors
     private func configureUI() {
         view.backgroundColor = .white
+        navigationController?.isNavigationBarHidden = false
+        tableView1.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
+        tableView2.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
+
         
         makeWeekdaysBtnStack()
         configureTableView()
@@ -108,7 +148,10 @@ class AlarmViewController: UIViewController {
         view.addSubview(timePicker)
         view.addSubview(weekdaysBtnLabel)
         view.addSubview(weekdaysBtnStack)
-        view.addSubview(tableView)
+        view.addSubview(tableViewLabel1)
+        view.addSubview(tableView1)
+        view.addSubview(tableViewLabel2)
+        view.addSubview(tableView2)
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -147,9 +190,26 @@ class AlarmViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(weekdaysBtnStack.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview().inset(20)
+        tableViewLabel1.snp.makeConstraints {
+            $0.top.equalTo(weekdaysBtnStack.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().offset(30)
+        }
+        
+        tableView1.snp.makeConstraints {
+            $0.top.equalTo(tableViewLabel1.snp.bottom).offset(10)
+            $0.height.equalTo(50)
+            $0.leading.trailing.equalToSuperview().inset(20)
+        }
+
+        tableViewLabel2.snp.makeConstraints {
+            $0.top.equalTo(tableView1.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().offset(30)
+        }
+        
+        tableView2.snp.makeConstraints {
+            $0.top.equalTo(tableViewLabel2.snp.bottom).offset(10)
+            $0.height.equalTo(100)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
     }
     
@@ -170,11 +230,15 @@ class AlarmViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
-        tableView.isScrollEnabled = false
-        tableView.separatorStyle = .none
+        tableView1.dataSource = self
+        tableView1.delegate = self
+        tableView2.dataSource = self
+        tableView2.delegate = self
+        
+        tableView1.layer.cornerRadius = 10.0
+        tableView1.clipsToBounds = true
+        tableView2.layer.cornerRadius = 10.0
+        tableView2.clipsToBounds = true
     }
     
     // !!BUTTON FOR TEST - 나중에 삭제
@@ -182,7 +246,7 @@ class AlarmViewController: UIViewController {
         let content = UNMutableNotificationContent()
         
         content.title = "e편한날씨 - 날씨 알리미"
-        content.body = 
+        content.body =
         """
         현재 밖의 날씨는 ☀️(맑음)입니다.
         집 밖에 좀 나가십쇼.
@@ -203,8 +267,6 @@ class AlarmViewController: UIViewController {
             } else {
                 sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             }
-        } else {
-            sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
         }
     }
     
@@ -213,99 +275,85 @@ class AlarmViewController: UIViewController {
             timePicker.isEnabled = true
             descriptionLabel.text = "아래 지정된 시간에 날씨 정보 알림이 전송 됩니다.\n정보는 사용자 위치를 기준으로 제공 됩니다."
             weekdaysBtnLabel.textColor = .ECWeatherColor3
+            tableViewLabel1.textColor = .ECWeatherColor3
+            tableViewLabel2.textColor = .ECWeatherColor3
             tempColorForSwitch = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
-            tableView.reloadData()
+            tableView1.reloadData()
+            tableView2.reloadData()
         } else {
             timePicker.isEnabled = false
             descriptionLabel.text = "현재 알림이 꺼져 있습니다.\n"
             weekdaysBtnLabel.textColor = .systemGray4
+            tableViewLabel1.textColor = .systemGray4
+            tableViewLabel2.textColor = .systemGray4
             tempColorForSwitch = .systemGray4
-            tableView.reloadData()
+
+            tableView1.reloadData()
+            tableView2.reloadData()
+        
         }
     }
+
 }
 
 // MARK: - TableView
 extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-            return 2
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        let headerLabel = UILabel()
-        headerLabel.font = UIFont.boldSystemFont(ofSize: 10)
-        headerLabel.textColor = tempColorForSwitch
-        headerView.addSubview(headerLabel)
-        
-        if section == 0 {
-            headerLabel.text = "사운드"
-        } else if section == 1 {
-            headerLabel.text = "알림 내용 선택"
-        }
-
-        headerLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.centerY.equalToSuperview()
-        }
-        
-        return headerView
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        if tableView == tableView1 {
             return 1
-        } else if section == 1 {
+        } else if tableView == tableView2 {
             return 2
         }
-        return 4
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath)
-
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
-        cell.textLabel?.textColor = .black
-        cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
-        cell.tintColor = tempColorForSwitch
-
-
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "알람 소리"
-                cell.layer.cornerRadius = 10
-                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            }
-        } else if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "날씨" // 현재 밖에 날씨는 ~~(맑음)입니다
-                cell.layer.cornerRadius = 10
-                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            } else if indexPath.row == 1 {
-                cell.textLabel?.text = "온도" // 현재 밖에 날씨는 ~~(18)도이고 체감온도는 ~~(25)입니다.
-                cell.layer.cornerRadius = 10
-                cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            }
-        }
         
-        return cell
+        if tableView == tableView1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
+            cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+            cell.tintColor = tempColorForSwitch
+            cell.leadingLabel.text = "알림 수신음"
+            cell.traillingLabel.text = "꽥"
+            return cell
+        } else if tableView == tableView2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
+            cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+            cell.tintColor = tempColorForSwitch
+            
+            if indexPath.row == 0 {
+                cell.leadingLabel.text = "날씨" // 현재 밖에 날씨는 ~~(맑음)입니다
+                cell.traillingImage.isHidden = true
+                
+                let underline = CALayer()
+                underline.frame = CGRect(x: 0, y: cell.frame.height - 1, width: cell.frame.width, height: 1)
+                underline.backgroundColor = UIColor.systemGray5.cgColor
+                cell.layer.addSublayer(underline)
+            } else if indexPath.row == 1 {
+                cell.leadingLabel.text = "온도" // 현재 밖에 날씨는 ~~(18)도이고 체감온도는 ~~(25)입니다.
+                cell.traillingImage.isHidden = true
+            }
+            return cell
+        }
+        return UITableViewCell()
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if notificationSwitch.isOn {
-            if let cell = tableView.cellForRow(at: indexPath) {
-                if indexPath.section == 0 && indexPath.row == 0 {
-                    print("알람 소리 cell 터치 이벤트 들어옴!!")
-                } else if indexPath.section == 1 && indexPath.row == 0 {
+        if tableView == tableView1 {
+            if notificationSwitch.isOn {
+                self.navigationController?.pushViewController(SelectNotificationSoundViewController(), animated: true)
+            }
+        } else if tableView == tableView2 {
+            if notificationSwitch.isOn {
+                if let cell = tableView.cellForRow(at: indexPath) {
                     cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-                    print("날씨 cell 터치 이벤트 들어옴!! ")
-                } else if indexPath.section == 1 && indexPath.row == 1 {
-                    cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-                    print("온도 cell 터치 이벤트 들어옴!! ")
                 }
             }
         }
