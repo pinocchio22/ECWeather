@@ -16,6 +16,12 @@
 		56D88AEA2AC55E26006EB784 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE92AC55E26006EB784 /* IntroViewController.swift */; };
 		56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */; };
 		56D88AF02AC714C5006EB784 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D88AEF2AC714C4006EB784 /* Main.storyboard */; };
+		E777D6F22AC989020066C559 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */; };
+		E777D6F32AC989020066C559 /* SelectNotificationSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */; };
+		E777D7072ACA59000066C559 /* notification_sound_taddddaaaaa.caf in Resources */ = {isa = PBXBuildFile; fileRef = E777D7032ACA59000066C559 /* notification_sound_taddddaaaaa.caf */; };
+		E777D7082ACA59000066C559 /* notification_sound_moji.caf in Resources */ = {isa = PBXBuildFile; fileRef = E777D7042ACA59000066C559 /* notification_sound_moji.caf */; };
+		E777D7092ACA59000066C559 /* notification_sound_wow.caf in Resources */ = {isa = PBXBuildFile; fileRef = E777D7052ACA59000066C559 /* notification_sound_wow.caf */; };
+		E777D70A2ACA59000066C559 /* notification_sound_quack.caf in Resources */ = {isa = PBXBuildFile; fileRef = E777D7062ACA59000066C559 /* notification_sound_quack.caf */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
 		FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6512AC134C800686B4F /* SceneDelegate.swift */; };
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
@@ -47,6 +53,12 @@
 		56D88AE92AC55E26006EB784 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarViewController.swift; sourceTree = "<group>"; };
 		56D88AEF2AC714C4006EB784 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
+		E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectNotificationSoundViewController.swift; sourceTree = "<group>"; };
+		E777D7032ACA59000066C559 /* notification_sound_taddddaaaaa.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_taddddaaaaa.caf; sourceTree = "<group>"; };
+		E777D7042ACA59000066C559 /* notification_sound_moji.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_moji.caf; sourceTree = "<group>"; };
+		E777D7052ACA59000066C559 /* notification_sound_wow.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_wow.caf; sourceTree = "<group>"; };
+		E777D7062ACA59000066C559 /* notification_sound_quack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_quack.caf; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF22B64F2AC134C800686B4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF22B6512AC134C800686B4F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +118,18 @@
 			path = Intro;
 			sourceTree = "<group>";
 		};
+		E777D7022ACA59000066C559 /* NotificationSounds */ = {
+			isa = PBXGroup;
+			children = (
+				E777D7032ACA59000066C559 /* notification_sound_taddddaaaaa.caf */,
+				E777D7042ACA59000066C559 /* notification_sound_moji.caf */,
+				E777D7052ACA59000066C559 /* notification_sound_wow.caf */,
+				E777D7062ACA59000066C559 /* notification_sound_quack.caf */,
+			);
+			name = NotificationSounds;
+			path = ../../../../ecweather_backup_files_231001/NotificationSounds;
+			sourceTree = "<group>";
+		};
 		FF22B6432AC134C800686B4F = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +184,7 @@
 		FF8F2EF62AC19E7000C2C85D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				E777D7022ACA59000066C559 /* NotificationSounds */,
 				FF22B6582AC134C900686B4F /* Assets.xcassets */,
 				FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */,
 				FF22B65D2AC134C900686B4F /* Info.plist */,
@@ -217,6 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				FF8F2F0B2AC1A79900C2C85D /* AlarmViewController.swift */,
+				E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */,
+				E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */,
 			);
 			path = AlarmPage;
 			sourceTree = "<group>";
@@ -309,9 +336,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E777D7082ACA59000066C559 /* notification_sound_moji.caf in Resources */,
 				56D88AF02AC714C5006EB784 /* Main.storyboard in Resources */,
 				FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */,
+				E777D7072ACA59000066C559 /* notification_sound_taddddaaaaa.caf in Resources */,
 				FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */,
+				E777D7092ACA59000066C559 /* notification_sound_wow.caf in Resources */,
+				E777D70A2ACA59000066C559 /* notification_sound_quack.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +365,7 @@
 				FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */,
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,
+				E777D6F22AC989020066C559 /* AlarmTableViewCell.swift in Sources */,
 				56D88AD52AC2D08E006EB784 /* SettingTableViewCell.swift in Sources */,
 				56D88AE52AC402BA006EB784 /* SearchTableViewCell.swift in Sources */,
 				FF8F2F0E2AC1A7A400C2C85D /* SettingViewController.swift in Sources */,
@@ -341,6 +373,7 @@
 				56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */,
 				FF8F2F0C2AC1A79900C2C85D /* AlarmViewController.swift in Sources */,
 				56D88AEA2AC55E26006EB784 /* IntroViewController.swift in Sources */,
+				E777D6F32AC989020066C559 /* SelectNotificationSoundViewController.swift in Sources */,
 				FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */,
 				FF8F2F022AC1A03500C2C85D /* Weather.swift in Sources */,
 				FF8F2F0A2AC1A78B00C2C85D /* RegionalViewController.swift in Sources */,
