@@ -17,7 +17,7 @@ class NetworkService {
             switch response.result {
             case .success(let currentWeather):
                 if let weather = currentWeather.weather.first {
-                    completion( CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, cloud: currentWeather.clouds.all, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, pressure: currentWeather.main.pressure, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id, descriotion: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed, windDeg: currentWeather.wind.deg))
+                    completion( CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, cloud: currentWeather.clouds.all, currentTemp: currentWeather.main.temp - 273.15, maxTemp: currentWeather.main.tempMax - 273.15, minTemp: currentWeather.main.tempMin - 273.15, feelTemp: currentWeather.main.feelsLike - 273.15, pressure: currentWeather.main.pressure, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id, descriotion: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed, windDeg: currentWeather.wind.deg))
                 }
             case .failure(let error):
                 print("API 요청 실패: \(error)")
@@ -29,6 +29,24 @@ class NetworkService {
     static func getCurrentWeather(cityName: String, completion: @escaping (CustomWeather?) -> Void) {
         let apiKey = "d800fe6a5ba7206df395b13ece10adee"
         let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(apiKey)&units=metric"
+        // API 요청 및 디코딩
+        AF.request(apiUrl).responseDecodable(of: CurrentWeather.self) { response in
+            switch response.result {
+            case .success(let currentWeather):
+                if let weather = currentWeather.weather.first {
+                    completion( CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, cloud: currentWeather.clouds.all, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, pressure: currentWeather.main.pressure, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id, descriotion: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed, windDeg: currentWeather.wind.deg))
+                }
+            case .failure(let error):
+                print(cityName)
+                print("API 요청 실패: \(error)")
+                completion(nil)
+            }
+        }
+    }
+    
+    static func getWeeklyWeather(cityName: String, completion: @escaping (CustomWeather?) -> Void) {
+        let apiKey = "d800fe6a5ba7206df395b13ece10adee"
+        let apiUrl = "https://api.openweathermap.org/data/2.5/forecast/daily?q=\(cityName)&cnt=7&appid=\(apiKey)"
         // API 요청 및 디코딩
         AF.request(apiUrl).responseDecodable(of: CurrentWeather.self) { response in
             switch response.result {

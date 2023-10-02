@@ -18,6 +18,8 @@ class RegionalViewController: BaseViewController {
     let nbcCoordinate = CLLocationCoordinate2D(latitude: 37.502330, longitude: 127.044466)
     
     let locationManager = CLLocationManager()
+    var latitude: Double?
+    var longitude: Double?
     
     lazy var locationList:Array<CustomAnnotation> = []
     
@@ -33,6 +35,8 @@ class RegionalViewController: BaseViewController {
         mapView.map.delegate = self
         locationManager.delegate = self
         
+        locationManager.startUpdatingLocation()
+        
         getLoactionWeather()
         
         addCustomPin()
@@ -41,24 +45,95 @@ class RegionalViewController: BaseViewController {
     }
     
     func getLoactionWeather() {
-        locationList.append(contentsOf: [
-            viewModel.getCustomAnnotation(cityName: "Seoul"),
-            viewModel.getCustomAnnotation(cityName: "Uijeongbu-si"),
-            viewModel.getCustomAnnotation(cityName: "Namyangju"),
-            viewModel.getCustomAnnotation(cityName: "chuncheon"),
-            viewModel.getCustomAnnotation(cityName: "gangneung"),
-            viewModel.getCustomAnnotation(cityName: "Bucheon-si"),
-            viewModel.getCustomAnnotation(cityName: "Seongnam-si"),
-            viewModel.getCustomAnnotation(cityName: "Cheongju-si"),
-            viewModel.getCustomAnnotation(cityName: "Andong"),
-            viewModel.getCustomAnnotation(cityName: "Daegu"),
-            viewModel.getCustomAnnotation(cityName: "Jeonju"),
-            viewModel.getCustomAnnotation(cityName: "Mokpo"),
-            viewModel.getCustomAnnotation(cityName: "Changwon"),
-            viewModel.getCustomAnnotation(cityName: "Busan"),
-            viewModel.getCustomAnnotation(cityName: "Jeju-do"),
-        ])
-        print(locationList)
+        self.viewModel.getCustomAnnotation(cityName: "Seoul") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Seoul" }?.title = "서울"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Uijeongbu-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Uijeongbu-si" }?.title = "의정부"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Namyangju") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Namyangju?.title" }?.title = "남양주"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "chuncheon") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "chuncheon" }?.title = "춘천"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "gangneung") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "gangneung" }?.title = "강릉"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Bucheon-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Bucheon-si" }?.title = "부천"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Seongnam-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Seongnam-si" }?.title = "성남"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Cheongju-si") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Cheongju-si" }?.title = "청주"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Andong") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Andong" }?.title = "안동"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Daegu") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Daegu" }?.title = "대구"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Jeonju") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Jeonju" }?.title = "전주"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Mokpo") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Mokpo" }?.title = "목표"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Changwon") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Changwon" }?.title = "창원"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Busan") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Busan" }?.title = "부산"
+            self.addCustomPin()
+        }
+        
+        self.viewModel.getCustomAnnotation(cityName: "Jeju-do") { item in
+            self.locationList.append(item!)
+            self.locationList.first{ $0.title == "Jeju-do" }?.title = "제주"
+            self.addCustomPin()
+        }
     }
     
     func addCustomPin() {
@@ -139,6 +214,11 @@ class RegionalViewController: BaseViewController {
         }
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
+        
+        print(latitude)
+        self.viewModel.getMyLocationAnnotation(latitude: latitude!, longitude: longitude!) { item in
+            self.mapView.map.addAnnotation(item!)
+        }
     }
 }
 
@@ -181,6 +261,14 @@ extension RegionalViewController: CLLocationManagerDelegate {
         print(#function)
         checkUserLocationServicesAuthorization()
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            if let location = locations.last {
+                self.latitude = location.coordinate.latitude
+                self.longitude = location.coordinate.longitude
+                print("현재 위치 - 위도: \(latitude), 경도: \(longitude)")
+            }
+        }
 }
 
 extension RegionalViewController: UITableViewDelegate, UITableViewDataSource {
