@@ -27,7 +27,6 @@
 //    */
 //
 // }
-
 import UIKit
 
 class WeeklyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -93,7 +92,17 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
         
         let weatherData = weeklyForecast[indexPath.row]
-        cell.configure(day: weatherData.day, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
+        
+        
+        let dayLabel = getLocalizedDayLabel(for: weatherData.day)
+        cell.configure(day: dayLabel, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
+        
+        
+        if selectedCellIndex == indexPath {
+            cell.selectionStyle = .none
+        } else {
+            cell.selectionStyle = .default
+        }
         
         return cell
     }
@@ -110,25 +119,34 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let selectedIndexPath = selectedCellIndex {
-            tableView.deselectRow(at: selectedIndexPath, animated: true)
+        if selectedCellIndex == indexPath {
+            
+            selectedCellIndex = nil
+        } else {
+            selectedCellIndex = indexPath
         }
-        selectedCellIndex = indexPath
         
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.beginUpdates()
+        tableView.endUpdates()
         
-        
-        if let selectedCell = tableView.cellForRow(at: indexPath) {
-            let cellRect = tableView.convert(selectedCell.frame, to: tableView.superview)
-            tableView.scrollRectToVisible(cellRect, animated: true)
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        selectedCellIndex = nil
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+    
+    func getLocalizedDayLabel(for day: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let today = dateFormatter.string(from: Date())
+        
+        switch day {
+        case today:
+            return "오늘"
+        case Calendar.current.date(byAdding: .day, value: 1, to: Date()).map({ dateFormatter.string(from: $0) }) ?? "":
+            return "내일"
+        default:
+            return day
+        }
     }
 }
 
