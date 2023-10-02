@@ -9,7 +9,8 @@
 // TODO: - 2. 알림 울리는 시간/요일 정보를 앱 내 저장 필요.. (UserDefaults?)
 // TODO: - 3. 날씨에 따른 알림 메세지 문구 설정 필요.. (API 반환 값 확인)
 // TODO: - 4. 알림 울릴 API 요청할 기준 도시는 어떻게? -> 이것도 앱내 따로 저장 필요..
-// TODO: - 5. AVFoundation으로 알림음 연결
+// TODO: - 5. 요일별알림 scrollview 넣기
+
 
 import AVFoundation
 import SnapKit
@@ -72,6 +73,13 @@ class AlarmViewController: BaseViewController {
         return pickerView
     }()
 
+    private var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        return scrollView
+    }()
+    
     private let weekdaysBtnLabel: UILabel = {
         let label = UILabel()
         label.text = "요일별 알림"
@@ -126,9 +134,9 @@ class AlarmViewController: BaseViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         configureUI()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
-
     }
 
     // MARK: - Methods & Selectors
@@ -146,12 +154,15 @@ class AlarmViewController: BaseViewController {
         view.addSubview(notificationSwitch)
         view.addSubview(descriptionLabel)
         view.addSubview(timePicker)
-        view.addSubview(weekdaysBtnLabel)
-        view.addSubview(weekdaysBtnStack)
-        view.addSubview(tableViewLabel1)
-        view.addSubview(tableView1)
-        view.addSubview(tableViewLabel2)
-        view.addSubview(tableView2)
+        
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(weekdaysBtnLabel)
+        scrollView.addSubview(weekdaysBtnStack)
+        scrollView.addSubview(tableViewLabel1)
+        scrollView.addSubview(tableView1)
+        scrollView.addSubview(tableViewLabel2)
+        scrollView.addSubview(tableView2)
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -180,35 +191,45 @@ class AlarmViewController: BaseViewController {
             $0.width.equalToSuperview().offset(-100)
         }
         
-        weekdaysBtnLabel.snp.makeConstraints {
+        scrollView.snp.makeConstraints {
             $0.top.equalTo(timePicker.snp.bottom).offset(25)
+            $0.centerX.leading.trailing.bottom.equalToSuperview()
+        }
+        weekdaysBtnLabel.snp.makeConstraints {
+            $0.top.equalTo(scrollView)
+            $0.width.equalToSuperview().offset(-50)
             $0.leading.equalToSuperview().offset(30)
         }
         
         weekdaysBtnStack.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
+//            $0.width.equalToSuperview().offset(-80)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         
         tableViewLabel1.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnStack.snp.bottom).offset(25)
+            $0.width.equalToSuperview().offset(-50)
             $0.leading.equalToSuperview().offset(30)
         }
         
         tableView1.snp.makeConstraints {
             $0.top.equalTo(tableViewLabel1.snp.bottom).offset(10)
+            $0.width.equalToSuperview().offset(-50)
             $0.height.equalTo(50)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
 
         tableViewLabel2.snp.makeConstraints {
             $0.top.equalTo(tableView1.snp.bottom).offset(25)
+            $0.width.equalToSuperview().offset(-50)
             $0.leading.equalToSuperview().offset(30)
         }
         
         tableView2.snp.makeConstraints {
             $0.top.equalTo(tableViewLabel2.snp.bottom).offset(10)
-            $0.height.equalTo(100)
+            $0.width.equalToSuperview().offset(-50)
+            $0.height.equalTo(200) // TODO: - 100
             $0.leading.trailing.equalToSuperview().inset(20)
         }
     }
