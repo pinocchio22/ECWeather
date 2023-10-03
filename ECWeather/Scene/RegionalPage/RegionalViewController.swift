@@ -16,6 +16,12 @@ class RegionalViewController: BaseViewController {
 
     lazy var locationList:Array<CustomAnnotation> = []
     
+    let indicator: UIActivityIndicatorView = {
+        var view = UIActivityIndicatorView(style: .large)
+        view.startAnimating()
+        return view
+    }()
+    
     override func loadView() {
         view = mapView
     }
@@ -26,8 +32,20 @@ class RegionalViewController: BaseViewController {
         mapView.map.delegate = self
 
         getLoactionWeather()
+        setUpIndicator()
         addCustomPin()
         buttonActions()
+    }
+    
+    func setUpIndicator() {
+        view.addSubview(indicator)
+        
+        let newSize = CGSize(width: 100, height: 100)
+        indicator.transform = CGAffineTransform(scaleX: newSize.width / indicator.bounds.size.width, y: newSize.height / indicator.bounds.size.height)
+        indicator.color = .ECWeatherColor3
+        indicator.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     func getLoactionWeather() {
@@ -119,6 +137,8 @@ class RegionalViewController: BaseViewController {
             self.locationList.append(item!)
             self.locationList.first{ $0.title == "Jeju-do" }?.title = "제주"
             self.addCustomPin()
+            
+            self.indicator.stopAnimating()
         }
     }
     
