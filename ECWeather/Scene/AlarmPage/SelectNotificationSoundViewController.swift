@@ -15,7 +15,6 @@ class SelectNotificationSoundViewController: BaseViewController {
     
     private var audioPlayer: AVAudioPlayer?
     private var selectedCellIndex: Int?
-    var didSelectSoundClosure: ((String) -> Void)?
     
     private let notificationSoundList: [String: String] = [
         "뭐지": "notification_sound_moji",
