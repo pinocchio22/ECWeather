@@ -34,6 +34,7 @@ class SelectNotificationSoundViewController: BaseViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadCellIndexFromUserDefaults()
         configureUI()
     }
     
@@ -68,6 +69,12 @@ class SelectNotificationSoundViewController: BaseViewController {
 
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func loadCellIndexFromUserDefaults() {
+        if let selectedCellIndex = UserDefaults.standard.value(forKey: "SelectedCellIndex") as? Int {
+            self.selectedCellIndex = selectedCellIndex
+        }
     }
     
     private func configureTableView() {
@@ -134,6 +141,9 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
             if let fileName = notificationSoundList[soundName] {
                 print("fileName : ", fileName)
                 playNotificationSound(fileName)
+                
+                UserDefaults.standard.setValue(selectedCellIndex, forKey: "SelectedCellIndex")
+                UserDefaults.standard.setValue(fileName, forKey: "SelectedFileName")
             }
         }
     }
