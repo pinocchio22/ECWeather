@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import MapKit
 
 class SettingViewController: BaseViewController {
     
@@ -26,8 +27,10 @@ class SettingViewController: BaseViewController {
         return tableview
     }()
     
-    
     let items: [String] = ["단위 변환", "현재 위치 재설정", "지역 추가"]
+    let locationManager = CLLocationManager()
+    var latitude: Double?
+    var longitude: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +60,92 @@ class SettingViewController: BaseViewController {
             $0.bottom.equalTo(view)
         }
     }
+    
+    func goSetting() {
+        let alert = UIAlertController(title: "위치권한 요청", message: "항상 위치 권한이 필요합니다.", preferredStyle: .alert)
+        let settingAction = UIAlertAction(title: "설정", style: .default) { _ in
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+        }
+        
+        alert.addAction(settingAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
+        switch authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+        case .restricted:
+            print("restricted")
+            goSetting()
+        case .denied:
+            print("denided")
+            goSetting()
+        case .authorizedAlways:
+            print("always")
+        case .authorizedWhenInUse:
+            print("wheninuse")
+            locationManager.startUpdatingLocation()
+        @unknown default:
+            print("unknown")
+        }
+        if #available(iOS 14.0, *) {
+            let accuracyState = locationManager.accuracyAuthorization
+            switch accuracyState {
+            case .fullAccuracy:
+                print("full")
+            case .reducedAccuracy:
+                print("reduced")
+            @unknown default:
+                print("Unknown")
+            }
+        }
+    }
+    
+    func checkUserLocationServicesAuthorization() {
+        let authorizationStatus: CLAuthorizationStatus
+        if #available(iOS 14, *) {
+            authorizationStatus = locationManager.authorizationStatus
+        } else {
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        }
+        
+        if CLLocationManager.locationServicesEnabled() {
+            checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+        }
+    }
 }
+
+extension SettingViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        print(#function)
+        checkUserLocationServicesAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print(#function)
+        checkUserLocationServicesAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            self.latitude = location.coordinate.latitude
+            self.longitude = location.coordinate.longitude
+            print("현재 위치 - 위도: \(latitude), 경도: \(longitude)")
+            DataManager.shared.latitude = latitude
+            DataManager.shared.longitude = longitude
+        }
+    }
+}
+
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
@@ -68,7 +156,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.titleLabel.text = items[indexPath.row]
         cell.segmentedControl.isHidden = indexPath.row != 0
         cell.segmentedControl.tag = indexPath.row
-        cell.segmentedControl.addTarget(self, action: #selector(cell.didChangeValueSegement(segment:)), for: .touchUpInside)
+        cell.segmentedControl.selectedSegmentIndex = DataManager.shared.temperatureType
         return cell
     }
     
@@ -76,6 +164,18 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 2 {
             let vc = SearchViewController()
             self.navigationController?.pushViewController(vc, animated: true)
+        } else if indexPath.row == 1 {
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.delegate = self
+            locationManager.startUpdatingLocation()
+        } else {
+            DataManager.shared.temperatureType = DataManager.shared.temperatureType == 0 ? 1 : 0
+            tableView.reloadData()
         }
+    }
+    
+    @objc func didChangeValueSegement(_ sender: UISegmentedControl) {
+        sender.selectedSegmentIndex = (sender.selectedSegmentIndex != 0) ? 0 : 1
+        mainTableView.reloadData()
     }
 }
