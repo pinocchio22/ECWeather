@@ -28,6 +28,10 @@ class AlarmViewController: BaseViewController {
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
     private var selectedWeekdays: [String] = [] 
     
+    private var maxTemp: Double = 0
+    private var minTemp: Double = 0
+    private var currentWeather: String = ""
+    
     
     private let notificationSoundList: [String: String] = [
         "뭐지": "notification_sound_moji",
@@ -325,18 +329,49 @@ class AlarmViewController: BaseViewController {
     
     // !!BUTTON FOR TEST - 나중에 삭제
     @objc private func testBtnTapped() {
-        
-        //*************************** 현재 위치 불러오기
-        
-        //***************************
+    
         let content = UNMutableNotificationContent()
         
-        content.title = "e편한날씨 - 날씨 알리미"
+        content.title = "ECWeather - 날씨 알리미"
+        
+        // "날씨","온도" 둘다 미체크.. TODO: - 애초에 사용자가 둘다 체크해제 못하게 막아야함
         content.body =
         """
-        현재 밖의 날씨는 ☀️(맑음)입니다.
-        집 밖에 좀 나가십쇼.
+        알림내용 체크 안되어 있음..
         """
+        
+        print("🧔🏻‍♂️🧔🏻‍♂️ weatherCellSelectedKey : ",UserDefaults.standard.bool(forKey: "weatherCellSelectedKey"))
+        print("🧔🏻‍♂️🧔🏻‍♂️ temperatureCellSelectedKey : ",!UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"))
+        // "날씨" 체크
+        if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
+            print("1111111111들어옴!!!")
+            content.body =
+            """
+            The current weather is \(currentWeather).
+            """
+        }
+        
+        // "온도" 체크
+        else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
+            print("222222들어옴!!!")
+            content.body =
+            """
+            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
+            """
+            
+        }
+        
+        // "날씨", "온도" 체크
+        else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
+            print("33333들어옴!!!")
+            content.body =
+            """
+            The current weather is \(currentWeather). 
+            (\(minTemp)°C - \(maxTemp)°C)
+            """
+            
+        }
+        
 
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
             content.sound = UNNotificationSound(named: UNNotificationSoundName("\(selectedSoundName).caf"))
@@ -587,15 +622,16 @@ extension AlarmViewController: CLLocationManagerDelegate {
                     let minTempKelvinToCelsius = (item.minTemp - 273.15)
                     
                     // 반올림 (소수점 첫 번째 자리까지)
-                    let roundedMaxTemp = round(maxTempKelvinToCelsius * 10) / 10
-                    let roundedMinTemp = round(minTempKelvinToCelsius * 10) / 10
+                    self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
+                    self.minTemp = round(minTempKelvinToCelsius * 10) / 10
                     
-                    print("현위치 최고온도 : \(roundedMaxTemp)°C")
-                    print("현위치 최저온도 : \(roundedMinTemp)°C")
+                    print("현위치 최고온도 : \(self.maxTemp)°C")
+                    print("현위치 최저온도 : \(self.minTemp)°C")
                     
+                    self.currentWeather = item.descriotion
 //                    print("현위치 최저온도 : ", item.minTemp)
 //                    print("현위치 최고온도 : ", item.maxTemp)
-                    print("현위치 날씨 : ", item.descriotion)
+                    print("현위치 날씨 : ", self.currentWeather)
                 }
             }
         }
