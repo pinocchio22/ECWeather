@@ -23,7 +23,7 @@ class SettingTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setLayout()
         segmentedControl.isHidden = true
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = DataManager.shared.temperatureType
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -50,7 +50,5 @@ class SettingTableViewCell: UITableViewCell {
         }
     }
     
-    @objc func didChangeValueSegement(segment: UISegmentedControl) {
-        segment.selectedSegmentIndex = (segment.selectedSegmentIndex != 0) ? 0 : 1
-    }
+
 }
