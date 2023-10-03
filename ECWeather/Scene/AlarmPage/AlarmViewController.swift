@@ -155,12 +155,13 @@ class AlarmViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tableView1.reloadData()
+        loadLocationInfomation()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadLocationInfomation()
+//        loadLocationInfomation()
         configureUI()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
     }
@@ -522,6 +523,26 @@ extension AlarmViewController: CLLocationManagerDelegate {
             
             print("현위치 위도: \(latitude)")
             print("현위치 경도: \(longitude)")
+            
+            NetworkService.getCurrentWeather(lat: latitude, lon: longitude) { item in
+                if let item = item {
+
+                    // 켈빈에서 섭씨로 변환
+                    let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
+                    let minTempKelvinToCelsius = (item.minTemp - 273.15)
+                    
+                    // 반올림 (소수점 첫 번째 자리까지)
+                    let roundedMaxTemp = round(maxTempKelvinToCelsius * 10) / 10
+                    let roundedMinTemp = round(minTempKelvinToCelsius * 10) / 10
+                    
+                    print("현위치 최고온도 : \(roundedMaxTemp)°C")
+                    print("현위치 최저온도 : \(roundedMinTemp)°C")
+                    
+//                    print("현위치 최저온도 : ", item.minTemp)
+//                    print("현위치 최고온도 : ", item.maxTemp)
+                    print("현위치 날씨 : ", item.descriotion)
+                }
+            }
         }
     }
     
