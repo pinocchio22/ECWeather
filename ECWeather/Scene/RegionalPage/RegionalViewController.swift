@@ -6,7 +6,6 @@
 //
 
 import MapKit
-// import CoreLocation
 import SnapKit
 import UIKit
 
@@ -14,12 +13,14 @@ class RegionalViewController: BaseViewController {
     let viewModel = RegionalViewModel()
     
     let mapView = RegionalMapView()
-    
-    let locationManager = CLLocationManager()
-    var latitude: Double?
-    var longitude: Double?
-    
+
     lazy var locationList:Array<CustomAnnotation> = []
+    
+    let indicator: UIActivityIndicatorView = {
+        var view = UIActivityIndicatorView(style: .large)
+        view.startAnimating()
+        return view
+    }()
     
     override func loadView() {
         view = mapView
@@ -27,19 +28,24 @@ class RegionalViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // 권한요청
-        locationManager.requestWhenInUseAuthorization()
+
         mapView.map.delegate = self
-        locationManager.delegate = self
-        
-        locationManager.startUpdatingLocation()
-        
+
         getLoactionWeather()
-        
+        setUpIndicator()
         addCustomPin()
-        
         buttonActions()
+    }
+    
+    func setUpIndicator() {
+        view.addSubview(indicator)
+        
+        let newSize = CGSize(width: 100, height: 100)
+        indicator.transform = CGAffineTransform(scaleX: newSize.width / indicator.bounds.size.width, y: newSize.height / indicator.bounds.size.height)
+        indicator.color = .ECWeatherColor3
+        indicator.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     func getLoactionWeather() {
@@ -131,6 +137,8 @@ class RegionalViewController: BaseViewController {
             self.locationList.append(item!)
             self.locationList.first{ $0.title == "Jeju-do" }?.title = "제주"
             self.addCustomPin()
+            
+            self.indicator.stopAnimating()
         }
     }
     
@@ -143,77 +151,11 @@ class RegionalViewController: BaseViewController {
         mapView.myLocationButton.addTarget(self, action: #selector(findMyLocation), for: .touchUpInside)
     }
     
-    func goSetting() {
-        let alert = UIAlertController(title: "위치권한 요청", message: "항상 위치 권한이 필요합니다.", preferredStyle: .alert)
-        let settingAction = UIAlertAction(title: "설정", style: .default) { _ in
-            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
-            }
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-        }
-        
-        alert.addAction(settingAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
-        switch authorizationStatus {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-            locationManager.startUpdatingLocation()
-        case .restricted:
-            print("restricted")
-            goSetting()
-        case .denied:
-            print("denided")
-            goSetting()
-        case .authorizedAlways:
-            print("always")
-        case .authorizedWhenInUse:
-            print("wheninuse")
-            locationManager.startUpdatingLocation()
-        @unknown default:
-            print("unknown")
-        }
-        if #available(iOS 14.0, *) {
-            let accuracyState = locationManager.accuracyAuthorization
-            switch accuracyState {
-            case .fullAccuracy:
-                print("full")
-            case .reducedAccuracy:
-                print("reduced")
-            @unknown default:
-                print("Unknown")
-            }
-        }
-    }
-    
-    func checkUserLocationServicesAuthorization() {
-        let authorizationStatus: CLAuthorizationStatus
-        if #available(iOS 14, *) {
-            authorizationStatus = locationManager.authorizationStatus
-        } else {
-            authorizationStatus = CLLocationManager.authorizationStatus()
-        }
-        
-        if CLLocationManager.locationServicesEnabled() {
-            checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
-        }
-    }
-    
     @objc func findMyLocation() {
-        guard locationManager.location != nil else {
-            locationManager.requestWhenInUseAuthorization()
-            return
-        }
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
         
-        self.viewModel.getMyLocationAnnotation(latitude: latitude!, longitude: longitude!) { item in
+        self.viewModel.getMyLocationAnnotation(latitude: DataManager.shared.latitude!, longitude: DataManager.shared.longitude!) { item in
             self.mapView.map.addAnnotation(item!)
         }
     }
@@ -246,25 +188,6 @@ extension RegionalViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
     }
-}
-
-extension RegionalViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        print(#function)
-        checkUserLocationServicesAuthorization()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print(#function)
-        checkUserLocationServicesAuthorization()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            if let location = locations.last {
-                self.latitude = location.coordinate.latitude
-                self.longitude = location.coordinate.longitude
-            }
-        }
 }
 
 extension RegionalViewController: UITableViewDelegate, UITableViewDataSource {
