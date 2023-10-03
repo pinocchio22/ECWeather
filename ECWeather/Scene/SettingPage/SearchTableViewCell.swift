@@ -15,7 +15,8 @@ class SearchTableViewCell: UITableViewCell {
         
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isScrollEnabled = true
         return collectionView
@@ -67,10 +68,14 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     func getWeeklyWeatherAPI() {
-        let datamanger = DataManager.shared
-        NetworkService.getWeeklyWeather(lat: datamanger.latitude ?? 0, lon: datamanger.longitude ?? 0) { data in
-            self.weatherData = data
-            self.collectionView.reloadData()
+        for i in DataManager.shared.searchKeyword {
+            NetworkService.getWeeklyWeather(cityName: i) { data in
+                self.weatherData = data?.filter({ i in
+                    i.dateTime.toDate()?.toString() == Date().toString()
+                })
+                Util.print(output: self.weatherData)
+                self.collectionView.reloadData()
+            }
         }
     }
     
@@ -83,9 +88,8 @@ extension SearchTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TemperatureCollectionViewCell", for: indexPath) as? TemperatureCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.timeLabel.text = weatherData?[indexPath.row].dateTime
-        cell.temperatureLabel.text = weatherData?[indexPath.row].descriotion
-        
+        cell.timeLabel.text = weatherData?[indexPath.row].dateTime.toDate()?.toTimeString()
+        cell.temperatureLabel.text = "\(weatherData?[indexPath.row].currentTemp ?? 0)"
         return cell
     }
 }
