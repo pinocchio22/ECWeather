@@ -12,6 +12,7 @@
 
 
 import AVFoundation
+import CoreLocation
 import SnapKit
 import UIKit
 import UserNotifications
@@ -19,6 +20,9 @@ import UserNotifications
 class AlarmViewController: BaseViewController {
     
     // MARK: - Properties
+    
+    let locationManager = CLLocationManager()
+    
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
     private var selectedWeekdays: [String] = [] 
     
@@ -155,8 +159,8 @@ class AlarmViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-
+        
+        loadLocationInfomation()
         configureUI()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
     }
@@ -292,8 +296,19 @@ class AlarmViewController: BaseViewController {
         tableView2.clipsToBounds = true
     }
     
+    private func loadLocationInfomation() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest // desiredAccuracy: 업데이트 되는 위치 정확도
+        locationManager.requestWhenInUseAuthorization() // requestWhenInUseAuthorization(): 위치동의 못얻었으면 권한요청, 이미 얻었으면 걍 pass~
+        locationManager.startUpdatingLocation() // startUpdatingLocation(): 위치 업데이트 시작
+    }
+    
     // !!BUTTON FOR TEST - 나중에 삭제
     @objc private func testBtnTapped() {
+        
+        //*************************** 현재 위치 불러오기
+        
+        //***************************
         let content = UNMutableNotificationContent()
         
         content.title = "e편한날씨 - 날씨 알리미"
@@ -427,7 +442,7 @@ class AlarmViewController: BaseViewController {
 
 }
 
-// MARK: - TableView
+// MARK: - TableView 알림페이지 메뉴 테이블
 extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -497,3 +512,20 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - CLLocationManager 현위치정보
+extension AlarmViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // CLLocationManager가 새로운 위치 수신해올때 처리할 내용
+        if let location = locations.last {
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            print("현위치 위도: \(latitude)")
+            print("현위치 경도: \(longitude)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        // 위치 업데이트 실패시 처리할 내용
+    }
+}
