@@ -21,10 +21,13 @@ class AlarmViewController: BaseViewController {
     
     // MARK: - Properties
     
-    let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
+    private var weatherCellStatus : Bool? = nil
+    private var temperatureCellStatus : Bool? = nil
     
     private let weekdays: [String] = ["일","월","화","수","목","금","토"]
     private var selectedWeekdays: [String] = [] 
+    
     
     private let notificationSoundList: [String: String] = [
         "뭐지": "notification_sound_moji",
@@ -161,9 +164,25 @@ class AlarmViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadDataFromUserDefaults()
 //        loadLocationInfomation()
         configureUI()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
+    }
+    
+    private func loadDataFromUserDefaults() {
+        // switch on/off 값
+        
+        // 타임피커 값
+        
+        // 요일별 알림 값
+        
+        // 알림 수신음 값
+        
+        // 알림 내용 선택 값
+        weatherCellStatus = UserDefaults.standard.bool(forKey: "weatherCellSelectedKey")
+        temperatureCellStatus = UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey")
+
     }
 
     // MARK: - Methods & Selectors
@@ -482,9 +501,19 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                 let underline = CALayer()
                 underline.frame = CGRect(x: 0, y: cell.frame.height - 1, width: cell.frame.width, height: 1)
                 underline.backgroundColor = UIColor.systemGray5.cgColor
+                if let weatherCellStatus = weatherCellStatus {
+                    cell.accessoryType = weatherCellStatus ? .checkmark : .none
+                } else {
+                    cell.accessoryType = .none
+                }
                 cell.layer.addSublayer(underline)
             } else if indexPath.row == 1 {
                 cell.leadingLabel.text = "온도" // 현재 밖에 날씨는 ~~(18)도이고 체감온도는 ~~(25)입니다.
+                if let temperatureCellStatus = temperatureCellStatus {
+                    cell.accessoryType = temperatureCellStatus ? .checkmark : .none
+                } else {
+                    cell.accessoryType = .none
+                }
                 cell.traillingImage.isHidden = true
             }
             return cell
@@ -505,8 +534,34 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             }
         } else if tableView == tableView2 {
             if notificationSwitch.isOn {
+                
+                
                 if let cell = tableView.cellForRow(at: indexPath) {
-                    cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
+                    if indexPath.row == 0 {
+                        // 날씨
+                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
+                        
+                        let cellStatus = cell.accessoryType == .checkmark
+                        if (cellStatus == true) {
+                            UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
+                        } else {
+                            UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
+                        }
+                        
+                    } else if indexPath.row == 1 {
+                       // 온도
+                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
+
+                        let cellStatus = cell.accessoryType == .checkmark
+                        if (cellStatus == true) {
+                            UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
+                        } else {
+                            UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
+                        }
+                    }
+                    
+
+
                 }
             }
         }
