@@ -40,7 +40,6 @@ class RegionalViewController: BaseViewController {
         super.viewWillAppear(animated)
         indicator.startAnimating()
         getLoactionWeather()
-        print("@@@@@@@@@@@@@ \(locationList.count)")
     }
     
     func setUpIndicator() {
