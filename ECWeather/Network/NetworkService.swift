@@ -16,7 +16,7 @@ class NetworkService {
             switch response.result {
             case .success(let currentWeather):
                 if let weather = currentWeather.weather.first {
-                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id, descriotion: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed))
+                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id,mainDescription: weather.main, description: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed))
                 }
             case .failure(let error):
                 print("API 요청 실패: \(error)")
@@ -32,7 +32,7 @@ class NetworkService {
             switch response.result {
             case .success(let currentWeather):
                 if let weather = currentWeather.weather.first {
-                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id, descriotion: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed))
+                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id,mainDescription: weather.main, description: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed))
                 }
             case .failure(let error):
                 print("API 요청 실패: \(error)")
@@ -51,7 +51,7 @@ class NetworkService {
             case .success(let weeklyWeather):
                 weeklyWeather.list.forEach { item in
                     if let weather = item.weather.first {
-                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, descriotion: weather.description, icon: weather.icon))
+                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, description: weather.description, icon: weather.icon))
                     }
                 }
                 completion(weatherList)
@@ -72,7 +72,7 @@ class NetworkService {
             case .success(let weeklyWeather):
                 weeklyWeather.list.forEach { item in
                     if let weather = item.weather.first {
-                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, descriotion: weather.description, icon: weather.icon))
+                        weatherList.append(CustomWeeklyWeather(currentTemp: item.main.temp, maxTemp: item.main.tempMax, minTemp: item.main.tempMin, feelTemp: item.main.feelsLike, dateTime: item.dtTxt, humidity: item.main.humidity, id: weather.id, description: weather.description, icon: weather.icon))
                     }
                 }
                 completion(weatherList)
