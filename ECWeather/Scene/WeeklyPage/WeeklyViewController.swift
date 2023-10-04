@@ -140,7 +140,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
         let weatherData = weeklyWeatherData[indexPath.row]
 
-        cell.configure(day: weatherData.dateTime, weather: weatherData.descriotion, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
+        cell.configure(day: (weatherData.dateTime), weather: weatherData.descriotion, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
 
         if selectedCellIndex == indexPath {
             cell.selectionStyle = .none
