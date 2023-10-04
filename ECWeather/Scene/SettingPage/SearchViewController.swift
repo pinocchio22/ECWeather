@@ -13,7 +13,7 @@ class SearchViewController: BaseViewController {
         let tableView = UITableView()
         return tableView
     }()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchController()
@@ -26,6 +26,7 @@ class SearchViewController: BaseViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "도시 또는 지역 검색"
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.delegate = self
         
         self.navigationItem.searchController = searchController
         self.navigationItem.title = "Search"
@@ -50,14 +51,32 @@ class SearchViewController: BaseViewController {
     }
     
 }
+
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return DataManager.shared.searchKeyword.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
-        cell.titleLabel.text = "관악구"
+        cell.titleLabel.text = DataManager.shared.searchKeyword[indexPath.row]
         return cell
+    }
+}
+
+extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        //        self.filteredArr = self.arr.filter { $0.lowercased().hasPrefix(text) }
+        //        dump(filteredArr)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+        DataManager.shared.searchKeyword.append(text)
+        if DataManager.shared.searchKeyword == [] {
+            DataManager.shared.searchKeyword.remove(at: 0)
+        }
+        tableView.reloadData()
     }
 }
