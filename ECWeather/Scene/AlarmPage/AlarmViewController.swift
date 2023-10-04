@@ -22,8 +22,9 @@ class AlarmViewController: BaseViewController {
     // MARK: - Properties
     
     private let locationManager = CLLocationManager()
-    private var weatherCellStatus : Bool? = nil
-    private var temperatureCellStatus : Bool? = nil
+    private var weatherCellStatus: Bool? = nil
+    private var temperatureCellStatus: Bool? = nil
+//    private var timePickerValue: Date = Date()
     
     private let weekdays: [String] = ["월","화","수","목","금","토","일"]
     private var selectedWeekdays: [Int] = []
@@ -78,9 +79,11 @@ class AlarmViewController: BaseViewController {
         let pickerView = UIDatePicker()
         pickerView.datePickerMode = .time
         pickerView.preferredDatePickerStyle = .wheels
-        pickerView.locale = Locale(identifier: "en_US")
+        pickerView.locale = Locale.current
+        pickerView.timeZone = TimeZone.current
         pickerView.setValue(UIColor.black, forKey: "textColor")
         pickerView.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+        pickerView.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
         return pickerView
     }()
     
@@ -170,6 +173,11 @@ class AlarmViewController: BaseViewController {
         // switch on/off 값
         
         // 타임피커 값
+        if let selectedTime = UserDefaults.standard.object(forKey: "timePickerValue") as? Date {
+            timePicker.date = selectedTime
+        } else {
+            timePicker.date = Date()
+        }
         
         // 요일별 알림 값
         
@@ -299,9 +307,6 @@ class AlarmViewController: BaseViewController {
             weekdaysBtnStack.addArrangedSubview(button)
         }
     }
-
-
-
     
     private func configureTableView() {
         tableView1.dataSource = self
@@ -504,6 +509,10 @@ class AlarmViewController: BaseViewController {
         
         }
     }
+    
+    @objc private func timePickerValueChanged() {
+        UserDefaults.standard.set(timePicker.date, forKey: "timePickerValue")
+    }
 
 }
 
@@ -604,9 +613,6 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                             UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
                         }
                     }
-                    
-
-
                 }
             }
         }
