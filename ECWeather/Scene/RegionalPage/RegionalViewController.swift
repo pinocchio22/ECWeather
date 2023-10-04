@@ -31,7 +31,6 @@ class RegionalViewController: BaseViewController {
 
         mapView.map.delegate = self
 
-     
         setUpIndicator()
         addCustomPin()
         buttonActions()
@@ -39,7 +38,9 @@ class RegionalViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        indicator.startAnimating()
         getLoactionWeather()
+        print("@@@@@@@@@@@@@ \(locationList.count)")
     }
     
     func setUpIndicator() {
@@ -54,6 +55,8 @@ class RegionalViewController: BaseViewController {
     }
     
     func getLoactionWeather() {
+        removeAnnotation()
+        
         self.viewModel.getCustomAnnotation(cityName: "Seoul") { item in
             self.locationList.append(item!)
             self.locationList.first{ $0.title == "Seoul" }?.title = "서울"
@@ -144,6 +147,13 @@ class RegionalViewController: BaseViewController {
             self.addCustomPin()
             
             self.indicator.stopAnimating()
+        }
+    }
+    
+    func removeAnnotation() {
+        locationList = []
+        mapView.map.annotations.forEach { annotation in
+            mapView.map.removeAnnotation(annotation)
         }
     }
     
