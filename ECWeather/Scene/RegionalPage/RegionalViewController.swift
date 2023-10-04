@@ -31,10 +31,15 @@ class RegionalViewController: BaseViewController {
 
         mapView.map.delegate = self
 
-        getLoactionWeather()
+     
         setUpIndicator()
         addCustomPin()
         buttonActions()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getLoactionWeather()
     }
     
     func setUpIndicator() {

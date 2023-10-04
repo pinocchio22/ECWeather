@@ -10,17 +10,18 @@ import Foundation
 class DataManager {
     static let shared = DataManager()
     
-    /// 온도 표시 0이면 C, 1이면 F
+    /// 온도 표시 .celsius이면 C, .fahrenheit이면 F
+    var temperatureType1: Temperature = .celsius
     var temperatureType = 0
     
     var latitude: Double?
     var longitude: Double?
     
-    func temperatureExpression(temperature: Float) -> Float {
-        if temperatureType == 0 {
-            return (temperature * 1.8) + 32
-        } else {
-            return (temperature - 32) * 5/9
-        }
-    }
+//    func temperatureExpression(temperature: Float) -> Float {
+//        if temperatureType == 0 {
+//            return (temperature * 1.8) + 32
+//        } else {
+//            return (temperature - 32) * 5/9
+//        }
+//    }
 }
