@@ -48,7 +48,7 @@ class AlarmViewController: BaseViewController {
     // !!BUTTON FOR TEST - 나중에 삭제
     private lazy var btnForTest: UIButton = {
         let button = UIButton()
-        button.setTitle("[테스트]", for: .normal)
+        button.setTitle("[시연용 버튼]", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -92,8 +92,6 @@ class AlarmViewController: BaseViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView
     }()
-  
-    
     
     private let weekdaysBtnLabel: UILabel = {
         let label = UILabel()
@@ -157,7 +155,6 @@ class AlarmViewController: BaseViewController {
         super.viewDidLoad()
         
         loadDataFromUserDefaults()
-//        loadLocationInfomation()
         configureUI()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
     }
@@ -176,8 +173,6 @@ class AlarmViewController: BaseViewController {
         
         // 요일별 알림 값
         
-        // 알림 수신음 값
-        
         // 알림 내용 선택 값
         weatherCellStatus = UserDefaults.standard.bool(forKey: "weatherCellSelectedKey")
         temperatureCellStatus = UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey")
@@ -191,7 +186,6 @@ class AlarmViewController: BaseViewController {
         tableView1.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
         tableView2.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
 
-        
         makeWeekdaysBtnStack()
         configureTableView()
         view.addSubview(titleLabel)
@@ -199,8 +193,6 @@ class AlarmViewController: BaseViewController {
         view.addSubview(notificationSwitch)
         view.addSubview(descriptionLabel)
         view.addSubview(timePicker)
-        
-        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(weekdaysBtnLabel)
@@ -240,7 +232,6 @@ class AlarmViewController: BaseViewController {
         scrollView.snp.makeConstraints {
             $0.top.equalTo(timePicker.snp.bottom).offset(25)
             $0.centerX.leading.trailing.bottom.equalToSuperview()
-//            $0.bottom.equalTo(contentView.snp.bottom)
         }
         
         contentView.snp.makeConstraints {
@@ -256,7 +247,6 @@ class AlarmViewController: BaseViewController {
         
         weekdaysBtnStack.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
-//            $0.width.equalToSuperview().offset(-80)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         
@@ -327,13 +317,7 @@ class AlarmViewController: BaseViewController {
                 self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
                 self.minTemp = round(minTempKelvinToCelsius * 10) / 10
                 
-                print("현위치 최고온도 : \(self.maxTemp)°C")
-                print("현위치 최저온도 : \(self.minTemp)°C")
-                
                 self.currentWeather = item.descriotion
-//                    print("현위치 최저온도 : ", item.minTemp)
-//                    print("현위치 최고온도 : ", item.maxTemp)
-                print("현위치 날씨 : ", self.currentWeather)
             }
         }
     }
@@ -342,7 +326,6 @@ class AlarmViewController: BaseViewController {
     @objc private func testBtnTapped() {
     
         let content = UNMutableNotificationContent()
-        
         content.title = "ECWeather - 날씨 알리미"
         
         // "날씨","온도" 둘다 미체크.. TODO: - 애초에 사용자가 둘다 체크해제 못하게 막아야함
@@ -351,11 +334,8 @@ class AlarmViewController: BaseViewController {
         알림내용 체크 안되어 있음..
         """
         
-        print("🧔🏻‍♂️🧔🏻‍♂️ weatherCellSelectedKey : ",UserDefaults.standard.bool(forKey: "weatherCellSelectedKey"))
-        print("🧔🏻‍♂️🧔🏻‍♂️ temperatureCellSelectedKey : ",!UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"))
         // "날씨" 체크
         if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
-            print("1111111111들어옴!!!")
             content.body =
             """
             The current weather is \(currentWeather).
@@ -364,34 +344,27 @@ class AlarmViewController: BaseViewController {
         
         // "온도" 체크
         else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
-            print("222222들어옴!!!")
             content.body =
             """
             Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
             """
-            
         }
         
         // "날씨", "온도" 체크
         else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
-            print("33333들어옴!!!")
             content.body =
             """
             The current weather is \(currentWeather). 
             (\(minTemp)°C - \(maxTemp)°C)
             """
-            
         }
         
-
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
             content.sound = UNNotificationSound(named: UNNotificationSoundName("\(selectedSoundName).caf"))
         } else {
             content.sound = UNNotificationSound.default
         }
 
-
-        
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats:false)
         let request = UNNotificationRequest(identifier: "weather", content: content, trigger: trigger)
         
@@ -408,8 +381,6 @@ class AlarmViewController: BaseViewController {
         // 시간 불러오기
         let selectedDate = timePicker.date
 
-        print("👏🏼👏🏼👏🏼selectedDate : ",selectedDate)
-
         // 메세지 내용
         let content = UNMutableNotificationContent()
         content.title = "e편한날씨 - 날씨 알리미"
@@ -418,13 +389,11 @@ class AlarmViewController: BaseViewController {
         타임피커 알림 발송 테스트 입니다..ㅁㄴㅇㅁㄴㅇㅁㄴ!!
         """
             
-        
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
             content.sound = UNNotificationSound(named: UNNotificationSoundName("\(selectedSoundName).caf"))
         } else {
             content.sound = UNNotificationSound.default
         }
-
         
         // 요일과 시간대 설정
         let calendar = Calendar.current
@@ -433,16 +402,11 @@ class AlarmViewController: BaseViewController {
         
         var dateComponents = DateComponents()
         dateComponents.calendar = calendar
-        
-        print("SELECTED HOUR : ",selectedHour)
-        print("SELECTED MINUTE : ",selectedMinute)
-        
+
         for weekday in selectedWeekdays {
             dateComponents.weekday = weekday + 1
             dateComponents.hour = selectedHour
             dateComponents.minute = selectedMinute
-            
-            print(dateComponents)
             
             // UNCalendarNotificationTrigger : 특정 요일과 시간대에 알림 스케줄
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
@@ -458,7 +422,6 @@ class AlarmViewController: BaseViewController {
                     print("알림 성공.")
                 }
             }
-            
         }
         
         // 대기중인 알림 찍어보기
@@ -519,14 +482,12 @@ class AlarmViewController: BaseViewController {
             
             UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
             scheduleNotification()
-        
         }
     }
     
     @objc private func timePickerValueChanged() {
         UserDefaults.standard.set(timePicker.date, forKey: "timePickerValue")
     }
-
 }
 
 // MARK: - TableView 알림페이지 메뉴 테이블
@@ -562,7 +523,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             cell.tintColor = tempColorForSwitch
             
             if indexPath.row == 0 {
-                cell.leadingLabel.text = "날씨" // 현재 밖에 날씨는 ~~(맑음)입니다
+                cell.leadingLabel.text = "날씨"
                 cell.traillingImage.isHidden = true
                 
                 let underline = CALayer()
@@ -575,7 +536,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 cell.layer.addSublayer(underline)
             } else if indexPath.row == 1 {
-                cell.leadingLabel.text = "온도" // 현재 밖에 날씨는 ~~(18)도이고 체감온도는 ~~(25)입니다.
+                cell.leadingLabel.text = "온도"
                 if let temperatureCellStatus = temperatureCellStatus {
                     cell.accessoryType = temperatureCellStatus ? .checkmark : .none
                 } else {
@@ -601,7 +562,6 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             }
         } else if tableView == tableView2 {
             if notificationSwitch.isOn {
-                
                 
                 if let cell = tableView.cellForRow(at: indexPath) {
                     if indexPath.row == 0 {
@@ -631,4 +591,3 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
-

@@ -22,7 +22,6 @@ class SelectNotificationSoundViewController: BaseViewController {
         return tableView
     }()
     
-    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +55,6 @@ class SelectNotificationSoundViewController: BaseViewController {
         navigationItem.leftBarButtonItem = backButton
         navigationItem.leftBarButtonItem?.tintColor = .ECWeatherColor3
     
-        
     }
 
     @objc private func backButtonTapped() {
@@ -92,8 +90,6 @@ class SelectNotificationSoundViewController: BaseViewController {
             print("Error playing sound: \(error.localizedDescription)")
         }
     }
-
-
 }
 
 // MARK: - TableView
@@ -139,7 +135,4 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
             }
         }
     }
-
-
-    
 }
