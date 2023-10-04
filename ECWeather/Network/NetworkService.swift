@@ -10,7 +10,7 @@ import Foundation
 
 class NetworkService {
     static func getCurrentWeather(lat: Double, lon: Double, completion: @escaping (CustomWeather?) -> Void) {
-        let apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(Key.apiKey)&units=metric"
+        let apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(Key.apiKey.rawValue)&units=metric"
         // API 요청 및 디코딩
         AF.request(apiUrl).responseDecodable(of: CurrentWeather.self) { response in
             switch response.result {
@@ -26,7 +26,7 @@ class NetworkService {
     }
     
     static func getCurrentWeather(cityName: String, completion: @escaping (CustomWeather?) -> Void) {
-        let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(Key.apiKey)&units=metric"
+        let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(Key.apiKey.rawValue)&units=metric"
         // API 요청 및 디코딩
         AF.request(apiUrl).responseDecodable(of: CurrentWeather.self) { response in
             switch response.result {
@@ -42,7 +42,7 @@ class NetworkService {
     }
     
     static func getWeeklyWeather(cityName: String, completion: @escaping ([CustomWeeklyWeather]?) -> Void) {
-        let apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=\(cityName)&appid=\(Key.apiKey)&units=metric"
+        let apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=\(cityName)&appid=\(Key.apiKey.rawValue)&units=metric"
         
         var weatherList = [CustomWeeklyWeather]()
         // API 요청 및 디코딩
@@ -63,7 +63,7 @@ class NetworkService {
     }
     
     static func getWeeklyWeather(lat: Double, lon: Double, completion: @escaping ([CustomWeeklyWeather]?) -> Void) {
-        let apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&appid=\(Key.apiKey)&units=metric"
+        let apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&appid=\(Key.apiKey.rawValue)&units=metric"
         
         var weatherList = [CustomWeeklyWeather]()
         // API 요청 및 디코딩
