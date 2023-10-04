@@ -16,6 +16,8 @@ class DataManager {
     var latitude: Double?
     var longitude: Double?
     
+    var searchKeyword: [String] = []
+    
     func temperatureExpression(temperature: Float) -> Float {
         if temperatureType == 0 {
             return (temperature * 1.8) + 32
