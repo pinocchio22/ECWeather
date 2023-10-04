@@ -149,12 +149,13 @@ class AlarmViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         tableView1.reloadData()
         getCurrentWeatherInfo()
+        loadDataFromUserDefaults()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadDataFromUserDefaults()
+        
         configureUI()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in })
     }
@@ -172,6 +173,19 @@ class AlarmViewController: BaseViewController {
         }
         
         // 요일별 알림 값
+        if let savedSelectedWeekdays = UserDefaults.standard.array(forKey: "selectedWeekdaysKey") as? [Int] {
+            selectedWeekdays = savedSelectedWeekdays
+            print("asdasdasdas!!!@#!@#!@: ",selectedWeekdays)
+            for (index, button) in weekdaysBtnStack.arrangedSubviews.enumerated() {
+                if let button = button as? UIButton {
+                    if selectedWeekdays.contains(index) {
+                        button.backgroundColor = .ECWeatherColor3?.withAlphaComponent(0.5)
+                    } else {
+                        button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+                    }
+                }
+            }
+        }
         
         // 알림 내용 선택 값
         weatherCellStatus = UserDefaults.standard.bool(forKey: "weatherCellSelectedKey")
@@ -438,8 +452,9 @@ class AlarmViewController: BaseViewController {
                 sender.backgroundColor = .ECWeatherColor3?.withAlphaComponent(0.5)
                 if let title = sender.currentTitle {
                     if let weekdaysIndex = weekdays.firstIndex(of: title) {
-                       selectedWeekdays.append(weekdaysIndex)
-                       print(selectedWeekdays)
+                        selectedWeekdays.append(weekdaysIndex)
+                        print(selectedWeekdays)
+                        UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
                    }
                 }
             } else {
@@ -450,6 +465,7 @@ class AlarmViewController: BaseViewController {
                            if let index = selectedWeekdays.firstIndex(of: weekdaysIndex) {
                                selectedWeekdays.remove(at: index)
                                print(selectedWeekdays)
+                               UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
                            }
                        }
                    }
