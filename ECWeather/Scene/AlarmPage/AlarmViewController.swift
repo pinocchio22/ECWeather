@@ -25,8 +25,8 @@ class AlarmViewController: BaseViewController {
     private var weatherCellStatus : Bool? = nil
     private var temperatureCellStatus : Bool? = nil
     
-    private let weekdays: [String] = ["일","월","화","수","목","금","토"]
-    private var selectedWeekdays: [String] = [] 
+    private let weekdays: [String] = ["월","화","수","목","금","토","일"]
+    private var selectedWeekdays: [Int] = []
     
     private var maxTemp: Double = 0
     private var minTemp: Double = 0
@@ -299,6 +299,9 @@ class AlarmViewController: BaseViewController {
             weekdaysBtnStack.addArrangedSubview(button)
         }
     }
+
+
+
     
     private func configureTableView() {
         tableView1.dataSource = self
@@ -383,6 +386,9 @@ class AlarmViewController: BaseViewController {
     // 타임피커에 저장된 시간에 알림 (나중에 테스트 버튼 대체..)
     private func scheduleNotification() {
         
+        // 모든 대기열에 있는 알림을 삭제
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
         // 시간 불러오기
         let selectedDate = timePicker.date
 
@@ -405,7 +411,6 @@ class AlarmViewController: BaseViewController {
 
         
         // 요일과 시간대 설정
-        
         let calendar = Calendar.current
         let selectedHour = calendar.component(.hour, from: selectedDate)
         let selectedMinute = calendar.component(.minute, from: selectedDate)
@@ -415,23 +420,36 @@ class AlarmViewController: BaseViewController {
         
         print("SELECTED HOUR : ",selectedHour)
         print("SELECTED MINUTE : ",selectedMinute)
-        dateComponents.weekday = 3
-        dateComponents.hour = selectedHour
-        dateComponents.minute = selectedMinute
-            
-        // UNCalendarNotificationTrigger : 특정 요일과 시간대에 알림 스케줄
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
-        // 알림 요청 생성
-        let request = UNNotificationRequest(identifier: "scheduledNotification", content: content, trigger: trigger)
-      
-        UNUserNotificationCenter.current().add(request) { (error) in
-            if let error = error {
-                print("알림 실패: \(error.localizedDescription)")
-            } else {
-                print("알림 성공.")
+        for weekday in selectedWeekdays {
+            dateComponents.weekday = weekday + 1
+            dateComponents.hour = selectedHour
+            dateComponents.minute = selectedMinute
+            
+            print(dateComponents)
+            
+            // UNCalendarNotificationTrigger : 특정 요일과 시간대에 알림 스케줄
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            
+            // 알림 요청 생성
+            let randomIdentifier = UUID().uuidString
+            let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request) { (error) in
+                if let error = error {
+                    print("알림 실패: \(error.localizedDescription)")
+                } else {
+                    print("알림 성공.")
+                }
             }
+            
         }
+        
+        // 대기중인 알림 찍어보기
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            print("대기 중인 알림 개수: \(requests.count)")
+        }
+        
     }
     
     @objc private func weekdaysButtonTapped(sender: UIButton) {
@@ -439,24 +457,24 @@ class AlarmViewController: BaseViewController {
             if sender.backgroundColor == .ECWeatherColor4?.withAlphaComponent(0.3) {
                 sender.backgroundColor = .ECWeatherColor3?.withAlphaComponent(0.5)
                 if let title = sender.currentTitle {
-                    // 선택되지 않은 요일이면 추가
-                    selectedWeekdays.append(title)
-                    print(selectedWeekdays)
+                    if let weekdaysIndex = weekdays.firstIndex(of: title) {
+                       selectedWeekdays.append(weekdaysIndex)
+                       print(selectedWeekdays)
+                   }
                 }
             } else {
-                sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
-                if let title = sender.currentTitle {
-                    if selectedWeekdays.contains(title) {
-                        // 이미 선택된 요일이면 제거
-                        print("제거11")
-                        if let index = selectedWeekdays.firstIndex(of: title) {
-                            print("제거222")
-                            selectedWeekdays.remove(at: index)
-                            print(selectedWeekdays)
-                        }
-                    }
-                }
-            }
+               sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+               if let title = sender.currentTitle {
+                   if let weekdaysIndex = weekdays.firstIndex(of: title) {
+                       if selectedWeekdays.contains(weekdaysIndex) {
+                           if let index = selectedWeekdays.firstIndex(of: weekdaysIndex) {
+                               selectedWeekdays.remove(at: index)
+                               print(selectedWeekdays)
+                           }
+                       }
+                   }
+               }
+           }
         }
     }
     
