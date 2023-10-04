@@ -106,7 +106,7 @@ class AlarmViewController: BaseViewController {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-        stackView.spacing = 1
+        stackView.spacing = 0.1
         return stackView
     }()
     
@@ -283,11 +283,12 @@ class AlarmViewController: BaseViewController {
             button.setTitle(day, for: .normal)
             button.setTitleColor(.black, for: .normal)
             button.titleLabel?.textAlignment = .center
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
             button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             button.addTarget(self, action: #selector(weekdaysButtonTapped), for: .touchUpInside)
             
-            button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20) // TODO: - 원형 만들기
-            button.layer.cornerRadius = 0.5 * button.bounds.size.width
+            button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
+            button.layer.cornerRadius = 0.6 * button.bounds.size.width
             
             weekdaysBtnStack.addArrangedSubview(button)
         }
