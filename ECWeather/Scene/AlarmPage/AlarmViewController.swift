@@ -332,7 +332,7 @@ class AlarmViewController: BaseViewController {
                 self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
                 self.minTemp = round(minTempKelvinToCelsius * 10) / 10
                 
-                self.currentWeather = item.descriotion
+                self.currentWeather = item.description
             }
         }
     }

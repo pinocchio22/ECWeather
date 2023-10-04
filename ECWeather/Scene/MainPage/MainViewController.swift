@@ -9,6 +9,9 @@ import UIKit
 
 class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate{
 
+    /// 배경 이미지 뷰
+    lazy var backgroundImageView = UIImageView()
+    
     /// 전체 스크롤 뷰
     lazy var mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -251,11 +254,11 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         todayCollectionView.dataSource = self
         todayCollectionView.delegate = self
         todayCollectionView.register(WeatherCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        
         setLayout()
     }
     
     func setLayout() {
+        setBackgroundImageView()
         setScrollViewLayout()
         setScrollViewContentViewLayout()
         setMainTitleLayout()
@@ -286,8 +289,32 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     }
     
+    func setBackgroundImageView() {
+        view.addSubview(backgroundImageView)
+        
+        backgroundImageView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { weather in
+            var backgroundImage = weather?.mainDescription
+            print(backgroundImage)
+            switch backgroundImage {
+            case BackgroundImage.Clouds.rawValue: self.backgroundImageView.image = BackgroundImage.Clouds.image
+            case BackgroundImage.Clear.rawValue: self.backgroundImageView.image = BackgroundImage.Clear.image
+            case BackgroundImage.Snow.rawValue: self.backgroundImageView.image = BackgroundImage.Snow.image
+            case BackgroundImage.Rain.rawValue: self.backgroundImageView.image = BackgroundImage.Rain.image
+            case BackgroundImage.Drizzle.rawValue: self.backgroundImageView.image = BackgroundImage.Drizzle.image
+            case BackgroundImage.Thunderstorm.rawValue: self.backgroundImageView.image = BackgroundImage.Thunderstorm.image
+            case .none: self.backgroundImageView.image = BackgroundImage.Mist.image
+            case .some(_):
+                break
+            }
+        }
+    }
+    
     func setScrollViewLayout() {
-        view.addSubview(mainScrollView)
+        backgroundImageView.addSubview(mainScrollView)
 
         mainScrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
