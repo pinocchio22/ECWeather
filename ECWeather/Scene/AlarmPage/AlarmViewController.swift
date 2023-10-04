@@ -32,14 +32,6 @@ class AlarmViewController: BaseViewController {
     private var minTemp: Double = 0
     private var currentWeather: String = ""
     
-    
-    private let notificationSoundList: [String: String] = [
-        "뭐지": "notification_sound_moji",
-        "꽥": "notification_sound_quack",
-        "탸댜아아ㅏ" : "notification_sound_taddddaaaaa",
-        "오와우우으" : "notification_sound_wow",
-    ]
-    
     private var tempColorForSwitch: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
     
     private let titleLabel: UILabel = {
@@ -517,7 +509,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
             cell.tintColor = tempColorForSwitch
             cell.leadingLabel.text = "알림 수신음"
             if let selectedCellIndex = UserDefaults.standard.value(forKey: "SelectedCellIndex") as? Int {
-                let soundNames = Array(notificationSoundList.keys).sorted()
+                let soundNames = Array(DataManager.notificationSoundList.keys).sorted()
                 let selectedSoundName = soundNames[selectedCellIndex]
                 cell.traillingLabel.text = selectedSoundName
             } else {
