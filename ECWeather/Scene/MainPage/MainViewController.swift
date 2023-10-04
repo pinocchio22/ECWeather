@@ -7,16 +7,145 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate{
+
+    /// 전체 스크롤 뷰
+    lazy var mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
+    }()
     
-    let cellIdentifier = "WeatherCell"
-    let numberOfHours = 24
+    /// 전체 스크롤 내부 뷰
+    lazy var scrollViewContentView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        return stackView
+    }()
     
-    // api
-    var currentWeatherData: CustomWeather?
-        var hourlyWeatherData: [CustomWeather] = []
+    /// 맨 위 label "오늘의 날씨"
+    lazy var mainPageTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
+        label.backgroundColor = UIColor(red: 1, green: 1.0, blue: 1.0, alpha: 0.7)
+        label.font = UIFont(name: "Helvetica-Bold", size: 28)
+        label.textAlignment = .left
+        label.text = "오늘의 날씨"
+        label.layer.cornerRadius = 25
+        return label
+    }()
     
-    lazy var collectionView: UICollectionView = {
+    /// 현재 날씨 맨 위에 제일 큰
+    lazy var currentWeatherFrameView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.layer.cornerRadius = 15
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    /// 현재 날씨 - 맨 위에 구분선
+    lazy var currentWeatherFrameTopLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 현재 날씨 - 현 위치 label
+    lazy var locationOfCurrentWeatherLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 30)
+        label.textAlignment = .center
+        label.text = "제주도"
+        return label
+    }()
+    
+    /// 현재 날씨 - 날씨 아이콘 이미지
+    lazy var currentWeatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
+        let weatherImage = UIImage(named: "WeatherIcon-sun")?.cgImage
+        let weatherLayer = CALayer()
+        weatherLayer.contents = weatherImage
+        weatherLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 1, b: 0, c: 0, d: 1.01, tx: 0, ty: -0.01))
+        weatherLayer.bounds = imageView.bounds
+        weatherLayer.position = imageView.center
+        imageView.layer.addSublayer(weatherLayer)
+        return imageView
+    }()
+    
+    /// 현재 날씨 - 현재 온도
+    lazy var currentTemperatuerLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0.0, green: 0.62, blue: 0.93, alpha: 0.80)
+        label.font = UIFont(name: "Helvetica-Bold", size: 55)
+        label.textAlignment = .center
+        label.text = "22°C"
+        return label
+    }()
+    
+    /// 현재 날씨 - 현재 날씨(ex. 맑음, 흐림, ...)
+    lazy var currentWeatherLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 20)
+        label.textAlignment = .center
+        label.text = "맑음"
+        return label
+    }()
+    
+    /// 현재 날씨 - 오늘 온도(ex. 최고: 26, 최저: 20)
+    lazy var currentDailyTemperatuerLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 16.5)
+        label.textAlignment = .center
+        let maxtamp = "28.5°C"
+        let mintamp = "15.7°C"
+        label.text = "최고: \(maxtamp) / 최저: \(mintamp)"
+        return label
+    }()
+    
+    /// 현재 날씨 - 맨 아래에 구분선
+    lazy var currentWeatherFrameBottomLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 오늘 날씨 프레임 뷰
+    lazy var hourlyWeatherFrameView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    /// 오늘 날씨 - 맨 위에 구분선
+    lazy var hourlyWeatherFrameTopLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 오늘 날씨 - 위에 멘트(ex. 오늘 날씨는 좋은데요?)
+    lazy var hourlyWeatherMentLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 15)
+        label.textAlignment = .left
+        label.text = "전국적으로 맑은 날씨가 예상됩니다."
+        return label
+    }()
+    
+    /// 오늘 날씨 - 멘트 아래 구분선
+    lazy var underLineOfHourlyWeatherView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 오늘 날씨 - collectionview
+    lazy var todayCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -28,549 +157,471 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         return collectionView
     }()
     
+    /// 오늘 날씨 - 맨 아래에 구분선
+    lazy var hourlyWeatherFrameBottomLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 대기질 프레임 뷰
+    lazy var airQualityFrameView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
+        stackView.axis = .vertical
+        return stackView
+    }()
+
+    /// 대기질 - 맨 위에 구분선
+    lazy var topLineOfAirQualityFrameView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    /// 대기질 - "대기질" label
+    lazy var airQualityNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 15)
+        label.textAlignment = .left
+        label.text = "공기질"
+        return label
+    }()
+    
+    /// 대기질 - "대기질" label 아래에 구분선
+    lazy var bottomLineOfAirQualityLabelView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    /// 대기질 - 맨 아래에 구분선
+    lazy var bottomLineOfAirQualityFrameView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 자외선 지수 프레임 뷰
+    lazy var uvRaysFrameView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    /// 자외선 지수 - 맨 위에 구분선
+    lazy var topLineOfUVRaysFrameView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 자외선 지수 - "자외선 지수" label
+    lazy var nameOfUVRaysFrameView: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 15)
+        label.textAlignment = .left
+        label.text = "자외선 지수"
+        return label
+    }()
+    
+    /// 자외선 지수 - "자외선 지수" label 아래에 구분선
+    lazy var bottomLineOfUVRaysLabelView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+    
+    /// 자외선 지수 - 맨 아래에 구분선
+    lazy var bottomLineOfUVRaysFrameView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7)
+        return view
+    }()
+        
+    let cellIdentifier = "WeatherCell"
+    let numberOfHours = 24
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         
+        todayCollectionView.dataSource = self
+        todayCollectionView.delegate = self
+        todayCollectionView.register(WeatherCell.self, forCellWithReuseIdentifier: cellIdentifier)
         
-        weatherNowFramePart()
-        weatherTodayPart()
-        weatherFramePart3()
-        weatherNowFramePart4()
-        restFrameLine()
-        localWeatherPageTitle()
-        
-        view.addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-//            collectionView.heightAnchor.constraint(equalToConstant: 170),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 495),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -290)
-        ])
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(WeatherCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        setLayout()
     }
     
-    // 콜렉션뷰 계속 스크롤링 처음으로 돌아옴
+    func setLayout() {
+        setScrollViewLayout()
+        setScrollViewContentViewLayout()
+        setMainTitleLayout()
+        setCurrentWeatherViewLayout()
+        setCurrentWeatherViewTopLineLayout()
+        setCurrentWeatherViewLocationLabelLayout()
+        setCurrentWeatherViewIconImageLayout()
+        setCurrentWeatherViewTemperatureLabelLayout()
+        setCurrentWeatherViewWeatherLabelLayout()
+        setCurrentWeatherViewDailyTemperatureLabelLayout()
+        setCurrentWeatherViewBottomLineLayout()
+        setHourlyWeatherViewLayout()
+        setHourlyWeatherViewTopLineLayout()
+        setHourlyWeatherViewMentLabelLayout()
+        setHourlyWeatherViewMentLabelUnderLineLayout()
+        setHourlyWeatherViewCollectionViewLayout()
+        setHourlyWeatherViewBottomLineLayout()
+        setAirQualityViewLayout()
+        setAirQualityViewTopLineLayout()
+        setAirQualityViewNameLabelLayout()
+        setAirQualityViewUnderLineLayout()
+        setAirQualityViewBottomLineLayout()
+        setUVRaysViewLayout()
+        setUVRaysViewTopLineLayout()
+        setUVRaysViewMainLabelLayout()
+        setUVRaysViewUnderLineLayout()
+        setUVRaysViewBottomLineLayout()
+        
+    }
+    
+    func setScrollViewLayout() {
+        view.addSubview(mainScrollView)
+
+        mainScrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    func setScrollViewContentViewLayout() {
+        mainScrollView.addSubview(scrollViewContentView)
+        
+        scrollViewContentView.snp.makeConstraints {
+            $0.edges.equalTo(mainScrollView)
+            $0.centerX.equalTo(mainScrollView)
+        }
+    }
+    
+    func setMainTitleLayout() {
+        scrollViewContentView.addArrangedSubview(mainPageTitleLabel)
+        
+//        mainPageTitleLabel.snp.makeConstraints {
+//            $0.top.equalTo(scrollViewContentView).offset(10)
+//            $0.leading.equalTo(scrollViewContentView).offset(30)
+//        }
+    }
+    
+    func setCurrentWeatherViewLayout() {
+        scrollViewContentView.addArrangedSubview(currentWeatherFrameView)
+        
+//        currentWeatherFrameView.snp.makeConstraints {
+//            $0.top.equalTo(mainPageTitleLabel.snp.bottom).offset(10)
+//            $0.leading.equalTo(scrollViewContentView).offset(30)
+//            $0.trailing.equalTo(scrollViewContentView).offset(-30)
+//        }
+    }
+    
+    func setCurrentWeatherViewTopLineLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherFrameTopLine)
+        
+        currentWeatherFrameTopLine.snp.makeConstraints {
+//            $0.top.equalTo(currentWeatherFrameView.snp.bottom)
+//            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+            $0.height.equalTo(2)
+        }
+    }
+    
+    func setCurrentWeatherViewLocationLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(locationOfCurrentWeatherLabel)
+        
+//        locationOfCurrentWeatherLabel.snp.makeConstraints {
+//            $0.top.equalTo(currentWeatherFrameTopLine.snp.bottom).offset(10)
+//            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+//        }
+    }
+    
+    func setCurrentWeatherViewIconImageLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherImageView)
+        
+        currentWeatherImageView.snp.makeConstraints {
+            $0.height.equalTo(30)
+//            $0.top.equalTo(locationOfCurrentWeatherLabel.snp.bottom).offset(10)
+//            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+        }
+    }
+    
+    func setCurrentWeatherViewTemperatureLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentTemperatuerLabel)
+        
+//        currentTemperatuerLabel.snp.makeConstraints {
+//            $0.top.equalTo(currentWeatherImageView.snp.bottom).offset(10)
+//            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+//        }
+    }
+    
+    func setCurrentWeatherViewWeatherLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherLabel)
+        
+//        currentWeatherLabel.snp.makeConstraints {
+//            $0.top.equalTo(currentTemperatuerLabel.snp.bottom).offset(10)
+//            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+//        }
+    }
+
+    func setCurrentWeatherViewDailyTemperatureLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentDailyTemperatuerLabel)
+        
+//        currentDailyTemperatuerLabel.snp.makeConstraints {
+//            $0.top.equalTo(currentWeatherLabel.snp.bottom).offset(10)
+//            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+//        }
+    }
+    
+    func setCurrentWeatherViewBottomLineLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherFrameBottomLine)
+        
+        currentWeatherFrameBottomLine.snp.makeConstraints {
+//            $0.top.equalTo(currentDailyTemperatuerLabel.snp.bottom).offset(10)
+//            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+            $0.height.equalTo(2)
+//            $0.bottom.equalTo(currentWeatherFrameView)
+        }
+    }
+    
+    func setHourlyWeatherViewLayout() {
+        scrollViewContentView.addArrangedSubview(hourlyWeatherFrameView)
+        
+//        hourlyWeatherFrameView.snp.makeConstraints {
+//            $0.top.equalTo(currentWeatherFrameView.snp.bottom).offset(10)
+//            $0.leading.equalTo(scrollViewContentView).offset(10)
+//            $0.trailing.equalTo(scrollViewContentView).offset(-10)
+//        }
+    }
+    
+    func setHourlyWeatherViewTopLineLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameTopLine)
+        
+        hourlyWeatherFrameTopLine.snp.makeConstraints {
+//            $0.top.equalTo(hourlyWeatherFrameView)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
+        }
+    }
+    
+    func setHourlyWeatherViewMentLabelLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherMentLabel)
+        
+//        hourlyWeatherMentLabel.snp.makeConstraints {
+//            $0.top.equalTo(hourlyWeatherFrameTopLine.snp.bottom).offset(10)
+//            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
+//        }
+    }
+    
+    func setHourlyWeatherViewMentLabelUnderLineLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(underLineOfHourlyWeatherView)
+        
+        underLineOfHourlyWeatherView.snp.makeConstraints {
+//            $0.top.equalTo(hourlyWeatherMentLabel.snp.bottom)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
+        }
+    }
+    
+    func setHourlyWeatherViewCollectionViewLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(todayCollectionView)
+        
+//        todayCollectionView.snp.makeConstraints {
+//            $0.top.equalTo(underLineOfHourlyWeatherView.snp.bottom)
+//            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
+//        }
+    }
+    
+    func setHourlyWeatherViewBottomLineLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameBottomLine)
+        
+        hourlyWeatherFrameBottomLine.snp.makeConstraints {
+//            $0.top.equalTo(todayCollectionView.snp.bottom)
+            $0.height.equalTo(2)
+//            $0.bottom.equalTo(hourlyWeatherFrameView)
+//            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+//            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
+        }
+    }
+    
+    func setAirQualityViewLayout() {
+        scrollViewContentView.addArrangedSubview(airQualityFrameView)
+        
+//        airQualityFrameView.snp.makeConstraints {
+//            $0.top.equalTo(hourlyWeatherFrameView.snp.bottom).offset(10)
+//            $0.leading.equalTo(scrollViewContentView).offset(10)
+//            $0.trailing.equalTo(scrollViewContentView).offset(-10)
+//        }
+    }
+    
+    func setAirQualityViewTopLineLayout() {
+        airQualityFrameView.addArrangedSubview(topLineOfAirQualityFrameView)
+        
+        topLineOfAirQualityFrameView.snp.makeConstraints {
+//            $0.top.equalTo(hourlyWeatherFrameView)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(airQualityFrameView).offset(10)
+//            $0.trailing.equalTo(airQualityFrameView).offset(-10)
+        }
+    }
+    
+    func setAirQualityViewNameLabelLayout() {
+        airQualityFrameView.addArrangedSubview(airQualityNameLabel)
+        
+//        airQualityNameLabel.snp.makeConstraints {
+//            $0.top.equalTo(topLineOfAirQualityFrameView.snp.bottom)
+//            $0.leading.equalTo(airQualityFrameView).offset(10)
+//            $0.trailing.equalTo(airQualityFrameView).offset(-10)
+//        }
+    }
+    
+    func setAirQualityViewUnderLineLayout() {
+        airQualityFrameView.addArrangedSubview(bottomLineOfAirQualityLabelView)
+        
+        bottomLineOfAirQualityLabelView.snp.makeConstraints {
+//            $0.top.equalTo(airQualityNameLabel.snp.bottom)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(airQualityFrameView).offset(10)
+//            $0.trailing.equalTo(airQualityFrameView).offset(-10)
+        }
+    }
+    
+    func setAirQualityViewBottomLineLayout() {
+        airQualityFrameView.addArrangedSubview(bottomLineOfAirQualityFrameView)
+        
+        bottomLineOfAirQualityFrameView.snp.makeConstraints {
+//            $0.top.equalTo(bottomLineOfAirQualityLabelView.snp.bottom)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(airQualityFrameView).offset(10)
+//            $0.trailing.equalTo(airQualityFrameView).offset(-10)
+//            $0.bottom.equalTo(airQualityFrameView)
+        }
+    }
+
+    func setUVRaysViewLayout() {
+        scrollViewContentView.addArrangedSubview(uvRaysFrameView)
+        
+//        uvRaysFrameView.snp.makeConstraints {
+//            $0.top.equalTo(airQualityFrameView.snp.bottom)
+//            $0.leading.equalTo(scrollViewContentView).offset(10)
+//            $0.trailing.equalTo(scrollViewContentView).offset(-10)
+//        }
+    }
+    
+    func setUVRaysViewTopLineLayout() {
+        uvRaysFrameView.addArrangedSubview(topLineOfUVRaysFrameView)
+        
+        topLineOfUVRaysFrameView.snp.makeConstraints {
+//            $0.top.equalTo(uvRaysFrameView)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(scrollViewContentView).offset(10)
+//            $0.trailing.equalTo(scrollViewContentView).offset(-10)
+        }
+    }
+    
+    func setUVRaysViewMainLabelLayout() {
+        uvRaysFrameView.addArrangedSubview(nameOfUVRaysFrameView)
+        
+//        nameOfUVRaysFrameView.snp.makeConstraints {
+//            $0.top.equalTo(topLineOfUVRaysFrameView.snp.bottom)
+//            $0.leading.equalTo(scrollViewContentView).offset(10)
+//            $0.trailing.equalTo(scrollViewContentView).offset(-10)
+//        }
+    }
+    
+    func setUVRaysViewUnderLineLayout() {
+        uvRaysFrameView.addArrangedSubview(bottomLineOfUVRaysLabelView)
+        
+        bottomLineOfUVRaysLabelView.snp.makeConstraints {
+//            $0.top.equalTo(nameOfUVRaysFrameView.snp.bottom)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(uvRaysFrameView).offset(10)
+//            $0.trailing.equalTo(uvRaysFrameView).offset(-10)
+        }
+    }
+    
+    func setUVRaysViewBottomLineLayout() {
+        uvRaysFrameView.addArrangedSubview(bottomLineOfUVRaysFrameView)
+        
+        bottomLineOfUVRaysFrameView.snp.makeConstraints {
+//            $0.top.equalTo(bottomLineOfUVRaysLabelView.snp.bottom)
+            $0.height.equalTo(2)
+//            $0.leading.equalTo(uvRaysFrameView).offset(10)
+//            $0.trailing.equalTo(uvRaysFrameView).offset(-10)
+//            $0.bottom.equalTo(uvRaysFrameView)
+        }
+    }
+    
+//    콜렉션뷰 계속 스크롤링 처음으로 돌아옴
 //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//          // 스크롤이 멈춘 후 현재 스크롤 위치를 확인하고 필요한 경우 스크롤을 다시 시작합니다.
-//          let contentOffsetX = scrollView.contentOffset.x
-//          let collectionViewWidth = collectionView.bounds.width
+//        // 스크롤이 멈춘 후 현재 스크롤 위치를 확인하고 필요한 경우 스크롤을 다시 시작합니다.
+//        let contentOffsetX = scrollView.contentOffset.x
+//        let collectionViewWidth = collectionView.bounds.width
 //
-//          if contentOffsetX < collectionViewWidth {
-//              // 첫 번째 아이템을 넘어갔을 때, 마지막 가상 아이템으로 이동
-//              let lastIndexPath = IndexPath(item: numberOfHours - 1, section: 0)
-//              collectionView.scrollToItem(at: lastIndexPath, at: .left, animated: false)
-//          } else if contentOffsetX >= CGFloat(numberOfHours - 1) * collectionViewWidth {
-//              // 마지막 아이템을 넘어갔을 때, 첫 번째 가상 아이템으로 이동
-//              let firstIndexPath = IndexPath(item: numberOfHours / 2, section: 0)
-//              collectionView.scrollToItem(at: firstIndexPath, at: .left, animated: false)
-//          }
-//      }
-    
-    
+//        if contentOffsetX < collectionViewWidth {
+//            // 첫 번째 아이템을 넘어갔을 때, 마지막 가상 아이템으로 이동
+//            let lastIndexPath = IndexPath(item: numberOfHours - 1, section: 0)
+//            collectionView.scrollToItem(at: lastIndexPath, at: .left, animated: false)
+//        } else if contentOffsetX >= CGFloat(numberOfHours - 1) * collectionViewWidth {
+//            // 마지막 아이템을 넘어갔을 때, 첫 번째 가상 아이템으로 이동
+//            let firstIndexPath = IndexPath(item: numberOfHours / 2, section: 0)
+//            collectionView.scrollToItem(at: firstIndexPath, at: .left, animated: false)
+//        }
+//    }
+        
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfHours
     }
-    
-    
-    
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as? WeatherCell else { return UICollectionViewCell()}
         
-//        let itemIndex = indexPath.item % 7
-            
-            // 이미지와 텍스트를 설정합니다. 예를 들어, 각 셀에 다른 데이터를 표시하려면 아래와 같이 설정할 수 있습니다.
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as? WeatherCell else { return UICollectionViewCell() }
+        
+        //        let itemIndex = indexPath.item % 7
+        
+        // 이미지와 텍스트를 설정합니다. 예를 들어, 각 셀에 다른 데이터를 표시하려면 아래와 같이 설정할 수 있습니다.
         cell.topLabel.text = "시간"
         cell.imageView.image = UIImage(named: "WeatherIcon-sun")
-            cell.bottomLabel.text = "온도"
-            
-            return cell
+        cell.bottomLabel.text = "온도"
+        
+        return cell
     }
-    
-    
-    
-    
-    
-    
-    
-    
+        
     // 시간대에 따른 가상의 날씨 데이터를 반환하는 함수
     func getWeatherDataForHour(_ hour: Int) -> String {
         // 실제 날씨 데이터를 가져오거나 시뮬레이션할 수 있습니다.
         // 이 함수에서는 시간대를 기반으로 가상의 데이터를 반환합니다.
         return "예시 날씨 데이터 \(hour)시"
     }
-
-    
+        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = collectionView.bounds.width / CGFloat(7)
         let cellHeight = collectionView.bounds.height
         return CGSize(width: cellWidth, height: cellHeight)
     }
-    
-    
-
-
-    
+        
     // 컬렉션 뷰의 여백을 조정하는 메서드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
     }
-    
-    
 
-    
-   
-    
-    
-    
-
-    
-    
-    
-    
-    
-    func localWeatherPageTitle() {
-        let localLabel = UILabel()
-        localLabel.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
-        localLabel.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
-        localLabel.backgroundColor = UIColor(red: 1, green: 1.0, blue: 1.0, alpha: 0.7)
-        localLabel.font = UIFont(name: "Helvetica-Bold", size: 28)
-        // Line height: 22.47 pt
-        localLabel.textAlignment = .left
-        localLabel.text = "오늘의 날씨"
-        
-        let configure = view!
-        configure.addSubview(localLabel)
-        localLabel.translatesAutoresizingMaskIntoConstraints = false
-        localLabel.widthAnchor.constraint(equalToConstant: 149).isActive = true
-        localLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        localLabel.leadingAnchor.constraint(equalTo: configure.leadingAnchor, constant: 25).isActive = true
-        localLabel.topAnchor.constraint(equalTo: configure.topAnchor, constant: 92).isActive = true
-        localLabel.layer.cornerRadius = 25
-        
-        
-    }
-    
-    
-    
-    
-    // MARK: - weatherNowView
-    
-    
-    func weatherNowFramePart() {
-        weatherNowFameLine()
-        weatherNowFrame()
-        localWeather()
-        weatherImage()
-        nowTemperature()
-        weatherName()
-        dailyTemperature()
-    }
-    
-    func weatherNowFameLine() {
-        // Auto layout, variables, and unit scale are not yet supported
-        let weatherNowFrameTopLine = UIView()
-        weatherNowFrameTopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherNowFrameTopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-        
-        let TopLineConfigure = view!
-        TopLineConfigure.addSubview(weatherNowFrameTopLine)
-        weatherNowFrameTopLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherNowFrameTopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrameTopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherNowFrameTopLine.centerXAnchor.constraint(equalTo: TopLineConfigure.centerXAnchor).isActive = true
-        weatherNowFrameTopLine.topAnchor.constraint(equalTo: TopLineConfigure.topAnchor, constant: 125).isActive = true
-        weatherNowFrameTopLine.layer.cornerRadius = 5
-        
-        // Auto layout, variables, and unit scale are not yet supported
-        let weatherNowFrameBottomLine = UIView()
-        weatherNowFrameBottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherNowFrameBottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-        
-        let BottomLineconfigure = view!
-        BottomLineconfigure.addSubview(weatherNowFrameBottomLine)
-        weatherNowFrameBottomLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherNowFrameBottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrameBottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherNowFrameBottomLine.centerXAnchor.constraint(equalTo: BottomLineconfigure.centerXAnchor).isActive = true
-        weatherNowFrameBottomLine.topAnchor.constraint(equalTo: BottomLineconfigure.topAnchor, constant: 435).isActive = true
-        weatherNowFrameBottomLine.layer.cornerRadius = 5
-    }
-    
-    func weatherNowFrame() {
-        let nowFrameView = UIView()
-        nowFrameView.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        nowFrameView.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-        
-        let configure = view!
-        configure.addSubview(nowFrameView)
-        nowFrameView.translatesAutoresizingMaskIntoConstraints = false
-        nowFrameView.widthAnchor.constraint(equalToConstant: 330).isActive = true
-        nowFrameView.heightAnchor.constraint(equalToConstant: 310).isActive = true
-        nowFrameView.centerXAnchor.constraint(equalTo: configure.centerXAnchor).isActive = true
-        nowFrameView.topAnchor.constraint(equalTo: configure.topAnchor, constant: 125).isActive = true
-        nowFrameView.layer.cornerRadius = 15
-    }
-    
-    // 날씨 클래스, 지역명
-    func localWeather() {
-        let localLabel = UILabel()
-        localLabel.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
-        localLabel.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
-        localLabel.font = UIFont(name: "Helvetica-Bold", size: 30)
-        // Line height: 22.47 pt
-        localLabel.textAlignment = .center
-        localLabel.text = "제주도"
-        
-        let configure = view!
-        configure.addSubview(localLabel)
-        localLabel.translatesAutoresizingMaskIntoConstraints = false
-        localLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        localLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        localLabel.centerXAnchor.constraint(equalTo: configure.centerXAnchor).isActive = true
-        localLabel.topAnchor.constraint(equalTo: configure.topAnchor, constant: 148).isActive = true
-    }
-    
-    // 날씨 클래스, 날씨 - 이미지
-    func weatherImage() {
-        let imageView = UIImageView()
-        imageView.frame = CGRect(x: 0, y: 0, width: 105, height: 105)
-        imageView.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
-        let weatherImage = UIImage(named: "WeatherIcon-sun")?.cgImage
-        let weatherLayer = CALayer()
-        weatherLayer.contents = weatherImage
-        weatherLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 1, b: 0, c: 0, d: 1.01, tx: 0, ty: -0.01))
-        weatherLayer.bounds = imageView.bounds
-        weatherLayer.position = imageView.center
-        imageView.layer.addSublayer(weatherLayer)
-        
-        let configure = view!
-        configure.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.widthAnchor.constraint(equalToConstant: 105).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 105).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: configure.centerXAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: configure.topAnchor, constant: 190).isActive = true
-    }
-    
-    // 날씨 클래스, 온도
-    func nowTemperature() {
-        let temperatuerLabel = UILabel()
-        temperatuerLabel.frame = CGRect(x: 0, y: 0, width: 50, height: 32)
-        temperatuerLabel.textColor = UIColor(red: 0.0, green: 0.62, blue: 0.93, alpha: 0.80)
-        temperatuerLabel.font = UIFont(name: "Helvetica-Bold", size: 55)
-        temperatuerLabel.textAlignment = .center
-        temperatuerLabel.text = "22°C"
-        
-        let configure = view!
-        configure.addSubview(temperatuerLabel)
-        temperatuerLabel.translatesAutoresizingMaskIntoConstraints = false
-        temperatuerLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        temperatuerLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        temperatuerLabel.centerXAnchor.constraint(equalTo: configure.centerXAnchor).isActive = true
-        temperatuerLabel.topAnchor.constraint(equalTo: configure.topAnchor, constant: 295).isActive = true
-    }
-    
-    // 날씨클래스, 날씨 - 날씨명
-    func weatherName() {
-        let weatherNameLabel = UILabel()
-        weatherNameLabel.frame = CGRect(x: 0, y: 0, width: 10, height: 22)
-        weatherNameLabel.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
-        weatherNameLabel.font = UIFont(name: "Helvetica-Bold", size: 20)
-        // Line height: 22.47 pt
-        weatherNameLabel.textAlignment = .center
-        weatherNameLabel.text = "맑음"
-        
-        let configure = view!
-        configure.addSubview(weatherNameLabel)
-        weatherNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherNameLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        weatherNameLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        //        view.leadingAnchor.constraint(equalTo: parent.leadingAnchor).isActive = true
-        //        view.trailingAnchor.constraint(equalTo: parent.trailingAnchor).isActive = true
-        weatherNameLabel.centerXAnchor.constraint(equalTo: configure.centerXAnchor).isActive = true
-        weatherNameLabel.topAnchor.constraint(equalTo: configure.topAnchor, constant: 365).isActive = true
-    }
-    
-    // 최고 온도 / 최저 온도
-    func dailyTemperature() {
-        let dtLabel = UILabel()
-        dtLabel.frame = CGRect(x: 0, y: 0, width: 210, height: 22)
-        dtLabel.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
-        dtLabel.font = UIFont(name: "Helvetica-Bold", size: 16.5)
-        // Line height: 22.47 pt
-        dtLabel.textAlignment = .center
-        dtLabel.text = "최고: 28.5°C / 최저: 15.7°C"
-        
-        let configure = view!
-        configure.addSubview(dtLabel)
-        dtLabel.translatesAutoresizingMaskIntoConstraints = false
-        dtLabel.widthAnchor.constraint(equalToConstant: 210).isActive = true
-        dtLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        dtLabel.centerXAnchor.constraint(equalTo: configure.centerXAnchor).isActive = true
-        dtLabel.topAnchor.constraint(equalTo: configure.topAnchor, constant: 395).isActive = true
-    }
-    
-    // MARK: - weatherTodayView
-    
-    func weatherTodayPart() {
-        weatherTodayFrameLine()
-        weatherTodayFrame()
-        weatherMent()
-        weatherTodayMentUnderLine()
-    }
-
-    func weatherTodayFrameLine() {
-        // Auto layout, variables, and unit scale are not yet supported
-        let weatherTodayFrameTopLine = UIView()
-        weatherTodayFrameTopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherTodayFrameTopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
-        let TopLineconfigure = view!
-        TopLineconfigure.addSubview(weatherTodayFrameTopLine)
-        weatherTodayFrameTopLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherTodayFrameTopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherTodayFrameTopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherTodayFrameTopLine.centerXAnchor.constraint(equalTo: TopLineconfigure.centerXAnchor).isActive = true
-        weatherTodayFrameTopLine.topAnchor.constraint(equalTo: TopLineconfigure.topAnchor, constant: 457).isActive = true
-        weatherTodayFrameTopLine.layer.cornerRadius = 5
-
-        // Auto layout, variables, and unit scale are not yet supported
-        let weatherTodayFrameBottomLine = UIView()
-        weatherTodayFrameBottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherTodayFrameBottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
-        let BottomLineconfigure = view!
-        BottomLineconfigure.addSubview(weatherTodayFrameBottomLine)
-        weatherTodayFrameBottomLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherTodayFrameBottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherTodayFrameBottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherTodayFrameBottomLine.centerXAnchor.constraint(equalTo: BottomLineconfigure.centerXAnchor).isActive = true
-        weatherTodayFrameBottomLine.topAnchor.constraint(equalTo: BottomLineconfigure.topAnchor, constant: 567).isActive = true
-        weatherTodayFrameBottomLine.layer.cornerRadius = 5
-    }
-
-    func weatherTodayFrame() {
-        // Auto layout, variables, and unit scale are not yet supported
-        let view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-        //        view.layer.borderWidth = 5
-        //        view.layer.borderColor = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0).cgColor
-
-        let configure = self.view!
-        configure.addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: 330).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 110).isActive = true
-        view.leadingAnchor.constraint(equalTo: configure.leadingAnchor, constant: 30).isActive = true
-        view.topAnchor.constraint(equalTo: configure.topAnchor, constant: 457).isActive = true
-        view.layer.cornerRadius = 15
-    }
-
-    // 날씨 멘트
-    func weatherMent() {
-        let view = UILabel()
-        view.frame = CGRect(x: 0, y: 0, width: 210, height: 22)
-        view.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
-        view.font = UIFont(name: "Helvetica-Bold", size: 15)
-        // Line height: 22.47 pt
-        view.textAlignment = .left
-        view.text = "전국적으로 맑은 날씨가 예상됩니다."
-
-        let configure = self.view!
-        configure.addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        view.leadingAnchor.constraint(equalTo: configure.leadingAnchor, constant: 40).isActive = true
-        view.topAnchor.constraint(equalTo: configure.topAnchor, constant: 465).isActive = true
-    }
-
-    func weatherTodayMentUnderLine() {
-        // Auto layout, variables, and unit scale are not yet supported
-        let weatherTodayMentUnderLine = UIView()
-        weatherTodayMentUnderLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherTodayMentUnderLine.layer.backgroundColor = UIColor(red: 0.88, green: 0.88, blue: 0.88, alpha: 0.7).cgColor
-        //        nowFrameView.layer.borderWidth = 5
-        //        nowFrameView.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
-
-        let configure = view!
-        configure.addSubview(weatherTodayMentUnderLine)
-        weatherTodayMentUnderLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherTodayMentUnderLine.widthAnchor.constraint(equalToConstant: 330).isActive = true
-        weatherTodayMentUnderLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherTodayMentUnderLine.centerXAnchor.constraint(equalTo: configure.centerXAnchor).isActive = true
-        weatherTodayMentUnderLine.topAnchor.constraint(equalTo: configure.topAnchor, constant: 490).isActive = true
-        weatherTodayMentUnderLine.layer.cornerRadius = 15
-    }
-
-    // 날씨 콜렉션뷰, 시간별 날씨 이미지, 온도
-
-    // MARK: - RestWeatherInfoViews
-
-
-    func weatherFramePart3(){
-        weatherNowFrame3()
-        nameOfWeatherNowFrame3()
-    }
-
-
-    func weatherNowFrame3() {
-        // Auto layout, variables, and unit scale are not yet supported
-        let view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-        //        view.layer.borderWidth = 5
-        //        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
-
-        let configure = self.view!
-        configure.addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: 330).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        view.leadingAnchor.constraint(equalTo: configure.leadingAnchor, constant: 30).isActive = true
-        view.topAnchor.constraint(equalTo: configure.topAnchor, constant: 590).isActive = true
-        view.layer.cornerRadius = 15
-    }
-
-
-
-    func nameOfWeatherNowFrame3() {
-        let nameLabel = UILabel()
-        nameLabel.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
-        nameLabel.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
-        nameLabel.font = UIFont(name: "Helvetica-Bold", size: 15)
-        // Line height: 22.47 pt
-        nameLabel.textAlignment = .left
-        nameLabel.text = "공기질"
-
-        let configure = view!
-        configure.addSubview(nameLabel)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: configure.leadingAnchor, constant: 40).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: configure.topAnchor, constant: 595).isActive = true
-    }
-
-
-
-
-
-    func weatherNowFramePart4(){
-        weatherNowFrame4()
-        nameOfWeatherNowFrame4()
-    }
-
-
-    func weatherNowFrame4() {
-        // Auto layout, variables, and unit scale are not yet supported
-        let view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        view.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.3).cgColor
-        //        view.layer.borderWidth = 5
-        //        view.layer.borderColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00).cgColor
-
-        let configure = self.view!
-        configure.addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: 330).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        view.leadingAnchor.constraint(equalTo: configure.leadingAnchor, constant: 30).isActive = true
-        view.topAnchor.constraint(equalTo: configure.topAnchor, constant: 670).isActive = true
-        view.layer.cornerRadius = 15
-    }
-
-
-    func nameOfWeatherNowFrame4() {
-        let nameLabel = UILabel()
-        nameLabel.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
-        nameLabel.textColor = UIColor(red: 0, green: 0.8, blue: 1.0, alpha: 1.0)
-        nameLabel.font = UIFont(name: "Helvetica-Bold", size: 15)
-        // Line height: 22.47 pt
-        nameLabel.textAlignment = .left
-        nameLabel.text = "자외선 지수"
-
-        let configure = view!
-        configure.addSubview(nameLabel)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: configure.leadingAnchor, constant: 40).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: configure.topAnchor, constant: 675).isActive = true
-    }
-
-
-
-    func restFrameLine() {
-        // 세번째 뷰 프레임 아웃라인
-        let weatherNowFrame3TopLine = UIView()
-        weatherNowFrame3TopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherNowFrame3TopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
-        let TopLineconfigure = view!
-        TopLineconfigure.addSubview(weatherNowFrame3TopLine)
-        weatherNowFrame3TopLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherNowFrame3TopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame3TopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherNowFrame3TopLine.centerXAnchor.constraint(equalTo: TopLineconfigure.centerXAnchor).isActive = true
-        weatherNowFrame3TopLine.topAnchor.constraint(equalTo: TopLineconfigure.topAnchor, constant: 590).isActive = true
-        weatherNowFrame3TopLine.layer.cornerRadius = 5
-
-        let weatherNowFrame3BottomLine = UIView()
-        weatherNowFrame3BottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherNowFrame3BottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
-        let BottomLineconfigure = view!
-        BottomLineconfigure.addSubview(weatherNowFrame3BottomLine)
-        weatherNowFrame3BottomLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherNowFrame3BottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame3BottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherNowFrame3BottomLine.centerXAnchor.constraint(equalTo: BottomLineconfigure.centerXAnchor).isActive = true
-        weatherNowFrame3BottomLine.topAnchor.constraint(equalTo: BottomLineconfigure.topAnchor, constant: 650).isActive = true
-        weatherNowFrame3BottomLine.layer.cornerRadius = 5
-
-        // 네번째 뷰 프레임 아웃라인
-        let weatherNowFrame4TopLine = UIView()
-        weatherNowFrame4TopLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherNowFrame4TopLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
-        let TopLineconfigure2 = view!
-        TopLineconfigure2.addSubview(weatherNowFrame4TopLine)
-        weatherNowFrame4TopLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherNowFrame4TopLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame4TopLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherNowFrame4TopLine.centerXAnchor.constraint(equalTo: TopLineconfigure2.centerXAnchor).isActive = true
-        weatherNowFrame4TopLine.topAnchor.constraint(equalTo: TopLineconfigure2.topAnchor, constant: 670).isActive = true
-        weatherNowFrame4TopLine.layer.cornerRadius = 5
-
-        let weatherNowFrame4BottomLine = UIView()
-        weatherNowFrame4BottomLine.frame = CGRect(x: 0, y: 0, width: 345, height: 59)
-        weatherNowFrame4BottomLine.layer.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.7).cgColor
-
-        let BottomLineconfigure2 = view!
-        BottomLineconfigure2.addSubview(weatherNowFrame4BottomLine)
-        weatherNowFrame4BottomLine.translatesAutoresizingMaskIntoConstraints = false
-        weatherNowFrame4BottomLine.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        weatherNowFrame4BottomLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        weatherNowFrame4BottomLine.centerXAnchor.constraint(equalTo: BottomLineconfigure2.centerXAnchor).isActive = true
-        weatherNowFrame4BottomLine.topAnchor.constraint(equalTo: BottomLineconfigure2.topAnchor, constant: 730).isActive = true
-        weatherNowFrame4BottomLine.layer.cornerRadius = 5
-    }
 }
-
-
-
-
-
+    
 class WeatherCell: UICollectionViewCell {
     lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -580,59 +631,59 @@ class WeatherCell: UICollectionViewCell {
         stackView.spacing = 2
         return stackView
     }()
-
+    
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-
+    
     lazy var topLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-//        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
+        //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
         label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
         label.font = UIFont(name: "Helvetica-Bold", size: 9)
         label.textAlignment = .left
         return label
     }()
-
+    
     lazy var bottomLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-//        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
+        //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
         label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
         label.font = UIFont(name: "Helvetica-Bold", size: 9)
         label.textAlignment = .left
         return label
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupUI()
     }
-
+    
     private func setupUI() {
         // 서브뷰를 스택뷰에 추가합니다.
         verticalStackView.addArrangedSubview(topLabel)
         verticalStackView.addArrangedSubview(imageView)
         verticalStackView.addArrangedSubview(bottomLabel)
-
+    
         // 스택뷰를 셀의 contentView에 추가합니다.
         contentView.addSubview(verticalStackView)
-
+    
         // Auto Layout 설정
         imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0).isActive = true
+        //        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
-//        imageView.topAnchor.constraint(equalTo: self.verticalStackView.topAnchor, constant: 0).isActive = true // 위 여백 조절
-//        imageView.bottomAnchor.constraint(equalTo: self.verticalStackView.bottomAnchor, constant: 0).isActive = true // 아래 여백 조절
+        //        imageView.topAnchor.constraint(equalTo: self.verticalStackView.topAnchor, constant: 0).isActive = true // 위 여백 조절
+        //        imageView.bottomAnchor.constraint(equalTo: self.verticalStackView.bottomAnchor, constant: 0).isActive = true // 아래 여백 조절
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         topLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
         topLabel.heightAnchor.constraint(equalToConstant: 9).isActive = true
