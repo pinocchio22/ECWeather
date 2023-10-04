@@ -150,7 +150,7 @@ class AlarmViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tableView1.reloadData()
-        loadLocationInfomation()
+        getCurrentWeatherInfo()
     }
     
     override func viewDidLoad() {
@@ -315,11 +315,27 @@ class AlarmViewController: BaseViewController {
         tableView2.clipsToBounds = true
     }
     
-    private func loadLocationInfomation() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest // desiredAccuracy: 업데이트 되는 위치 정확도
-        locationManager.requestWhenInUseAuthorization() // requestWhenInUseAuthorization(): 위치동의 못얻었으면 권한요청, 이미 얻었으면 걍 pass~
-        locationManager.startUpdatingLocation() // startUpdatingLocation(): 위치 업데이트 시작
+    private func getCurrentWeatherInfo() {
+        NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { item in
+            if let item = item {
+
+                // 켈빈에서 섭씨로 변환
+                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
+                let minTempKelvinToCelsius = (item.minTemp - 273.15)
+                
+                // 반올림 (소수점 첫 번째 자리까지)
+                self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
+                self.minTemp = round(minTempKelvinToCelsius * 10) / 10
+                
+                print("현위치 최고온도 : \(self.maxTemp)°C")
+                print("현위치 최저온도 : \(self.minTemp)°C")
+                
+                self.currentWeather = item.descriotion
+//                    print("현위치 최저온도 : ", item.minTemp)
+//                    print("현위치 최고온도 : ", item.maxTemp)
+                print("현위치 날씨 : ", self.currentWeather)
+            }
+        }
     }
     
     // !!BUTTON FOR TEST - 나중에 삭제
@@ -616,41 +632,3 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: - CLLocationManager 현위치정보
-extension AlarmViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // CLLocationManager가 새로운 위치 수신해올때 처리할 내용
-        if let location = locations.last {
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            print("현위치 위도: \(latitude)")
-            print("현위치 경도: \(longitude)")
-            
-            NetworkService.getCurrentWeather(lat: latitude, lon: longitude) { item in
-                if let item = item {
-
-                    // 켈빈에서 섭씨로 변환
-                    let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
-                    let minTempKelvinToCelsius = (item.minTemp - 273.15)
-                    
-                    // 반올림 (소수점 첫 번째 자리까지)
-                    self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
-                    self.minTemp = round(minTempKelvinToCelsius * 10) / 10
-                    
-                    print("현위치 최고온도 : \(self.maxTemp)°C")
-                    print("현위치 최저온도 : \(self.minTemp)°C")
-                    
-                    self.currentWeather = item.descriotion
-//                    print("현위치 최저온도 : ", item.minTemp)
-//                    print("현위치 최고온도 : ", item.maxTemp)
-                    print("현위치 날씨 : ", self.currentWeather)
-                }
-            }
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // 위치 업데이트 실패시 처리할 내용
-    }
-}
