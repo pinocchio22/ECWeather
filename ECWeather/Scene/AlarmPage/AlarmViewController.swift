@@ -5,12 +5,6 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
-// TODO: - 1. 테스트버튼으로 알림 받던것 -> 설정한 시간 요일에 따라 알림 울리도록
-// TODO: - 2. 알림 울리는 시간/요일 정보를 앱 내 저장 필요.. (UserDefaults?)
-// TODO: - 3. 날씨에 따른 알림 메세지 문구 설정 필요.. (API 반환 값 확인)
-// TODO: - 4. 알림 울릴 API 요청할 기준 도시는 어떻게? -> 이것도 앱내 따로 저장 필요..
-
-
 import AVFoundation
 import CoreLocation
 import SnapKit
@@ -24,7 +18,6 @@ class AlarmViewController: BaseViewController {
     private let locationManager = CLLocationManager()
     private var weatherCellStatus: Bool? = nil
     private var temperatureCellStatus: Bool? = nil
-//    private var timePickerValue: Date = Date()
     
     private let weekdays: [String] = ["월","화","수","목","금","토","일"]
     private var selectedWeekdays: [Int] = []
@@ -171,7 +164,9 @@ class AlarmViewController: BaseViewController {
     
     private func loadDataFromUserDefaults() {
         // switch on/off 값
-        
+        if let switchStatus = UserDefaults.standard.value(forKey: "notificationSwitchStatus") as? Bool {
+            notificationSwitch.isOn = switchStatus
+        }
         // 타임피커 값
         if let selectedTime = UserDefaults.standard.object(forKey: "timePickerValue") as? Date {
             timePicker.date = selectedTime
@@ -494,6 +489,7 @@ class AlarmViewController: BaseViewController {
             tableView1.reloadData()
             tableView2.reloadData()
             
+            UserDefaults.standard.set(true, forKey: "notificationSwitchStatus")
             scheduleNotification()
         } else {
             timePicker.isEnabled = false
@@ -505,6 +501,7 @@ class AlarmViewController: BaseViewController {
             tableView1.reloadData()
             tableView2.reloadData()
             
+            UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
             scheduleNotification()
         
         }
