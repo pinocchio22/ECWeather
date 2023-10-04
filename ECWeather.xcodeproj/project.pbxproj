@@ -28,6 +28,7 @@
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
 		FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF22B6582AC134C900686B4F /* Assets.xcassets */; };
 		FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */; };
+		FF425BD82ACD01B20053C2B4 /* KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF425BD72ACD01B20053C2B4 /* KEY.swift */; };
 		FF4939862ACA9D410063B274 /* WeeklyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4939852ACA9D410063B274 /* WeeklyWeather.swift */; };
 		FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */; };
 		FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */; };
@@ -69,6 +70,7 @@
 		FF22B6582AC134C900686B4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF22B65B2AC134C900686B4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF22B65D2AC134C900686B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF425BD72ACD01B20053C2B4 /* KEY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KEY.swift; sourceTree = "<group>"; };
 		FF4939852ACA9D410063B274 /* WeeklyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyWeather.swift; sourceTree = "<group>"; };
 		FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalMapView.swift; sourceTree = "<group>"; };
 		FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalViewModel.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 		FF22B64E2AC134C800686B4F /* ECWeather */ = {
 			isa = PBXGroup;
 			children = (
+				FF425BD62ACD01960053C2B4 /* Secret */,
 				FF22B64F2AC134C800686B4F /* AppDelegate.swift */,
 				FF22B6512AC134C800686B4F /* SceneDelegate.swift */,
 				56D88AEF2AC714C4006EB784 /* Main.storyboard */,
@@ -164,6 +167,14 @@
 				FF8F2EF62AC19E7000C2C85D /* Resource */,
 			);
 			path = ECWeather;
+			sourceTree = "<group>";
+		};
+		FF425BD62ACD01960053C2B4 /* Secret */ = {
+			isa = PBXGroup;
+			children = (
+				FF425BD72ACD01B20053C2B4 /* KEY.swift */,
+			);
+			path = Secret;
 			sourceTree = "<group>";
 		};
 		FF7D081B2AC566AD0004CC4E /* Utils */ = {
@@ -360,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8F2F082AC1A77A00C2C85D /* WeeklyViewController.swift in Sources */,
+				FF425BD82ACD01B20053C2B4 /* KEY.swift in Sources */,
 				56D88AE72AC405B8006EB784 /* TemperatureCollectionViewCell.swift in Sources */,
 				FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */,
 				FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */,
