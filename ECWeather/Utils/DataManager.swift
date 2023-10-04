@@ -11,8 +11,7 @@ class DataManager {
     static let shared = DataManager()
     
     /// 온도 표시 .celsius이면 C, .fahrenheit이면 F
-    var temperatureType1: Temperature = .celsius
-    var temperatureType = 0
+    var temperatureType: Temperature = .celsius
     
     var latitude: Double?
     var longitude: Double?

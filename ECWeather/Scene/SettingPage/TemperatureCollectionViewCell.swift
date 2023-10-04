@@ -47,7 +47,7 @@ class TemperatureCollectionViewCell: UICollectionViewCell {
         
         weatherImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(20)
+            $0.height.equalTo(50)
             $0.bottom.equalTo(temperatureLabel.snp.top)
         }
         

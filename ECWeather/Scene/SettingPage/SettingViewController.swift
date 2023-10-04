@@ -142,6 +142,14 @@ extension SettingViewController: CLLocationManagerDelegate {
             print("현재 위치 - 위도: \(latitude), 경도: \(longitude)")
             DataManager.shared.latitude = latitude
             DataManager.shared.longitude = longitude
+            
+            let alert = UIAlertController(title: "현재 위치가 재설정 되었습니다.", message: "", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "확인", style: .cancel) { _ in
+            }
+            
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -156,7 +164,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.titleLabel.text = items[indexPath.row]
         cell.segmentedControl.isHidden = indexPath.row != 0
         cell.segmentedControl.tag = indexPath.row
-        cell.segmentedControl.selectedSegmentIndex = DataManager.shared.temperatureType
+        cell.segmentedControl.selectedSegmentIndex = DataManager.shared.temperatureType == .celsius ? 0 : 1
         return cell
     }
     
@@ -169,13 +177,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             locationManager.delegate = self
             locationManager.startUpdatingLocation()
         } else {
-            DataManager.shared.temperatureType = DataManager.shared.temperatureType == 0 ? 1 : 0
+            DataManager.shared.temperatureType = DataManager.shared.temperatureType == .celsius ? .fahrenheit : .celsius
             tableView.reloadData()
         }
-    }
-    
-    @objc func didChangeValueSegement(_ sender: UISegmentedControl) {
-        sender.selectedSegmentIndex = (sender.selectedSegmentIndex != 0) ? 0 : 1
-        mainTableView.reloadData()
     }
 }
