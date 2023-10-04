@@ -457,13 +457,7 @@ class AlarmViewController: BaseViewController {
             let randomIdentifier = UUID().uuidString
             let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
             
-            UNUserNotificationCenter.current().add(request) { (error) in
-                if let error = error {
-                    print("알림 실패: \(error.localizedDescription)")
-                } else {
-                    print("알림 성공.")
-                }
-            }
+            UNUserNotificationCenter.current().add(request) 
         }
         
         // 대기중인 알림 찍어보기
