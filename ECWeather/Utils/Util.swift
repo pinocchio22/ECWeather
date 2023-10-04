@@ -45,3 +45,8 @@ enum Region: String {
     case busan = "부산"
     case jeju = "제주"
 }
+
+enum Temperature: String {
+    case celsius = "units=metric"
+    case fahrenheit = "units=imperial"
+}
