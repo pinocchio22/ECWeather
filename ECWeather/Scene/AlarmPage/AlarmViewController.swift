@@ -398,11 +398,38 @@ class AlarmViewController: BaseViewController {
 
         // 메세지 내용
         let content = UNMutableNotificationContent()
-        content.title = "e편한날씨 - 날씨 알리미"
+        content.title = "ECWeather - 날씨 알리미"
+        
+        // "날씨","온도" 둘다 미체크.. TODO: - 애초에 사용자가 둘다 체크해제 못하게 막아야함
         content.body =
         """
-        타임피커 알림 발송 테스트 입니다..ㅁㄴㅇㅁㄴㅇㅁㄴ!!
+        알림내용 체크 안되어 있음..
         """
+        
+        // "날씨" 체크
+        if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
+            content.body =
+            """
+            The current weather is \(currentWeather).
+            """
+        }
+        
+        // "온도" 체크
+        else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
+            content.body =
+            """
+            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
+            """
+        }
+        
+        // "날씨", "온도" 체크
+        else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
+            content.body =
+            """
+            The current weather is \(currentWeather).
+            (\(minTemp)°C - \(maxTemp)°C)
+            """
+        }
             
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
             content.sound = UNNotificationSound(named: UNNotificationSoundName("\(selectedSoundName).caf"))
@@ -498,7 +525,7 @@ class AlarmViewController: BaseViewController {
             tableView2.reloadData()
             
             UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
-            scheduleNotification()
+            // TODO: - 대기중인 알림 목록 지우기
         }
     }
     
