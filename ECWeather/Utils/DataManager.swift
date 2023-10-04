@@ -16,6 +16,8 @@ class DataManager {
     var latitude: Double?
     var longitude: Double?
     
+    var searchKeyword: [String] = []
+    
     func temperatureExpression(temperature: Float) -> Float {
         if temperatureType == 0 {
             return (temperature * 1.8) + 32
@@ -23,4 +25,12 @@ class DataManager {
             return (temperature - 32) * 5/9
         }
     }
+    
+    /// 알림 수신음 정의 - AlarmViewController, SelectNotificationSoundViewController 사용
+    static let notificationSoundList: [String: String] = [
+        "뭐지": "notification_sound_moji",
+        "꽥": "notification_sound_quack",
+        "탸댜아아ㅏ" : "notification_sound_taddddaaaaa",
+        "오와우우으" : "notification_sound_wow",
+    ]
 }
