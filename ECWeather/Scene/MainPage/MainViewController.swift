@@ -307,9 +307,9 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
                 self?.humidityAndWindStranth.text = "습도: \(weatherData.humidity) / 풍속: \(weatherData.windSpeed)"
                 self?.sunRiseAndSetTime.text = "일출시간: \(weatherData.sunrise) / 일몰시간: \(weatherData.sunset)"
                 
-                cell.topLabel.text = "시간"
-                cell.imageView.image = UIImage(named: "WeatherIcon-sun")
-                cell.bottomLabel.text = "온도"
+//                cell.topLabel.text = "시간"
+//                cell.imageView.image = UIImage(named: "WeatherIcon-sun")
+//                cell.bottomLabel.text = "온도"
                 
                 
 //
