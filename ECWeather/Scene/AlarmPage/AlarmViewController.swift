@@ -43,8 +43,8 @@ class AlarmViewController: BaseViewController {
         return label
     }()
     
-    // !!BUTTON FOR TEST - 나중에 삭제
-    private lazy var btnForTest: UIButton = {
+    // !!BUTTON FOR PRESENTATION - 나중에 삭제
+    private lazy var btnForPresentation: UIButton = {
         let button = UIButton()
         button.setTitle("[시연용 버튼]", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -52,7 +52,7 @@ class AlarmViewController: BaseViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setTitleColor(.gray, for: .normal)
         button.backgroundColor = .gray.withAlphaComponent(0.3)
-        button.addTarget(self, action: #selector(testBtnTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(presentationBtnTapped), for: .touchUpInside)
         button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20) // TODO: - 원형 만들기
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         return button
@@ -199,7 +199,7 @@ class AlarmViewController: BaseViewController {
         makeWeekdaysBtnStack()
         configureTableView()
         view.addSubview(titleLabel)
-        view.addSubview(btnForTest) // !!BUTTON FOR TEST - 나중에 삭제
+        view.addSubview(btnForPresentation) // !!BUTTON FOR PRESENTATION - 나중에 삭제
         view.addSubview(notificationSwitch)
         view.addSubview(descriptionLabel)
         view.addSubview(timePicker)
@@ -217,8 +217,8 @@ class AlarmViewController: BaseViewController {
             $0.leading.equalToSuperview().offset(25)
         }
         
-        // !!BUTTON FOR TEST - 나중에 삭제
-        btnForTest.snp.makeConstraints {
+        // !!BUTTON FOR PRESENTATION
+        btnForPresentation.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
             $0.trailing.equalTo(notificationSwitch.snp.leading).offset(-15)
         }
@@ -327,8 +327,8 @@ class AlarmViewController: BaseViewController {
         }
     }
     
-    // !!BUTTON FOR TEST - 나중에 삭제
-    @objc private func testBtnTapped() {
+    // !!BUTTON FOR PRESENTATION - 나중에 삭제
+    @objc private func presentationBtnTapped() {
         
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
