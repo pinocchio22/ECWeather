@@ -103,7 +103,7 @@ class AlarmViewController: BaseViewController {
     private let weekdaysBtnStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
         stackView.spacing = 0.1
         return stackView
@@ -189,7 +189,6 @@ class AlarmViewController: BaseViewController {
         // 알림 내용 선택 값
         weatherCellStatus = UserDefaults.standard.bool(forKey: "weatherCellSelectedKey")
         temperatureCellStatus = UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey")
-
     }
 
     // MARK: - Methods & Selectors
@@ -259,9 +258,9 @@ class AlarmViewController: BaseViewController {
         }
         
         weekdaysBtnStack.snp.makeConstraints {
-            $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
+            $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(15)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(25)
+            $0.height.equalTo(35)
         }
         
         soundMenuTableLabel.snp.makeConstraints {
@@ -298,8 +297,8 @@ class AlarmViewController: BaseViewController {
             button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             button.addTarget(self, action: #selector(weekdaysButtonTapped), for: .touchUpInside)
             
-            button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
-            button.layer.cornerRadius = 0.6 * button.bounds.size.width
+            button.bounds = CGRect(x: 0, y: 0, width: 25, height: 25)
+            button.layer.cornerRadius = 0.5 * button.bounds.size.width
             
             weekdaysBtnStack.addArrangedSubview(button)
         }
@@ -322,12 +321,12 @@ class AlarmViewController: BaseViewController {
             if let item = item {
 
                 // 켈빈에서 섭씨로 변환
-                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
-                let minTempKelvinToCelsius = (item.minTemp - 273.15)
+//                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
+//                let minTempKelvinToCelsius = (item.minTemp - 273.15)
                 
                 // 반올림 (소수점 첫 번째 자리까지)
-                self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
-                self.minTemp = round(minTempKelvinToCelsius * 10) / 10
+                self.maxTemp = round(item.maxTemp * 10) / 10
+                self.minTemp = round(item.minTemp * 10) / 10
                 
                 self.currentWeather = item.description
             }
@@ -336,7 +335,7 @@ class AlarmViewController: BaseViewController {
     
     // !!BUTTON FOR TEST - 나중에 삭제
     @objc private func testBtnTapped() {
-    
+        
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
@@ -350,25 +349,42 @@ class AlarmViewController: BaseViewController {
         if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
             content.body =
             """
-            The current weather is \(currentWeather).
+            현재 날씨는 \(currentWeather)입니다.
             """
         }
         
         // "온도" 체크
         else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
-            content.body =
-            """
-            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°F 이며,
+                최고기온은 \(maxTemp)°F 까지 오를 예정입니다.
+                """
+            } else {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°C 이며,
+                최고기온은 \(maxTemp)°C 까지 오를 예정입니다.
+                """
+            }
         }
         
         // "날씨", "온도" 체크
         else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
-            content.body =
-            """
-            The current weather is \(currentWeather). 
-            (\(minTemp)°C - \(maxTemp)°C)
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°F - \(maxTemp)°F)
+                """
+            } else {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°C - \(maxTemp)°C)
+                """
+            }
         }
         
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
@@ -384,20 +400,17 @@ class AlarmViewController: BaseViewController {
         
     }
     
-    // 타임피커에 저장된 시간에 알림 (나중에 테스트 버튼 대체..)
     private func scheduleNotification() {
         
         // 모든 대기열에 있는 알림을 삭제
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        
-        // 시간 불러오기
+
         let selectedDate = timePicker.date
 
         // 메세지 내용
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
-        // "날씨","온도" 둘다 미체크.. TODO: - 애초에 사용자가 둘다 체크해제 못하게 막아야함
         content.body =
         """
         알림내용 체크 안되어 있음..
@@ -407,25 +420,42 @@ class AlarmViewController: BaseViewController {
         if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
             content.body =
             """
-            The current weather is \(currentWeather).
+            현재 날씨는 \(currentWeather)입니다.
             """
         }
         
         // "온도" 체크
         else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
-            content.body =
-            """
-            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°F 이며,
+                최고기온은 \(maxTemp)°F 까지 오를 예정입니다.
+                """
+            } else {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°C 이며,
+                최고기온은 \(maxTemp)°C 까지 오를 예정입니다.
+                """
+            }
         }
         
         // "날씨", "온도" 체크
         else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
-            content.body =
-            """
-            The current weather is \(currentWeather).
-            (\(minTemp)°C - \(maxTemp)°C)
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°F - \(maxTemp)°F)
+                """
+            } else {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°C - \(maxTemp)°C)
+                """
+            }
         }
             
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
@@ -516,7 +546,6 @@ class AlarmViewController: BaseViewController {
             notificationContentTable.reloadData()
             
             UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
-            // TODO: - 대기중인 알림 목록 지우기
         }
     }
     
@@ -601,24 +630,34 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                 if let cell = tableView.cellForRow(at: indexPath) {
                     if indexPath.row == 0 {
                         // 날씨
-                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-                        
-                        let cellStatus = cell.accessoryType == .checkmark
-                        if (cellStatus == true) {
-                            UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
+                        if cell.accessoryType == .checkmark {
+                            if let weatherStatus = weatherCellStatus, let temperatureStatus = temperatureCellStatus {
+                                if weatherStatus && temperatureStatus{
+                                    cell.accessoryType = .none
+                                    UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
+                                    weatherCellStatus = !(weatherCellStatus ?? true)
+                                }
+                                
+                            }
                         } else {
-                            UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
+                            cell.accessoryType = .checkmark
+                            UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
+                            weatherCellStatus = !(weatherCellStatus ?? false)
                         }
-                        
                     } else if indexPath.row == 1 {
                        // 온도
-                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-
-                        let cellStatus = cell.accessoryType == .checkmark
-                        if (cellStatus == true) {
-                            UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
+                        if cell.accessoryType == .checkmark {
+                            if let weatherStatus = weatherCellStatus, let temperatureStatus = temperatureCellStatus {
+                                if weatherStatus && temperatureStatus {
+                                    cell.accessoryType = .none
+                                    UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
+                                    temperatureCellStatus = !(temperatureCellStatus ?? true)
+                                }
+                            }
                         } else {
-                            UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
+                            cell.accessoryType = .checkmark
+                            UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
+                            temperatureCellStatus = !(temperatureCellStatus ?? false)
                         }
                     }
                 }
