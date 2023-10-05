@@ -121,4 +121,5 @@ struct CustomWeather {
     let description: String
     let icon: String
     let windSpeed: Double
+    let name: String
 }

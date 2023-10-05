@@ -90,7 +90,11 @@ extension SearchTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
         cell.layer.cornerRadius = 10
         cell.timeLabel.text = "\(weatherData?[indexPath.row].dateTime.toDate()?.toTimeString() ?? "")시"
         cell.temperatureLabel.text = "\(Int(weatherData?[indexPath.row].currentTemp ?? 0))°"
-        cell.weatherImage.image = UIImage(data:NetworkService.getIcon(iconCode: weatherData?[indexPath.row].icon ?? ""))
+        NetworkService.getIcon(iconCode: weatherData?[indexPath.row].icon ?? "") { icon in
+            DispatchQueue.main.async {
+                cell.weatherImage.image = UIImage(data: icon ?? Data())
+            }
+        }
         return cell
     }
 }
