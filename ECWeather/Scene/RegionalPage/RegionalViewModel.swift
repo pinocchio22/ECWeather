@@ -47,4 +47,12 @@ class RegionalViewModel {
             }
         }
     }
+    
+    func getDailyWeather(cityName: String, completion: @escaping ([CustomWeeklyWeather]?) -> Void) {
+        var location: [CustomWeeklyWeather]?
+        NetworkService.getWeeklyWeather(cityName: cityName) { item in
+            location = item
+            completion(location)
+        }
+    }
 }
