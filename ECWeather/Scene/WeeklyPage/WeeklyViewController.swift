@@ -157,7 +157,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
             let maxTemp = weatherData.maxTemp
             let minTemp = weatherData.minTemp
             let weatherImageName = weatherData.icon
-            
 
             let weather = WeatherData(day: koreanDay, weather: weatherDescription, highTemperature: Int(maxTemp), lowTemperature: Int(minTemp), weatherImageName: weatherImageName)
 
@@ -186,12 +185,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let weatherData = weeklyForecast[indexPath.row]
         cell.configure(day: weatherData.day, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
 
-
-
-        // API에서 가져온 날짜 데이터를 한국어로 변환하여 사용
-        let koreanDay = convertToKoreanDay(englishDay: (weatherData.dateTime.toDate()?.toWeekString())!)
-        cell.configure(day: koreanDay, weather: weatherData.description, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
-
         if selectedCellIndex == indexPath {
             cell.selectionStyle = .none
         } else {
@@ -199,7 +192,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         }
         return cell
     }
-
 
     func initRefresh() {
         refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
@@ -292,8 +284,14 @@ class WeeklyTableViewCell: UITableViewCell {
     func configure(day: String, weather: String, highTemperature: Int, lowTemperature: Int, weatherImageName: String) {
         dayLabel.text = day
         weatherLabel.text = weather
+        
         temperatureLabel.text = "\(lowTemperature)° / \(highTemperature)°"
-        weatherImageView.image = UIImage(data: NetworkService.getIcon(iconCode: weatherImageName))
+        NetworkService.getIcon(iconCode: weatherImageName) { data in
+            DispatchQueue.main.async {
+                self.weatherImageView.image = UIImage(data: data ?? Data())
+            }
+            
+        }
+        
     }
 }
-
