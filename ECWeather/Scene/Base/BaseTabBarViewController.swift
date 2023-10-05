@@ -48,7 +48,7 @@ class BaseTabBarViewController: UITabBarController {
         
         // 지역별
         self.tabBar.items![1].imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
-        self.tabBar.items![1].image = UIImage(systemName: "map")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items![1].image = UIImage(systemName: "map")?.withRenderingMode(.alwaysOriginal).withTintColor(.black)
         self.tabBar.items![1].selectedImage = UIImage(systemName: "map.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.ECWeatherColor3!)
         self.tabBar.items![1].title = "지역별"
         
@@ -74,7 +74,7 @@ class BaseTabBarViewController: UITabBarController {
         
         // 설정
         self.tabBar.items![4].imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
-        self.tabBar.items![4].image = UIImage(systemName: "gear.circle")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items![4].image = UIImage(systemName: "gear.circle")?.withRenderingMode(.alwaysOriginal).withTintColor(.black)
         self.tabBar.items![4].selectedImage = UIImage(systemName: "gear.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.ECWeatherColor3!)
         self.tabBar.items![4].title = "설정"
     }

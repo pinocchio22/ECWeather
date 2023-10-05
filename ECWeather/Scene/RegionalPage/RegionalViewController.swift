@@ -10,13 +10,13 @@ import SnapKit
 import UIKit
 
 class RegionalViewController: BaseViewController {
-    let viewModel = RegionalViewModel()
+    private let viewModel = RegionalViewModel()
     
-    let mapView = RegionalMapView()
+    private let mapView = RegionalMapView()
 
-    lazy var locationList:Array<CustomAnnotation> = []
+    private lazy var locationList:Array<CustomAnnotation> = []
     
-    let indicator: UIActivityIndicatorView = {
+    private let indicator: UIActivityIndicatorView = {
         var view = UIActivityIndicatorView(style: .large)
         view.startAnimating()
         return view
@@ -42,7 +42,7 @@ class RegionalViewController: BaseViewController {
         getLoactionWeather()
     }
     
-    func setUpIndicator() {
+    private func setUpIndicator() {
         view.addSubview(indicator)
         
         let newSize = CGSize(width: 100, height: 100)
@@ -53,7 +53,7 @@ class RegionalViewController: BaseViewController {
         }
     }
     
-    func getLoactionWeather() {
+    private func getLoactionWeather() {
         removeAnnotation()
         
         self.viewModel.getCustomAnnotation(cityName: "Seoul") { item in
@@ -149,19 +149,19 @@ class RegionalViewController: BaseViewController {
         }
     }
     
-    func removeAnnotation() {
+    private func removeAnnotation() {
         locationList = []
         mapView.map.annotations.forEach { annotation in
             mapView.map.removeAnnotation(annotation)
         }
     }
     
-    func addCustomPin() {
+    private func addCustomPin() {
         mapView.map.addAnnotations(locationList)
         mapView.map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(CustomAnnotationView.self))
     }
     
-    func buttonActions() {
+    private func buttonActions() {
         mapView.myLocationButton.addTarget(self, action: #selector(findMyLocation), for: .touchUpInside)
     }
     
