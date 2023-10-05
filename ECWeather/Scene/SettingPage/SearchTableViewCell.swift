@@ -73,7 +73,7 @@ class SearchTableViewCell: UITableViewCell {
                 self.weatherData = data?.filter({ i in
                     i.dateTime.toDate()?.toString() == Date().toString()
                 })
-                Util.print(output: self.weatherData)
+                Util.print(output: self.weatherData ?? Data())
                 self.collectionView.reloadData()
             }
         }
