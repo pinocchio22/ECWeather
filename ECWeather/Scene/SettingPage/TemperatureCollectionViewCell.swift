@@ -40,7 +40,7 @@ class TemperatureCollectionViewCell: UICollectionViewCell {
         self.addSubview(temperatureLabel)
         
         timeLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
+            $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(weatherImage.snp.top)
         }
