@@ -337,7 +337,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { weather in
             var backgroundImage = weather?.mainDescription
-            print(backgroundImage)
             switch backgroundImage {
             case BackgroundImage.Clouds.rawValue: self.backgroundImageView.image = BackgroundImage.Clouds.image
             case BackgroundImage.Clear.rawValue: self.backgroundImageView.image = BackgroundImage.Clear.image

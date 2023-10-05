@@ -314,6 +314,10 @@ class WeeklyTableViewCell: UITableViewCell {
         dayLabel.text = day
         weatherLabel.text = weather
         temperatureLabel.text = "\(highTemperature)° / \(lowTemperature)°"
-        weatherImageView.image = UIImage(data: NetworkService.getIcon(iconCode: weatherImageName))
+        NetworkService.getIcon(iconCode: weatherImageName) { icon in
+            DispatchQueue.main.async {
+                self.weatherImageView.image = UIImage(data: icon ?? Data())
+            }
+        }
     }
 }
