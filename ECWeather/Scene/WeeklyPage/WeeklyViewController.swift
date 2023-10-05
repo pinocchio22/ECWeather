@@ -196,7 +196,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
 
         // API에서 가져온 날짜 데이터를 한국어로 변환하여 사용
         let koreanDay = convertToKoreanDay(englishDay: (weatherData.dateTime.toDate()?.toWeekString())!)
-        cell.configure(day: koreanDay, weather: weatherData.descriotion, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
+        cell.configure(day: koreanDay, weather: weatherData.description, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
 
         if selectedCellIndex == indexPath {
             cell.selectionStyle = .none
@@ -205,10 +205,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         }
         return cell
     }
-
-    }
-
-
     
     func getLocalizedDayLabel(for day: String) -> String {
         let dateFormatter = DateFormatter()
