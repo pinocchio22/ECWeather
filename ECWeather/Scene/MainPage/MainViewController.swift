@@ -291,8 +291,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         setLayout()
         getCurrentWeatherData()
     }
-
-    
     
     func getCurrentWeatherData() {
      

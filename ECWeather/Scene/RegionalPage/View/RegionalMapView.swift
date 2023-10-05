@@ -18,14 +18,6 @@ class RegionalMapView: UIView {
         return btn
     }()
     
-    private var nbcLocationButton: UIButton = {
-        var btn = UIButton()
-        btn.setTitle("내배캠", for: .normal)
-        btn.backgroundColor = .ECWeatherColor3
-        btn.setTitleColor(.ECWeatherColor4, for: .normal)
-        return btn
-    }()
-    
     let map = MKMapView()
     
     override init(frame: CGRect) {
