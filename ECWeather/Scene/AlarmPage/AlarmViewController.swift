@@ -189,7 +189,6 @@ class AlarmViewController: BaseViewController {
         // 알림 내용 선택 값
         weatherCellStatus = UserDefaults.standard.bool(forKey: "weatherCellSelectedKey")
         temperatureCellStatus = UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey")
-
     }
 
     // MARK: - Methods & Selectors
@@ -401,20 +400,17 @@ class AlarmViewController: BaseViewController {
         
     }
     
-    // 타임피커에 저장된 시간에 알림 (나중에 테스트 버튼 대체..)
     private func scheduleNotification() {
         
         // 모든 대기열에 있는 알림을 삭제
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        
-        // 시간 불러오기
+
         let selectedDate = timePicker.date
 
         // 메세지 내용
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
-        // "날씨","온도" 둘다 미체크.. TODO: - 애초에 사용자가 둘다 체크해제 못하게 막아야함
         content.body =
         """
         알림내용 체크 안되어 있음..
@@ -550,7 +546,6 @@ class AlarmViewController: BaseViewController {
             notificationContentTable.reloadData()
             
             UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
-            // TODO: - 대기중인 알림 목록 지우기
         }
     }
     
@@ -635,24 +630,34 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                 if let cell = tableView.cellForRow(at: indexPath) {
                     if indexPath.row == 0 {
                         // 날씨
-                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-                        
-                        let cellStatus = cell.accessoryType == .checkmark
-                        if (cellStatus == true) {
-                            UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
+                        if cell.accessoryType == .checkmark {
+                            if let weatherStatus = weatherCellStatus, let temperatureStatus = temperatureCellStatus {
+                                if weatherStatus && temperatureStatus{
+                                    cell.accessoryType = .none
+                                    UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
+                                    weatherCellStatus = !(weatherCellStatus ?? true)
+                                }
+                                
+                            }
                         } else {
-                            UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
+                            cell.accessoryType = .checkmark
+                            UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
+                            weatherCellStatus = !(weatherCellStatus ?? false)
                         }
-                        
                     } else if indexPath.row == 1 {
                        // 온도
-                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-
-                        let cellStatus = cell.accessoryType == .checkmark
-                        if (cellStatus == true) {
-                            UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
+                        if cell.accessoryType == .checkmark {
+                            if let weatherStatus = weatherCellStatus, let temperatureStatus = temperatureCellStatus {
+                                if weatherStatus && temperatureStatus {
+                                    cell.accessoryType = .none
+                                    UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
+                                    temperatureCellStatus = !(temperatureCellStatus ?? true)
+                                }
+                            }
                         } else {
-                            UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
+                            cell.accessoryType = .checkmark
+                            UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
+                            temperatureCellStatus = !(temperatureCellStatus ?? false)
                         }
                     }
                 }
