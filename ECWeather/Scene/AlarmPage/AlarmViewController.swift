@@ -103,7 +103,7 @@ class AlarmViewController: BaseViewController {
     private let weekdaysBtnStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
         stackView.spacing = 0.1
         return stackView
@@ -259,9 +259,9 @@ class AlarmViewController: BaseViewController {
         }
         
         weekdaysBtnStack.snp.makeConstraints {
-            $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
+            $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(15)
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(25)
+            $0.height.equalTo(35)
         }
         
         soundMenuTableLabel.snp.makeConstraints {
@@ -298,8 +298,8 @@ class AlarmViewController: BaseViewController {
             button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             button.addTarget(self, action: #selector(weekdaysButtonTapped), for: .touchUpInside)
             
-            button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
-            button.layer.cornerRadius = 0.6 * button.bounds.size.width
+            button.bounds = CGRect(x: 0, y: 0, width: 25, height: 25)
+            button.layer.cornerRadius = 0.5 * button.bounds.size.width
             
             weekdaysBtnStack.addArrangedSubview(button)
         }
