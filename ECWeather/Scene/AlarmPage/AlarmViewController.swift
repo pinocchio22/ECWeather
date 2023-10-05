@@ -322,12 +322,12 @@ class AlarmViewController: BaseViewController {
             if let item = item {
 
                 // 켈빈에서 섭씨로 변환
-                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
-                let minTempKelvinToCelsius = (item.minTemp - 273.15)
+//                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
+//                let minTempKelvinToCelsius = (item.minTemp - 273.15)
                 
                 // 반올림 (소수점 첫 번째 자리까지)
-                self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
-                self.minTemp = round(minTempKelvinToCelsius * 10) / 10
+                self.maxTemp = round(item.maxTemp * 10) / 10
+                self.minTemp = round(item.minTemp * 10) / 10
                 
                 self.currentWeather = item.description
             }
@@ -336,7 +336,7 @@ class AlarmViewController: BaseViewController {
     
     // !!BUTTON FOR TEST - 나중에 삭제
     @objc private func testBtnTapped() {
-    
+        
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
@@ -350,25 +350,42 @@ class AlarmViewController: BaseViewController {
         if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
             content.body =
             """
-            The current weather is \(currentWeather).
+            현재 날씨는 \(currentWeather)입니다.
             """
         }
         
         // "온도" 체크
         else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
-            content.body =
-            """
-            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°F 이며,
+                최고기온은 \(maxTemp)°F 까지 오를 예정입니다.
+                """
+            } else {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°C 이며,
+                최고기온은 \(maxTemp)°C 까지 오를 예정입니다.
+                """
+            }
         }
         
         // "날씨", "온도" 체크
         else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
-            content.body =
-            """
-            The current weather is \(currentWeather). 
-            (\(minTemp)°C - \(maxTemp)°C)
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°F - \(maxTemp)°F)
+                """
+            } else {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°C - \(maxTemp)°C)
+                """
+            }
         }
         
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
@@ -407,25 +424,42 @@ class AlarmViewController: BaseViewController {
         if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
             content.body =
             """
-            The current weather is \(currentWeather).
+            현재 날씨는 \(currentWeather)입니다.
             """
         }
         
         // "온도" 체크
         else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
-            content.body =
-            """
-            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°F 이며,
+                최고기온은 \(maxTemp)°F 까지 오를 예정입니다.
+                """
+            } else {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°C 이며,
+                최고기온은 \(maxTemp)°C 까지 오를 예정입니다.
+                """
+            }
         }
         
         // "날씨", "온도" 체크
         else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
-            content.body =
-            """
-            The current weather is \(currentWeather).
-            (\(minTemp)°C - \(maxTemp)°C)
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°F - \(maxTemp)°F)
+                """
+            } else {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°C - \(maxTemp)°C)
+                """
+            }
         }
             
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
