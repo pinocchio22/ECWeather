@@ -59,6 +59,8 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
 
     var weeklyWeatherData: [CustomWeeklyWeather] = []
 
+    let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = UIColor.ECWeatherColor3
@@ -84,6 +86,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
         getWeeklyWeatherData()
+        initRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,7 +148,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
         let weatherData = weeklyWeatherData[indexPath.row]
 
-        cell.configure(day: weatherData.dateTime, weather: weatherData.descriotion, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
+        cell.configure(day: (weatherData.dateTime), weather: weatherData.description, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
 
         if selectedCellIndex == indexPath {
             cell.selectionStyle = .none
@@ -195,6 +198,23 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
             return day
         }
     }
+    
+    func initRefresh() {
+           refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
+           refreshControl.tintColor = .ECWeatherColor3
+           refreshControl.attributedTitle = NSAttributedString(string: "당겨서 새로고침")
+           
+           tableView.refreshControl = refreshControl
+       }
+       
+       @objc func refreshTable(refresh: UIRefreshControl) {
+           print("새로고침 시작")
+           getWeeklyWeatherData()
+           DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+               self.tableView.reloadData()
+               refresh.endRefreshing()
+           }
+       }
 }
 
 class WeeklyTableViewCell: UITableViewCell {
