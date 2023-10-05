@@ -28,6 +28,8 @@
 //
 // }
 import UIKit
+import Alamofire
+import Foundation
 
 class WeeklyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let tableView: UITableView = {
@@ -35,16 +37,16 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "주간 날씨"
+        label.text = "Weekly Weather"
         label.textColor = .ECWeatherColor3
         label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     struct WeatherData {
         var day: String
         let weather: String
@@ -52,35 +54,47 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let lowTemperature: Int
         let weatherImageName: String
     }
-    
+
     var selectedCellIndex: IndexPath?
+
+    var weeklyWeatherData: [CustomWeeklyWeather] = []
+
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = UIColor.ECWeatherColor3
         view.addSubview(tableView)
         view.addSubview(titleLabel)
-        
+
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
         ])
-        
+
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
+
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(WeeklyTableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        
-        updateWeatherData()
+
+        getWeeklyWeatherData()
+        initRefresh()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getWeeklyWeatherData()
+    }
+
+    // MARK: - Data Processing
 
     lazy var weeklyForecast: [WeatherData] = [
         WeatherData(day: "오늘", weather: "맑음", highTemperature: 28, lowTemperature: 15, weatherImageName: "WeatherIcon-sun"),
@@ -91,11 +105,11 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         WeatherData(day: "목요일", weather: "비", highTemperature: 21, lowTemperature: 15, weatherImageName: "WeatherIcon-rain"),
         WeatherData(day: "금요일", weather: "쨍쨍", highTemperature: 29, lowTemperature: 16, weatherImageName: "WeatherIcon-sun")
     ]
-    
+
     func updateWeatherData() {
         let calendar = Calendar.current
         let today = calendar.component(.weekday, from: Date())
-        
+
         for (index, var weatherData) in weeklyForecast.enumerated() {
             if index == 0 {
                 weatherData.day = "오늘"
@@ -109,17 +123,33 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
             weeklyForecast[index] = weatherData
         }
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weeklyForecast.count
+
+    func getWeeklyWeatherData() {
+        let latitude = 37.7749
+        let longitude = -122.4194
+
+        ECWeather.NetworkService.getWeeklyWeather(lat: latitude, lon: longitude) { [weak self] (weatherData) in
+            if let weatherData = weatherData {
+                self?.weeklyWeatherData = weatherData
+                self?.tableView.reloadData()
+            } else {
+                print("주간 날씨 데이터를 가져오는 데 실패했습니다.")
+            }
+        }
     }
-    
+
+    // MARK: - Table View Delegate and Data Source
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return weeklyWeatherData.count
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
-        let weatherData = weeklyForecast[indexPath.row]
-        
-        cell.configure(day: weatherData.day, weather: weatherData.weather, highTemperature: weatherData.highTemperature, lowTemperature: weatherData.lowTemperature, weatherImageName: weatherData.weatherImageName)
-        
+        let weatherData = weeklyWeatherData[indexPath.row]
+
+        cell.configure(day: (weatherData.dateTime), weather: weatherData.description, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
+
         if selectedCellIndex == indexPath {
             cell.selectionStyle = .none
         } else {
@@ -127,39 +157,38 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let totalSpacingHeight = 16 * 2
         let cellSpacing = 8
         let cellHeight = 50
-        
+
         if selectedCellIndex == indexPath {
             return CGFloat(cellHeight + cellSpacing + totalSpacingHeight) * 2.0
         } else {
             return CGFloat(cellHeight + cellSpacing + totalSpacingHeight)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedCellIndex == indexPath {
-            
+
             selectedCellIndex = nil
         } else {
             selectedCellIndex = indexPath
         }
-        
+
         tableView.beginUpdates()
         tableView.endUpdates()
-        
+
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
+
     func getLocalizedDayLabel(for day: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
         let today = dateFormatter.string(from: Date())
-        
+
         switch day {
         case today:
             return "오늘"
@@ -169,6 +198,23 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
             return day
         }
     }
+    
+    func initRefresh() {
+           refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
+           refreshControl.tintColor = .ECWeatherColor3
+           refreshControl.attributedTitle = NSAttributedString(string: "당겨서 새로고침")
+           
+           tableView.refreshControl = refreshControl
+       }
+       
+       @objc func refreshTable(refresh: UIRefreshControl) {
+           print("새로고침 시작")
+           getWeeklyWeatherData()
+           DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+               self.tableView.reloadData()
+               refresh.endRefreshing()
+           }
+       }
 }
 
 class WeeklyTableViewCell: UITableViewCell {
@@ -178,6 +224,7 @@ class WeeklyTableViewCell: UITableViewCell {
         label.textAlignment = .center
         label.textColor = UIColor.ECWeatherColor2
         label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.numberOfLines = 3
         return label
     }()
     
@@ -214,9 +261,9 @@ class WeeklyTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             dayLabel.topAnchor.constraint(equalTo: topAnchor),
-            dayLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             dayLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            dayLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
+            dayLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            dayLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.15),
             
             weatherImageView.topAnchor.constraint(equalTo: topAnchor),
             weatherImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -224,14 +271,14 @@ class WeeklyTableViewCell: UITableViewCell {
             weatherImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
             
             weatherLabel.topAnchor.constraint(equalTo: topAnchor),
-            weatherLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             weatherLabel.leadingAnchor.constraint(equalTo: weatherImageView.trailingAnchor),
-            weatherLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3),
+            weatherLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            weatherLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.35),
             
             temperatureLabel.topAnchor.constraint(equalTo: topAnchor),
-            temperatureLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             temperatureLabel.leadingAnchor.constraint(equalTo: weatherLabel.trailingAnchor),
-            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            temperatureLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
@@ -244,6 +291,6 @@ class WeeklyTableViewCell: UITableViewCell {
         dayLabel.text = day
         weatherLabel.text = weather
         temperatureLabel.text = "\(highTemperature)° / \(lowTemperature)°"
-        weatherImageView.image = UIImage(named: weatherImageName)
+        weatherImageView.image = UIImage(data: NetworkService.getIcon(iconCode: weatherImageName))
     }
 }

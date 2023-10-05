@@ -13,6 +13,7 @@ class RegionalViewModel {
         var location: CustomAnnotation?
         NetworkService.getCurrentWeather(cityName: cityName) { item in
             if let item = item {
+                print("\(item.maxTemp) + \(item.minTemp)")
                 location = CustomAnnotation(
                     title: cityName,
                     subtitle: "\(String(Int(item.minTemp))) / \(String(Int(item.maxTemp)))",

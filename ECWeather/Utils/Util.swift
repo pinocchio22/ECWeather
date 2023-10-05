@@ -45,3 +45,22 @@ enum Region: String {
     case busan = "부산"
     case jeju = "제주"
 }
+
+enum Temperature: String {
+    case celsius = "units=metric"
+    case fahrenheit = "units=imperial"
+}
+
+enum BackgroundImage: String {
+    case Clouds
+    case Clear
+    case Mist,Smoke,Haze,Dust,Fog,Sand,Ash,Squall,Tornado
+    case Snow
+    case Rain
+    case Drizzle
+    case Thunderstorm
+    
+    var image: UIImage? {
+            return UIImage(named: self.rawValue)
+        }
+}

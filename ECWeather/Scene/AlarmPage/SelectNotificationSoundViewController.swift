@@ -16,20 +16,11 @@ class SelectNotificationSoundViewController: BaseViewController {
     private var audioPlayer: AVAudioPlayer?
     private var selectedCellIndex: Int?
     
-    private let notificationSoundList: [String: String] = [
-        "뭐지": "notification_sound_moji",
-        "꽥": "notification_sound_quack",
-        "탸댜아아ㅏ" : "notification_sound_taddddaaaaa",
-        "오와우우으" : "notification_sound_wow",
-    ]
-
-    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         return tableView
     }()
-    
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -64,7 +55,6 @@ class SelectNotificationSoundViewController: BaseViewController {
         navigationItem.leftBarButtonItem = backButton
         navigationItem.leftBarButtonItem?.tintColor = .ECWeatherColor3
     
-        
     }
 
     @objc private func backButtonTapped() {
@@ -100,8 +90,6 @@ class SelectNotificationSoundViewController: BaseViewController {
             print("Error playing sound: \(error.localizedDescription)")
         }
     }
-
-
 }
 
 // MARK: - TableView
@@ -109,7 +97,7 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return notificationSoundList.count
+        return DataManager.notificationSoundList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -119,7 +107,7 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
         cell.textLabel?.textColor = .black
         cell.tintColor = .ECWeatherColor3
         
-        let soundNames = Array(notificationSoundList.keys).sorted()
+        let soundNames = Array(DataManager.notificationSoundList.keys).sorted()
         if indexPath.row < soundNames.count {
             cell.textLabel?.text = soundNames[indexPath.row]
         }
@@ -134,11 +122,11 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
         selectedCellIndex = indexPath.row
         tableView.reloadData()
        
-        let soundNames = Array(notificationSoundList.keys).sorted()
+        let soundNames = Array(DataManager.notificationSoundList.keys).sorted()
         if soundNames.indices.contains(indexPath.row) {
             let soundName = soundNames[indexPath.row]
             print("soundName : ", soundName)
-            if let fileName = notificationSoundList[soundName] {
+            if let fileName = DataManager.notificationSoundList[soundName] {
                 print("fileName : ", fileName)
                 playNotificationSound(fileName)
                 
@@ -147,7 +135,4 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
             }
         }
     }
-
-
-    
 }
