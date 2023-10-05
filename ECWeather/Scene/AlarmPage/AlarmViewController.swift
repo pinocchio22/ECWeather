@@ -20,8 +20,8 @@ class AlarmViewController: BaseViewController {
     private let weekdays: [String] = ["월","화","수","목","금","토","일"]
     private var selectedWeekdays: [Int] = []
     
-    private var maxTemp: Double = 0
-    private var minTemp: Double = 0
+    private var maxTemp: Int = 0
+    private var minTemp: Int = 0
     private var currentWeather: String = ""
     
     private var tempColorForSwitch: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
@@ -318,10 +318,8 @@ class AlarmViewController: BaseViewController {
         NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { item in
             if let item = item {
 
-                // 반올림 (소수점 첫 번째 자리까지)
-                self.maxTemp = round(item.maxTemp * 10) / 10
-                self.minTemp = round(item.minTemp * 10) / 10
-                
+                self.maxTemp = Int(item.maxTemp)
+                self.minTemp = Int(item.minTemp)
                 self.currentWeather = item.description
             }
         }
