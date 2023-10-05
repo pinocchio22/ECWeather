@@ -117,7 +117,8 @@ struct CustomWeather {
         return dateFormatter.string(from: sunsetDate)
     }
     let id: Int
-    let descriotion: String
+    let mainDescription: String
+    let description: String
     let icon: String
     let windSpeed: Double
 }
