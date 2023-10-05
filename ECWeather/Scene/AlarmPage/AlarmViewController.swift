@@ -89,7 +89,6 @@ class AlarmViewController: BaseViewController {
     
     private let contentView: UIView = {
         let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView
     }()
     
@@ -110,7 +109,7 @@ class AlarmViewController: BaseViewController {
         return stackView
     }()
     
-    private let tableViewLabel1: UILabel = {
+    private let soundMenuTableLabel: UILabel = {
         let label = UILabel()
         label.text = "사운드"
         label.font = UIFont.boldSystemFont(ofSize: 10)
@@ -118,7 +117,7 @@ class AlarmViewController: BaseViewController {
         return label
     }()
     
-    private let tableView1: UITableView = {
+    private let soundMenuTable: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.isScrollEnabled = false
@@ -127,7 +126,7 @@ class AlarmViewController: BaseViewController {
         return tableView
     }()
     
-    private let tableViewLabel2: UILabel = {
+    private let notificationContentTableLabel: UILabel = {
         let label = UILabel()
         label.text = "알림 내용 선택"
         label.font = UIFont.boldSystemFont(ofSize: 10)
@@ -135,7 +134,7 @@ class AlarmViewController: BaseViewController {
         return label
     }()
     
-    private let tableView2: UITableView = {
+    private let notificationContentTable: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.isScrollEnabled = false
@@ -147,7 +146,7 @@ class AlarmViewController: BaseViewController {
     // MARK: - View Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView1.reloadData()
+        soundMenuTable.reloadData()
         getCurrentWeatherInfo()
         loadDataFromUserDefaults()
     }
@@ -197,8 +196,8 @@ class AlarmViewController: BaseViewController {
     private func configureUI() {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = false
-        tableView1.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
-        tableView2.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
+        soundMenuTable.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
+        notificationContentTable.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
 
         makeWeekdaysBtnStack()
         configureTableView()
@@ -211,10 +210,10 @@ class AlarmViewController: BaseViewController {
         scrollView.addSubview(contentView)
         contentView.addSubview(weekdaysBtnLabel)
         contentView.addSubview(weekdaysBtnStack)
-        contentView.addSubview(tableViewLabel1)
-        contentView.addSubview(tableView1)
-        contentView.addSubview(tableViewLabel2)
-        contentView.addSubview(tableView2)
+        contentView.addSubview(soundMenuTableLabel)
+        contentView.addSubview(soundMenuTable)
+        contentView.addSubview(notificationContentTableLabel)
+        contentView.addSubview(notificationContentTable)
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -245,49 +244,47 @@ class AlarmViewController: BaseViewController {
         
         scrollView.snp.makeConstraints {
             $0.top.equalTo(timePicker.snp.bottom).offset(25)
-            $0.centerX.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
         }
-        
+        scrollView.contentLayoutGuide.snp.makeConstraints {
+            $0.edges.equalTo(contentView)
+        }
         contentView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.centerX.equalTo(scrollView)
-            $0.height.equalTo(500)
+            $0.width.equalTo(scrollView)
         }
         
         weekdaysBtnLabel.snp.makeConstraints {
             $0.top.equalTo(contentView)
-            $0.width.equalToSuperview().offset(-50)
-            $0.leading.equalToSuperview().offset(30)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         
         weekdaysBtnStack.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(30)
+            $0.height.equalTo(25)
         }
         
-        tableViewLabel1.snp.makeConstraints {
+        soundMenuTableLabel.snp.makeConstraints {
             $0.top.equalTo(weekdaysBtnStack.snp.bottom).offset(25)
-            $0.width.equalToSuperview().offset(-50)
-            $0.leading.equalToSuperview().offset(30)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         
-        tableView1.snp.makeConstraints {
-            $0.top.equalTo(tableViewLabel1.snp.bottom).offset(10)
-            $0.width.equalToSuperview().offset(-50)
+        soundMenuTable.snp.makeConstraints {
+            $0.top.equalTo(soundMenuTableLabel.snp.bottom).offset(10)
             $0.height.equalTo(50)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
 
-        tableViewLabel2.snp.makeConstraints {
-            $0.top.equalTo(tableView1.snp.bottom).offset(25)
-            $0.width.equalToSuperview().offset(-50)
-            $0.leading.equalToSuperview().offset(30)
+        notificationContentTableLabel.snp.makeConstraints {
+            $0.top.equalTo(soundMenuTable.snp.bottom).offset(25)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         
-        tableView2.snp.makeConstraints {
-            $0.top.equalTo(tableViewLabel2.snp.bottom).offset(10)
-            $0.width.equalToSuperview().offset(-50)
+        notificationContentTable.snp.makeConstraints {
+            $0.top.equalTo(notificationContentTableLabel.snp.bottom).offset(10)
             $0.height.equalTo(100)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(30)
         }
     }
     
@@ -309,15 +306,15 @@ class AlarmViewController: BaseViewController {
     }
     
     private func configureTableView() {
-        tableView1.dataSource = self
-        tableView1.delegate = self
-        tableView2.dataSource = self
-        tableView2.delegate = self
+        soundMenuTable.dataSource = self
+        soundMenuTable.delegate = self
+        notificationContentTable.dataSource = self
+        notificationContentTable.delegate = self
         
-        tableView1.layer.cornerRadius = 10.0
-        tableView1.clipsToBounds = true
-        tableView2.layer.cornerRadius = 10.0
-        tableView2.clipsToBounds = true
+        soundMenuTable.layer.cornerRadius = 10.0
+        soundMenuTable.clipsToBounds = true
+        notificationContentTable.layer.cornerRadius = 10.0
+        notificationContentTable.clipsToBounds = true
     }
     
     private func getCurrentWeatherInfo() {
@@ -332,7 +329,7 @@ class AlarmViewController: BaseViewController {
                 self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
                 self.minTemp = round(minTempKelvinToCelsius * 10) / 10
                 
-                self.currentWeather = item.descriotion
+                self.currentWeather = item.description
             }
         }
     }
@@ -500,11 +497,11 @@ class AlarmViewController: BaseViewController {
             timePicker.isEnabled = true
             descriptionLabel.text = "아래 지정된 시간에 날씨 정보 알림이 전송 됩니다.\n정보는 사용자 위치를 기준으로 제공 됩니다."
             weekdaysBtnLabel.textColor = .ECWeatherColor3
-            tableViewLabel1.textColor = .ECWeatherColor3
-            tableViewLabel2.textColor = .ECWeatherColor3
+            soundMenuTableLabel.textColor = .ECWeatherColor3
+            notificationContentTableLabel.textColor = .ECWeatherColor3
             tempColorForSwitch = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
-            tableView1.reloadData()
-            tableView2.reloadData()
+            soundMenuTable.reloadData()
+            notificationContentTable.reloadData()
             
             UserDefaults.standard.set(true, forKey: "notificationSwitchStatus")
             scheduleNotification()
@@ -512,11 +509,11 @@ class AlarmViewController: BaseViewController {
             timePicker.isEnabled = false
             descriptionLabel.text = "현재 알림이 꺼져 있습니다.\n"
             weekdaysBtnLabel.textColor = .systemGray4
-            tableViewLabel1.textColor = .systemGray4
-            tableViewLabel2.textColor = .systemGray4
+            soundMenuTableLabel.textColor = .systemGray4
+            notificationContentTableLabel.textColor = .systemGray4
             tempColorForSwitch = .systemGray4
-            tableView1.reloadData()
-            tableView2.reloadData()
+            soundMenuTable.reloadData()
+            notificationContentTable.reloadData()
             
             UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
             // TODO: - 대기중인 알림 목록 지우기
@@ -532,9 +529,9 @@ class AlarmViewController: BaseViewController {
 extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == tableView1 {
+        if tableView == soundMenuTable {
             return 1
-        } else if tableView == tableView2 {
+        } else if tableView == notificationContentTable {
             return 2
         }
         return 0
@@ -542,7 +539,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if tableView == tableView1 {
+        if tableView == soundMenuTable {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
             cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             cell.tintColor = tempColorForSwitch
@@ -555,7 +552,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.traillingLabel.text = ""
             }
             return cell
-        } else if tableView == tableView2 {
+        } else if tableView == notificationContentTable {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
             cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             cell.tintColor = tempColorForSwitch
@@ -594,11 +591,11 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if tableView == tableView1 {
+        if tableView == soundMenuTable {
             if notificationSwitch.isOn {
                 self.navigationController?.pushViewController(SelectNotificationSoundViewController(), animated: true)
             }
-        } else if tableView == tableView2 {
+        } else if tableView == notificationContentTable {
             if notificationSwitch.isOn {
                 
                 if let cell = tableView.cellForRow(at: indexPath) {
