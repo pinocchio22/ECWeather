@@ -10,14 +10,14 @@ import SnapKit
 import UIKit
 
 class CustomAnnotationView: MKAnnotationView {
-    lazy var backgroundView: UIView = {
+    private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
         view.layer.cornerRadius = 10
         return view
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textColor = .ECWeatherColor2
@@ -28,7 +28,7 @@ class CustomAnnotationView: MKAnnotationView {
         return label
     }()
     
-    lazy var customImageView: UIImageView = {
+    private lazy var customImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.backgroundColor = .clear
@@ -36,7 +36,7 @@ class CustomAnnotationView: MKAnnotationView {
         return view
     }()
     
-    lazy var temperatureLabel: UILabel = {
+    private lazy var temperatureLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .black
@@ -45,7 +45,7 @@ class CustomAnnotationView: MKAnnotationView {
         return label
     }()
     
-    lazy var indicator = UIActivityIndicatorView()
+    private lazy var indicator = UIActivityIndicatorView()
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -58,7 +58,7 @@ class CustomAnnotationView: MKAnnotationView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    private func configureUI() {
         addSubview(indicator)
         addSubview(backgroundView)
         backgroundView.addSubview(titleLabel)

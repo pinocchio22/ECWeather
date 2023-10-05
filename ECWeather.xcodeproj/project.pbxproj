@@ -23,6 +23,7 @@
 		E7500BA52ACA884600668DF6 /* notification_sound_moji.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */; };
 		E7500BA62ACA884600668DF6 /* notification_sound_wow.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */; };
 		E7500BA72ACA884600668DF6 /* notification_sound_quack.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA32ACA884600668DF6 /* notification_sound_quack.caf */; };
+		E7500BAB2ACE9A9600668DF6 /* KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7500BAA2ACE9A9600668DF6 /* KEY.swift */; };
 		E777D6F22AC989020066C559 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */; };
 		E777D6F32AC989020066C559 /* SelectNotificationSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
@@ -30,7 +31,6 @@
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
 		FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF22B6582AC134C900686B4F /* Assets.xcassets */; };
 		FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */; };
-		FF425BD82ACD01B20053C2B4 /* KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF425BD72ACD01B20053C2B4 /* KEY.swift */; };
 		FF4939862ACA9D410063B274 /* WeeklyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4939852ACA9D410063B274 /* WeeklyWeather.swift */; };
 		FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */; };
 		FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */; };
@@ -65,6 +65,7 @@
 		E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_moji.caf; sourceTree = "<group>"; };
 		E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_wow.caf; sourceTree = "<group>"; };
 		E7500BA32ACA884600668DF6 /* notification_sound_quack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_quack.caf; sourceTree = "<group>"; };
+		E7500BAA2ACE9A9600668DF6 /* KEY.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KEY.swift; sourceTree = "<group>"; };
 		E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectNotificationSoundViewController.swift; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,7 +75,6 @@
 		FF22B6582AC134C900686B4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF22B65B2AC134C900686B4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF22B65D2AC134C900686B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FF425BD72ACD01B20053C2B4 /* KEY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KEY.swift; sourceTree = "<group>"; };
 		FF4939852ACA9D410063B274 /* WeeklyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyWeather.swift; sourceTree = "<group>"; };
 		FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalMapView.swift; sourceTree = "<group>"; };
 		FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalViewModel.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		FF22B64E2AC134C800686B4F /* ECWeather */ = {
 			isa = PBXGroup;
 			children = (
-				FF425BD62ACD01960053C2B4 /* Secret */,
+				FFC15A942ACE5FF3006991ED /* Secret */,
 				FF22B64F2AC134C800686B4F /* AppDelegate.swift */,
 				FF22B6512AC134C800686B4F /* SceneDelegate.swift */,
 				56D88AEF2AC714C4006EB784 /* Main.storyboard */,
@@ -173,14 +173,6 @@
 				FF8F2EF62AC19E7000C2C85D /* Resource */,
 			);
 			path = ECWeather;
-			sourceTree = "<group>";
-		};
-		FF425BD62ACD01960053C2B4 /* Secret */ = {
-			isa = PBXGroup;
-			children = (
-				FF425BD72ACD01B20053C2B4 /* KEY.swift */,
-			);
-			path = Secret;
 			sourceTree = "<group>";
 		};
 		FF7D081B2AC566AD0004CC4E /* Utils */ = {
@@ -293,6 +285,14 @@
 			path = SettingPage;
 			sourceTree = "<group>";
 		};
+		FFC15A942ACE5FF3006991ED /* Secret */ = {
+			isa = PBXGroup;
+			children = (
+				E7500BAA2ACE9A9600668DF6 /* KEY.swift */,
+			);
+			path = Secret;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -377,7 +377,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8F2F082AC1A77A00C2C85D /* WeeklyViewController.swift in Sources */,
-				FF425BD82ACD01B20053C2B4 /* KEY.swift in Sources */,
 				56D88AE72AC405B8006EB784 /* TemperatureCollectionViewCell.swift in Sources */,
 				FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */,
 				FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */,
@@ -388,6 +387,7 @@
 				56A8E55A2ACBE53600AA381B /* String+Extension.swift in Sources */,
 				FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */,
 				FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */,
+				E7500BAB2ACE9A9600668DF6 /* KEY.swift in Sources */,
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
 				56A8E5582ACAB50E00AA381B /* DataManager.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,

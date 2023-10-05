@@ -89,7 +89,6 @@ class AlarmViewController: BaseViewController {
     
     private let contentView: UIView = {
         let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView
     }()
     
@@ -104,13 +103,13 @@ class AlarmViewController: BaseViewController {
     private let weekdaysBtnStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
         stackView.spacing = 0.1
         return stackView
     }()
     
-    private let tableViewLabel1: UILabel = {
+    private let soundMenuTableLabel: UILabel = {
         let label = UILabel()
         label.text = "사운드"
         label.font = UIFont.boldSystemFont(ofSize: 10)
@@ -118,7 +117,7 @@ class AlarmViewController: BaseViewController {
         return label
     }()
     
-    private let tableView1: UITableView = {
+    private let soundMenuTable: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.isScrollEnabled = false
@@ -127,7 +126,7 @@ class AlarmViewController: BaseViewController {
         return tableView
     }()
     
-    private let tableViewLabel2: UILabel = {
+    private let notificationContentTableLabel: UILabel = {
         let label = UILabel()
         label.text = "알림 내용 선택"
         label.font = UIFont.boldSystemFont(ofSize: 10)
@@ -135,7 +134,7 @@ class AlarmViewController: BaseViewController {
         return label
     }()
     
-    private let tableView2: UITableView = {
+    private let notificationContentTable: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.isScrollEnabled = false
@@ -147,7 +146,7 @@ class AlarmViewController: BaseViewController {
     // MARK: - View Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView1.reloadData()
+        soundMenuTable.reloadData()
         getCurrentWeatherInfo()
         loadDataFromUserDefaults()
     }
@@ -190,15 +189,14 @@ class AlarmViewController: BaseViewController {
         // 알림 내용 선택 값
         weatherCellStatus = UserDefaults.standard.bool(forKey: "weatherCellSelectedKey")
         temperatureCellStatus = UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey")
-
     }
 
     // MARK: - Methods & Selectors
     private func configureUI() {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = false
-        tableView1.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
-        tableView2.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
+        soundMenuTable.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
+        notificationContentTable.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
 
         makeWeekdaysBtnStack()
         configureTableView()
@@ -211,10 +209,10 @@ class AlarmViewController: BaseViewController {
         scrollView.addSubview(contentView)
         contentView.addSubview(weekdaysBtnLabel)
         contentView.addSubview(weekdaysBtnStack)
-        contentView.addSubview(tableViewLabel1)
-        contentView.addSubview(tableView1)
-        contentView.addSubview(tableViewLabel2)
-        contentView.addSubview(tableView2)
+        contentView.addSubview(soundMenuTableLabel)
+        contentView.addSubview(soundMenuTable)
+        contentView.addSubview(notificationContentTableLabel)
+        contentView.addSubview(notificationContentTable)
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -245,49 +243,47 @@ class AlarmViewController: BaseViewController {
         
         scrollView.snp.makeConstraints {
             $0.top.equalTo(timePicker.snp.bottom).offset(25)
-            $0.centerX.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
         }
-        
+        scrollView.contentLayoutGuide.snp.makeConstraints {
+            $0.edges.equalTo(contentView)
+        }
         contentView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.centerX.equalTo(scrollView)
-            $0.height.equalTo(500)
+            $0.width.equalTo(scrollView)
         }
         
         weekdaysBtnLabel.snp.makeConstraints {
             $0.top.equalTo(contentView)
-            $0.width.equalToSuperview().offset(-50)
-            $0.leading.equalToSuperview().offset(30)
-        }
-        
-        weekdaysBtnStack.snp.makeConstraints {
-            $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         
-        tableViewLabel1.snp.makeConstraints {
-            $0.top.equalTo(weekdaysBtnStack.snp.bottom).offset(25)
-            $0.width.equalToSuperview().offset(-50)
-            $0.leading.equalToSuperview().offset(30)
+        weekdaysBtnStack.snp.makeConstraints {
+            $0.top.equalTo(weekdaysBtnLabel.snp.bottom).offset(15)
+            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.height.equalTo(35)
         }
         
-        tableView1.snp.makeConstraints {
-            $0.top.equalTo(tableViewLabel1.snp.bottom).offset(10)
-            $0.width.equalToSuperview().offset(-50)
+        soundMenuTableLabel.snp.makeConstraints {
+            $0.top.equalTo(weekdaysBtnStack.snp.bottom).offset(25)
+            $0.leading.trailing.equalToSuperview().inset(30)
+        }
+        
+        soundMenuTable.snp.makeConstraints {
+            $0.top.equalTo(soundMenuTableLabel.snp.bottom).offset(10)
             $0.height.equalTo(50)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
 
-        tableViewLabel2.snp.makeConstraints {
-            $0.top.equalTo(tableView1.snp.bottom).offset(25)
-            $0.width.equalToSuperview().offset(-50)
-            $0.leading.equalToSuperview().offset(30)
+        notificationContentTableLabel.snp.makeConstraints {
+            $0.top.equalTo(soundMenuTable.snp.bottom).offset(25)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         
-        tableView2.snp.makeConstraints {
-            $0.top.equalTo(tableViewLabel2.snp.bottom).offset(10)
-            $0.width.equalToSuperview().offset(-50)
+        notificationContentTable.snp.makeConstraints {
+            $0.top.equalTo(notificationContentTableLabel.snp.bottom).offset(10)
             $0.height.equalTo(100)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(30)
         }
     }
     
@@ -301,23 +297,23 @@ class AlarmViewController: BaseViewController {
             button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             button.addTarget(self, action: #selector(weekdaysButtonTapped), for: .touchUpInside)
             
-            button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
-            button.layer.cornerRadius = 0.6 * button.bounds.size.width
+            button.bounds = CGRect(x: 0, y: 0, width: 25, height: 25)
+            button.layer.cornerRadius = 0.5 * button.bounds.size.width
             
             weekdaysBtnStack.addArrangedSubview(button)
         }
     }
     
     private func configureTableView() {
-        tableView1.dataSource = self
-        tableView1.delegate = self
-        tableView2.dataSource = self
-        tableView2.delegate = self
+        soundMenuTable.dataSource = self
+        soundMenuTable.delegate = self
+        notificationContentTable.dataSource = self
+        notificationContentTable.delegate = self
         
-        tableView1.layer.cornerRadius = 10.0
-        tableView1.clipsToBounds = true
-        tableView2.layer.cornerRadius = 10.0
-        tableView2.clipsToBounds = true
+        soundMenuTable.layer.cornerRadius = 10.0
+        soundMenuTable.clipsToBounds = true
+        notificationContentTable.layer.cornerRadius = 10.0
+        notificationContentTable.clipsToBounds = true
     }
     
     private func getCurrentWeatherInfo() {
@@ -325,12 +321,12 @@ class AlarmViewController: BaseViewController {
             if let item = item {
 
                 // 켈빈에서 섭씨로 변환
-                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
-                let minTempKelvinToCelsius = (item.minTemp - 273.15)
+//                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
+//                let minTempKelvinToCelsius = (item.minTemp - 273.15)
                 
                 // 반올림 (소수점 첫 번째 자리까지)
-                self.maxTemp = round(maxTempKelvinToCelsius * 10) / 10
-                self.minTemp = round(minTempKelvinToCelsius * 10) / 10
+                self.maxTemp = round(item.maxTemp * 10) / 10
+                self.minTemp = round(item.minTemp * 10) / 10
                 
                 self.currentWeather = item.description
             }
@@ -339,7 +335,7 @@ class AlarmViewController: BaseViewController {
     
     // !!BUTTON FOR TEST - 나중에 삭제
     @objc private func testBtnTapped() {
-    
+        
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
@@ -353,25 +349,42 @@ class AlarmViewController: BaseViewController {
         if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
             content.body =
             """
-            The current weather is \(currentWeather).
+            현재 날씨는 \(currentWeather)입니다.
             """
         }
         
         // "온도" 체크
         else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
-            content.body =
-            """
-            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°F 이며,
+                최고기온은 \(maxTemp)°F 까지 오를 예정입니다.
+                """
+            } else {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°C 이며,
+                최고기온은 \(maxTemp)°C 까지 오를 예정입니다.
+                """
+            }
         }
         
         // "날씨", "온도" 체크
         else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
-            content.body =
-            """
-            The current weather is \(currentWeather). 
-            (\(minTemp)°C - \(maxTemp)°C)
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°F - \(maxTemp)°F)
+                """
+            } else {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°C - \(maxTemp)°C)
+                """
+            }
         }
         
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
@@ -387,20 +400,17 @@ class AlarmViewController: BaseViewController {
         
     }
     
-    // 타임피커에 저장된 시간에 알림 (나중에 테스트 버튼 대체..)
     private func scheduleNotification() {
         
         // 모든 대기열에 있는 알림을 삭제
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        
-        // 시간 불러오기
+
         let selectedDate = timePicker.date
 
         // 메세지 내용
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
-        // "날씨","온도" 둘다 미체크.. TODO: - 애초에 사용자가 둘다 체크해제 못하게 막아야함
         content.body =
         """
         알림내용 체크 안되어 있음..
@@ -410,25 +420,42 @@ class AlarmViewController: BaseViewController {
         if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && !UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey"){
             content.body =
             """
-            The current weather is \(currentWeather).
+            현재 날씨는 \(currentWeather)입니다.
             """
         }
         
         // "온도" 체크
         else if UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") && !UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") {
-            content.body =
-            """
-            Today's temperature ranges from \(minTemp)°C to \(maxTemp)°C.
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°F 이며,
+                최고기온은 \(maxTemp)°F 까지 오를 예정입니다.
+                """
+            } else {
+                content.body =
+                """
+                오늘의 최저기온은 \(minTemp)°C 이며,
+                최고기온은 \(maxTemp)°C 까지 오를 예정입니다.
+                """
+            }
         }
         
         // "날씨", "온도" 체크
         else if UserDefaults.standard.bool(forKey: "weatherCellSelectedKey") && UserDefaults.standard.bool(forKey: "temperatureCellSelectedKey") {
-            content.body =
-            """
-            The current weather is \(currentWeather).
-            (\(minTemp)°C - \(maxTemp)°C)
-            """
+            if DataManager.shared.temperatureType.rawValue == "units=imperial" {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°F - \(maxTemp)°F)
+                """
+            } else {
+                content.body =
+                """
+                현재 날씨는 \(currentWeather)입니다.
+                (\(minTemp)°C - \(maxTemp)°C)
+                """
+            }
         }
             
         if let selectedSoundName = UserDefaults.standard.value(forKey: "SelectedFileName") as? String {
@@ -500,11 +527,11 @@ class AlarmViewController: BaseViewController {
             timePicker.isEnabled = true
             descriptionLabel.text = "아래 지정된 시간에 날씨 정보 알림이 전송 됩니다.\n정보는 사용자 위치를 기준으로 제공 됩니다."
             weekdaysBtnLabel.textColor = .ECWeatherColor3
-            tableViewLabel1.textColor = .ECWeatherColor3
-            tableViewLabel2.textColor = .ECWeatherColor3
+            soundMenuTableLabel.textColor = .ECWeatherColor3
+            notificationContentTableLabel.textColor = .ECWeatherColor3
             tempColorForSwitch = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
-            tableView1.reloadData()
-            tableView2.reloadData()
+            soundMenuTable.reloadData()
+            notificationContentTable.reloadData()
             
             UserDefaults.standard.set(true, forKey: "notificationSwitchStatus")
             scheduleNotification()
@@ -512,14 +539,13 @@ class AlarmViewController: BaseViewController {
             timePicker.isEnabled = false
             descriptionLabel.text = "현재 알림이 꺼져 있습니다.\n"
             weekdaysBtnLabel.textColor = .systemGray4
-            tableViewLabel1.textColor = .systemGray4
-            tableViewLabel2.textColor = .systemGray4
+            soundMenuTableLabel.textColor = .systemGray4
+            notificationContentTableLabel.textColor = .systemGray4
             tempColorForSwitch = .systemGray4
-            tableView1.reloadData()
-            tableView2.reloadData()
+            soundMenuTable.reloadData()
+            notificationContentTable.reloadData()
             
             UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
-            // TODO: - 대기중인 알림 목록 지우기
         }
     }
     
@@ -532,9 +558,9 @@ class AlarmViewController: BaseViewController {
 extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == tableView1 {
+        if tableView == soundMenuTable {
             return 1
-        } else if tableView == tableView2 {
+        } else if tableView == notificationContentTable {
             return 2
         }
         return 0
@@ -542,7 +568,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if tableView == tableView1 {
+        if tableView == soundMenuTable {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
             cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             cell.tintColor = tempColorForSwitch
@@ -555,7 +581,7 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.traillingLabel.text = ""
             }
             return cell
-        } else if tableView == tableView2 {
+        } else if tableView == notificationContentTable {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
             cell.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
             cell.tintColor = tempColorForSwitch
@@ -594,34 +620,44 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if tableView == tableView1 {
+        if tableView == soundMenuTable {
             if notificationSwitch.isOn {
                 self.navigationController?.pushViewController(SelectNotificationSoundViewController(), animated: true)
             }
-        } else if tableView == tableView2 {
+        } else if tableView == notificationContentTable {
             if notificationSwitch.isOn {
                 
                 if let cell = tableView.cellForRow(at: indexPath) {
                     if indexPath.row == 0 {
                         // 날씨
-                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-                        
-                        let cellStatus = cell.accessoryType == .checkmark
-                        if (cellStatus == true) {
-                            UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
+                        if cell.accessoryType == .checkmark {
+                            if let weatherStatus = weatherCellStatus, let temperatureStatus = temperatureCellStatus {
+                                if weatherStatus && temperatureStatus{
+                                    cell.accessoryType = .none
+                                    UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
+                                    weatherCellStatus = !(weatherCellStatus ?? true)
+                                }
+                                
+                            }
                         } else {
-                            UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
+                            cell.accessoryType = .checkmark
+                            UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
+                            weatherCellStatus = !(weatherCellStatus ?? false)
                         }
-                        
                     } else if indexPath.row == 1 {
                        // 온도
-                        cell.accessoryType = (cell.accessoryType == .checkmark) ? .none : .checkmark
-
-                        let cellStatus = cell.accessoryType == .checkmark
-                        if (cellStatus == true) {
-                            UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
+                        if cell.accessoryType == .checkmark {
+                            if let weatherStatus = weatherCellStatus, let temperatureStatus = temperatureCellStatus {
+                                if weatherStatus && temperatureStatus {
+                                    cell.accessoryType = .none
+                                    UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
+                                    temperatureCellStatus = !(temperatureCellStatus ?? true)
+                                }
+                            }
                         } else {
-                            UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
+                            cell.accessoryType = .checkmark
+                            UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
+                            temperatureCellStatus = !(temperatureCellStatus ?? false)
                         }
                     }
                 }

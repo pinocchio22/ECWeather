@@ -48,8 +48,8 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     func setLayout() {
-        self.addSubview(titleLabel)
-        self.addSubview(collectionView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(collectionView)
         
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
@@ -57,11 +57,11 @@ class SearchTableViewCell: UITableViewCell {
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
             $0.height.equalTo(100)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-10)
         }
         
         getWeeklyWeatherAPI()
@@ -87,10 +87,14 @@ extension SearchTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TemperatureCollectionViewCell", for: indexPath) as? TemperatureCollectionViewCell else { return UICollectionViewCell() }
-        
-        cell.timeLabel.text = weatherData?[indexPath.row].dateTime.toDate()?.toTimeString()
-        cell.temperatureLabel.text = "\(weatherData?[indexPath.row].currentTemp ?? 0)"
-        cell.weatherImage.image = UIImage(data:NetworkService.getIcon(iconCode: weatherData?[indexPath.row].icon ?? ""))
+        cell.layer.cornerRadius = 10
+        cell.timeLabel.text = "\(weatherData?[indexPath.row].dateTime.toDate()?.toTimeString() ?? "")시"
+        cell.temperatureLabel.text = "\(Int(weatherData?[indexPath.row].currentTemp ?? 0))°"
+        NetworkService.getIcon(iconCode: weatherData?[indexPath.row].icon ?? "") { icon in
+            DispatchQueue.main.async {
+                cell.weatherImage.image = UIImage(data: icon ?? Data())
+            }
+        }
         return cell
     }
 }
