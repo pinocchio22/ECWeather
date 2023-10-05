@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 
 class CustomCalloutView: UIView {
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
         layout.scrollDirection = .horizontal
@@ -32,7 +32,7 @@ class CustomCalloutView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    private func configureUI() {
         addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
@@ -42,7 +42,7 @@ class CustomCalloutView: UIView {
         }
     }
     
-    func setCollectionView() {
+    private func setCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TemperatureCollectionViewCell.self, forCellWithReuseIdentifier: "TemperatureCollectionViewCell")

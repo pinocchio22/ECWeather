@@ -18,7 +18,7 @@ class RegionalMapView: UIView {
         return btn
     }()
     
-    var nbcLocationButton: UIButton = {
+    private var nbcLocationButton: UIButton = {
         var btn = UIButton()
         btn.setTitle("내배캠", for: .normal)
         btn.backgroundColor = .ECWeatherColor3
@@ -43,9 +43,9 @@ class RegionalMapView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {}
+    private func configureUI() {}
     
-    func makeConstraintUI() {
+    private func makeConstraintUI() {
         map.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
