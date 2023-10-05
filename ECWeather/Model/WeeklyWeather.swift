@@ -97,7 +97,7 @@ struct CustomWeeklyWeather {
     var dateTime: String
     let humidity: Int
     let id: Int
-    let descriotion: String
+    let description: String
     let icon: String
     
 }

@@ -85,6 +85,8 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
 
     var weeklyWeatherData: [CustomWeeklyWeather] = []
 
+    let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = UIColor.ECWeatherColor3
@@ -110,6 +112,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
         getWeeklyWeatherData()
+        initRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -190,6 +193,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeeklyTableViewCell
         let weatherData = weeklyWeatherData[indexPath.row]
 
+
         // API에서 가져온 날짜 데이터를 한국어로 변환하여 사용
         let koreanDay = convertToKoreanDay(englishDay: (weatherData.dateTime.toDate()?.toWeekString())!)
         cell.configure(day: koreanDay, weather: weatherData.descriotion, highTemperature: Int(weatherData.maxTemp), lowTemperature: Int(weatherData.minTemp), weatherImageName: weatherData.icon)
@@ -204,7 +208,41 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
 
     }
 
-    // MARK: - Table View Delegate and Data Source
+
+    
+    func getLocalizedDayLabel(for day: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let today = dateFormatter.string(from: Date())
+
+        switch day {
+        case today:
+            return "오늘"
+        case Calendar.current.date(byAdding: .day, value: 1, to: Date()).map({ dateFormatter.string(from: $0) }) ?? "":
+            return "내일"
+        default:
+            return day
+        }
+    }
+    
+    func initRefresh() {
+           refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
+           refreshControl.tintColor = .ECWeatherColor3
+           refreshControl.attributedTitle = NSAttributedString(string: "당겨서 새로고침")
+           
+           tableView.refreshControl = refreshControl
+       }
+       
+       @objc func refreshTable(refresh: UIRefreshControl) {
+           print("새로고침 시작")
+           getWeeklyWeatherData()
+           DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+               self.tableView.reloadData()
+               refresh.endRefreshing()
+           }
+       }
+}
+
 
 class WeeklyTableViewCell: UITableViewCell {
     let dayLabel: UILabel = {
