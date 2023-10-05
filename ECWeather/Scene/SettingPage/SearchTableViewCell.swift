@@ -90,6 +90,7 @@ extension SearchTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
         
         cell.timeLabel.text = weatherData?[indexPath.row].dateTime.toDate()?.toTimeString()
         cell.temperatureLabel.text = "\(weatherData?[indexPath.row].currentTemp ?? 0)"
+        cell.weatherImage.image = UIImage(data:NetworkService.getIcon(iconCode: weatherData?[indexPath.row].icon ?? ""))
         return cell
     }
 }

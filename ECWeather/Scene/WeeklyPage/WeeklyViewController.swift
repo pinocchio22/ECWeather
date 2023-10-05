@@ -85,6 +85,11 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
 
         getWeeklyWeatherData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getWeeklyWeatherData()
+    }
 
     // MARK: - Data Processing
 
