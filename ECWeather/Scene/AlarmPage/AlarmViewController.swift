@@ -172,7 +172,6 @@ class AlarmViewController: BaseViewController {
         // 요일별 알림 값
         if let savedSelectedWeekdays = UserDefaults.standard.array(forKey: "selectedWeekdaysKey") as? [Int] {
             selectedWeekdays = savedSelectedWeekdays
-            print("asdasdasdas!!!@#!@#!@: ", selectedWeekdays)
             for (index, button) in weekdaysBtnStack.arrangedSubviews.enumerated() {
                 if let button = button as? UIButton {
                     if selectedWeekdays.contains(index) {
@@ -481,11 +480,6 @@ class AlarmViewController: BaseViewController {
             
             UNUserNotificationCenter.current().add(request)
         }
-        
-        // 대기중인 알림 찍어보기
-        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            print("대기 중인 알림 개수: \(requests.count)")
-        }
     }
     
     @objc private func weekdaysButtonTapped(sender: UIButton) {
@@ -495,7 +489,6 @@ class AlarmViewController: BaseViewController {
                 if let title = sender.currentTitle {
                     if let weekdaysIndex = weekdays.firstIndex(of: title) {
                         selectedWeekdays.append(weekdaysIndex)
-                        print(selectedWeekdays)
                         UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
                     }
                 }
@@ -506,7 +499,6 @@ class AlarmViewController: BaseViewController {
                         if selectedWeekdays.contains(weekdaysIndex) {
                             if let index = selectedWeekdays.firstIndex(of: weekdaysIndex) {
                                 selectedWeekdays.remove(at: index)
-                                print(selectedWeekdays)
                                 UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
                             }
                         }

@@ -122,9 +122,7 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
         let soundNames = Array(DataManager.notificationSoundList.keys).sorted()
         if soundNames.indices.contains(indexPath.row) {
             let soundName = soundNames[indexPath.row]
-            print("soundName : ", soundName)
             if let fileName = DataManager.notificationSoundList[soundName] {
-                print("fileName : ", fileName)
                 playNotificationSound(fileName)
                 
                 UserDefaults.standard.setValue(selectedCellIndex, forKey: "SelectedCellIndex")

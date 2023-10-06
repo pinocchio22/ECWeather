@@ -117,7 +117,6 @@ extension IntroViewController: CLLocationManagerDelegate {
         if let location = locations.last {
             latitude = location.coordinate.latitude
             longitude = location.coordinate.longitude
-            print("현재 위치 - 위도: \(String(describing: latitude)), 경도: \(String(describing: longitude))")
             DataManager.shared.latitude = latitude
             DataManager.shared.longitude = longitude
             

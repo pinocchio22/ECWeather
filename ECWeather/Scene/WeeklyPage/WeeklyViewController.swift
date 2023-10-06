@@ -229,7 +229,6 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     @objc func refreshTable(refresh: UIRefreshControl) {
-        print("새로고침 시작")
         getWeeklyWeatherData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.tableView.reloadData()

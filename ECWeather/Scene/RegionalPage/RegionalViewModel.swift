@@ -14,7 +14,6 @@ class RegionalViewModel {
         NetworkService.getCurrentWeather(cityName: cityName) { item in
             if let item = item {
                 NetworkService.getIcon(iconCode: item.icon) { icon in
-                    print("\(item.maxTemp) + \(item.minTemp)")
                     DispatchQueue.main.async {
                         location = CustomAnnotation(
                             title: cityName,
