@@ -22,7 +22,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     lazy var mainPageTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(red: 0.09, green: 0.42, blue: 0.53, alpha: 1.00)
-//        label.backgroundColor = UIColor(red: 1, green: 1.0, blue: 1.0, alpha: 0.7)
         label.font = UIFont(name: "Helvetica-Bold", size: 28)
         label.textAlignment = .left
         label.text = " 오늘의 날씨"
@@ -34,7 +33,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         let stackView = UIStackView()
         stackView.layer.cornerRadius = 15
         stackView.axis = .vertical
-//        stackView.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 0.5)
         stackView.alignment = .center
         return stackView
     }()
@@ -266,7 +264,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     }()
     
     let cellIdentifier = "WeatherCell"
-//    let numberOfHours = 8
     var currentWeatherData: CustomWeather?
     var weatherDataList = [CustomWeeklyWeather]()
     
@@ -318,7 +315,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
                     }
                 }
                 self?.locationOfCurrentWeatherLabel.text = weatherData.name
-//
                 self?.currentTemperatuerLabel.text = "\(Int(weatherData.currentTemp))°C"
                 self?.currentWeatherLabel.text = weatherData.description
                 self?.currentDailyTemperatuerLabel.text = "최고: \(Int(weatherData.maxTemp))°C / 최저: \(Int(weatherData.minTemp))°C"
@@ -368,8 +364,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         setUVRaysViewUnderLineLayout()
         setSunRiseAndSetTimeLayout()
         setUVRaysViewBottomLineLayout()
-            
-//        scrollViewContentView.setCustomSpacing(10, after: mainPageTitleStackView)
+
         scrollViewContentView.setCustomSpacing(10, after: mainPageTitleLabel)
         
         scrollViewContentView.setCustomSpacing(15, after: currentWeatherFrameView)
@@ -430,7 +425,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         view.addSubview(mainScrollView)
             
         mainScrollView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
             $0.top.bottom.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(0)
         }
@@ -500,7 +494,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         currentWeatherFrameView.addArrangedSubview(currentTemperatuerLabel)
             
         currentTemperatuerLabel.snp.makeConstraints {
-            //            $0.top.equalTo(currentWeatherImageView.snp.bottom).offset(10)
             $0.leading.equalTo(currentWeatherFrameView).offset(10)
             $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
         }
@@ -508,29 +501,16 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     func setCurrentWeatherViewWeatherLabelLayout() {
         currentWeatherFrameView.addArrangedSubview(currentWeatherLabel)
-            
-        //        currentWeatherLabel.snp.makeConstraints {
-        //            $0.top.equalTo(currentTemperatuerLabel.snp.bottom).offset(10)
-        //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
-        //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
-        //        }
     }
         
     func setCurrentWeatherViewDailyTemperatureLabelLayout() {
         currentWeatherFrameView.addArrangedSubview(currentDailyTemperatuerLabel)
-            
-        //        currentDailyTemperatuerLabel.snp.makeConstraints {
-        //            $0.top.equalTo(currentWeatherLabel.snp.bottom).offset(10)
-        //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
-        //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
-        //        }
     }
         
     func setCurrentWeatherViewBottomLineLayout() {
         currentWeatherFrameView.addArrangedSubview(currentWeatherFrameBottomLine)
             
         currentWeatherFrameBottomLine.snp.makeConstraints {
-            //            $0.top.equalTo(currentDailyTemperatuerLabel.snp.bottom).offset(10)
             $0.leading.equalTo(currentWeatherFrameView).offset(25)
             $0.trailing.equalTo(currentWeatherFrameView).offset(-25)
             $0.height.equalTo(2)
@@ -553,10 +533,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameTopLine)
             
         hourlyWeatherFrameTopLine.snp.makeConstraints {
-            //            $0.top.equalTo(hourlyWeatherFrameView)
             $0.height.equalTo(2)
-            //            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
-            //            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
         }
     }
         
@@ -574,10 +551,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         hourlyWeatherFrameView.addArrangedSubview(underLineOfHourlyWeatherView)
             
         underLineOfHourlyWeatherView.snp.makeConstraints {
-            //            $0.top.equalTo(hourlyWeatherMentLabel.snp.bottom)
             $0.height.equalTo(2)
-            //            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
-            //            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
         }
     }
         
@@ -597,9 +571,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameBottomLine)
             
         hourlyWeatherFrameBottomLine.snp.makeConstraints {
-            //            $0.top.equalTo(todayCollectionView.snp.bottom)
             $0.height.equalTo(2)
-            //            $0.bottom.equalTo(hourlyWeatherFrameView)
             $0.leading.equalTo(hourlyWeatherFrameView).offset(25)
             $0.trailing.equalTo(hourlyWeatherFrameView).offset(-25)
         }
@@ -666,7 +638,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
             $0.height.equalTo(2)
             $0.leading.equalTo(airQualityFrameView).offset(25)
             $0.trailing.equalTo(airQualityFrameView).offset(-25)
-            //            $0.bottom.equalTo(airQualityFrameView)
         }
     }
         
@@ -678,7 +649,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
             $0.top.equalTo(airQualityFrameView.snp.bottom).offset(20)
             $0.leading.equalTo(scrollViewContentView).offset(20)
             $0.trailing.equalTo(scrollViewContentView).offset(-20)
-//            $0.bottom.equalToSuperview()
         }
     }
         
@@ -732,7 +702,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
             $0.height.equalTo(2)
             $0.leading.equalTo(uvRaysFrameView).offset(25)
             $0.trailing.equalTo(uvRaysFrameView).offset(-25)
-            //            $0.bottom.equalTo(uvRaysFrameView)
         }
     }
         
@@ -828,7 +797,6 @@ class WeatherCell: UICollectionViewCell {
     lazy var topLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
         label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
         label.font = UIFont(name: "Helvetica-Bold", size: 10)
         label.textAlignment = .left
@@ -838,7 +806,6 @@ class WeatherCell: UICollectionViewCell {
     lazy var bottomLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
         label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
         label.font = UIFont(name: "Helvetica-Bold", size: 10)
         label.textAlignment = .left
@@ -866,11 +833,9 @@ class WeatherCell: UICollectionViewCell {
             
         // Auto Layout 설정
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        //        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        //        imageView.topAnchor.constraint(equalTo: self.verticalStackView.topAnchor, constant: 0).isActive = true // 위 여백 조절
-        //        imageView.bottomAnchor.constraint(equalTo: self.verticalStackView.bottomAnchor, constant: 0).isActive = true // 아래 여백 조절
+        //여백 조절
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         topLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
         topLabel.heightAnchor.constraint(equalToConstant: 10).isActive = true
