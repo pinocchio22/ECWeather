@@ -19,6 +19,7 @@
 		56D88AEA2AC55E26006EB784 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AE92AC55E26006EB784 /* IntroViewController.swift */; };
 		56D88AEC2AC55E61006EB784 /* BaseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */; };
 		56D88AF02AC714C5006EB784 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D88AEF2AC714C4006EB784 /* Main.storyboard */; };
+		CB33C0A12ACFE4D3002BF080 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33C0A02ACFE4D3002BF080 /* MainCollectionViewCell.swift */; };
 		E7500BA42ACA884600668DF6 /* notification_sound_taddddaaaaa.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA02ACA884600668DF6 /* notification_sound_taddddaaaaa.caf */; };
 		E7500BA52ACA884600668DF6 /* notification_sound_moji.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */; };
 		E7500BA62ACA884600668DF6 /* notification_sound_wow.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */; };
@@ -62,6 +63,7 @@
 		56D88AE92AC55E26006EB784 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		56D88AEB2AC55E61006EB784 /* BaseTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarViewController.swift; sourceTree = "<group>"; };
 		56D88AEF2AC714C4006EB784 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		CB33C0A02ACFE4D3002BF080 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		E7500BA02ACA884600668DF6 /* notification_sound_taddddaaaaa.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_taddddaaaaa.caf; sourceTree = "<group>"; };
 		E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_moji.caf; sourceTree = "<group>"; };
 		E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_wow.caf; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				FF22B6532AC134C800686B4F /* MainViewController.swift */,
+				CB33C0A02ACFE4D3002BF080 /* MainCollectionViewCell.swift */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
@@ -392,6 +395,9 @@
 				56A8E55A2ACBE53600AA381B /* String+Extension.swift in Sources */,
 				FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */,
 				FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */,
+
+				CB33C0A12ACFE4D3002BF080 /* MainCollectionViewCell.swift in Sources */,
+
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
 				56A8E5582ACAB50E00AA381B /* DataManager.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,
