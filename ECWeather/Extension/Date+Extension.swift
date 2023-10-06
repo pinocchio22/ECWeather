@@ -21,6 +21,7 @@ extension Date {
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: self)
     }
+    
     func toWeekString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
@@ -30,7 +31,9 @@ extension Date {
     
     func toDayString() -> String {
         let dateFormatter = DateFormatter()
+
         dateFormatter.dateFormat = "dd"
+
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: self)
     }
