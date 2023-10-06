@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="xvI-Yv-lG7">
+                                <rect key="frame" x="146" y="301" width="101" height="250"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_cloud" translatesAutoresizingMaskIntoConstraints="NO" id="teG-3m-7CZ">
+                                <rect key="frame" x="41" y="43" width="80" height="65"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_cloud" translatesAutoresizingMaskIntoConstraints="NO" id="s3k-qP-GI2">
+                                <rect key="frame" x="49" y="613" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="2On-yS-bj8"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_cloud" translatesAutoresizingMaskIntoConstraints="NO" id="Zrh-Nh-47G">
+                                <rect key="frame" x="150" y="247" width="80" height="65"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_jieun" translatesAutoresizingMaskIntoConstraints="NO" id="2Uw-i4-no1">
+                                <rect key="frame" x="109.66666666666669" y="428" width="400" height="400"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="400" id="Sts-YK-ZC6"/>
+                                    <constraint firstAttribute="height" constant="400" id="xqh-cE-pqW"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_jieun" translatesAutoresizingMaskIntoConstraints="NO" id="QRE-eC-h3H">
+                                <rect key="frame" x="133" y="0.0" width="400" height="400"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="400" id="RqV-hJ-8Nq"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_jieun" translatesAutoresizingMaskIntoConstraints="NO" id="Orr-iH-ciy">
+                                <rect key="frame" x="-186" y="129" width="400" height="400"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="400" id="Vrc-QO-oWR"/>
+                                    <constraint firstAttribute="width" constant="400" id="bZr-UO-M3p"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_moon" translatesAutoresizingMaskIntoConstraints="NO" id="GQU-ya-lTI">
+                                <rect key="frame" x="4.6666666666666643" y="702" width="100" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="yf9-63-Xzv"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doodle_team18_2" translatesAutoresizingMaskIntoConstraints="NO" id="sk6-Du-HwF">
+                                <rect key="frame" x="172" y="768" width="49" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="erK-Oy-Z42"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Orr-iH-ciy" secondAttribute="trailing" constant="179" id="0Nd-aG-Sxn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="s3k-qP-GI2" secondAttribute="trailing" constant="264" id="0wm-OS-Pfj"/>
+                            <constraint firstItem="xvI-Yv-lG7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="146" id="4hf-Rb-kXF"/>
+                            <constraint firstItem="xvI-Yv-lG7" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="52n-zF-qKe"/>
+                            <constraint firstItem="sk6-Du-HwF" firstAttribute="centerX" secondItem="xvI-Yv-lG7" secondAttribute="centerX" id="Ahd-ZI-cCa"/>
+                            <constraint firstItem="2Uw-i4-no1" firstAttribute="top" secondItem="QRE-eC-h3H" secondAttribute="bottom" constant="28" id="HDF-O4-oZA"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sk6-Du-HwF" secondAttribute="trailing" constant="172" id="Jo9-F7-6mw"/>
+                            <constraint firstItem="QRE-eC-h3H" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" constant="-59" id="LVe-w9-zMB"/>
+                            <constraint firstItem="2Uw-i4-no1" firstAttribute="leading" secondItem="GQU-ya-lTI" secondAttribute="trailing" constant="5" id="R40-eA-sEu"/>
+                            <constraint firstItem="GQU-ya-lTI" firstAttribute="top" secondItem="s3k-qP-GI2" secondAttribute="bottom" constant="9" id="W2h-p6-oQC"/>
+                            <constraint firstItem="sk6-Du-HwF" firstAttribute="leading" secondItem="GQU-ya-lTI" secondAttribute="trailing" constant="67.333333333333329" id="XkD-Ce-mJS"/>
+                            <constraint firstItem="s3k-qP-GI2" firstAttribute="top" secondItem="Orr-iH-ciy" secondAttribute="bottom" constant="84" id="al8-d8-eHw"/>
+                            <constraint firstItem="Zrh-Nh-47G" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="150" id="bqe-4X-uA5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zrh-Nh-47G" secondAttribute="trailing" constant="163" id="cDj-Su-p0P"/>
+                            <constraint firstItem="QRE-eC-h3H" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="133" id="fYl-e5-N4I"/>
+                            <constraint firstItem="teG-3m-7CZ" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" constant="-16" id="gye-z7-KJH"/>
+                            <constraint firstItem="Orr-iH-ciy" firstAttribute="top" secondItem="teG-3m-7CZ" secondAttribute="bottom" constant="21" id="hgX-nH-dG7"/>
+                            <constraint firstItem="QRE-eC-h3H" firstAttribute="leading" secondItem="teG-3m-7CZ" secondAttribute="trailing" constant="12" id="i17-Wo-lja"/>
+                            <constraint firstItem="2Uw-i4-no1" firstAttribute="bottom" secondItem="sk6-Du-HwF" secondAttribute="bottom" id="mqq-eb-O6T"/>
+                            <constraint firstItem="s3k-qP-GI2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="49" id="qQ5-23-Ol0"/>
+                            <constraint firstItem="xvI-Yv-lG7" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="sYd-bq-gHu"/>
+                            <constraint firstItem="teG-3m-7CZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="41" id="tP7-qc-GW6"/>
+                            <constraint firstItem="Zrh-Nh-47G" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="188" id="wOT-mH-mzm"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="2Uw-i4-no1" secondAttribute="bottom" constant="-10" id="zQT-Sp-I5a"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52.671755725190835" y="374.64788732394368"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="AppLogo" width="250" height="250"/>
+        <image name="doodle_cloud" width="127" height="65"/>
+        <image name="doodle_jieun" width="383" height="612"/>
+        <image name="doodle_moon" width="100" height="139"/>
+        <image name="doodle_team18_2" width="106" height="56"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

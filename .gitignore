@@ -2,6 +2,9 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+# General
+.DS_Store
+
 ## User settings
 xcuserdata/
 
@@ -81,6 +84,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# key
+Secret/
 
 # Code Injection
 #

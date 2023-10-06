@@ -8,15 +8,29 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
 
+    /**
+     @brief  navigationBarController 객체
+     */
+    var navigationController: UINavigationController?
+
+    /**
+     @brief  tabBarController 객체
+     */
+    var tabBarController: BaseTabBarViewController?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        // guard let _ = (scene as? UIWindowScene) else { return } - 삭제
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        navigationController = UINavigationController(rootViewController: IntroViewController())
+        // 네비게이션바 히든
+        navigationController?.isNavigationBarHidden = true
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.windowScene = windowScene
+        window?.backgroundColor = .white
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,6 +61,62 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    /**
+     @brief navigationController의 쌓여있는 스택을 리턴
+     */
+    static func navigationViewControllers() -> [UIViewController] {
+        return SceneDelegate.applicationDelegate().navigationController!.viewControllers
+    }
 
+    /**
+     @brief Appdelegate의 객체를 리턴
+     */
+    static var realDelegate: SceneDelegate?
+    static func applicationDelegate() -> SceneDelegate {
+        if Thread.isMainThread {
+            return UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+        }
+        let dg = DispatchGroup()
+        dg.enter()
+        DispatchQueue.main.async {
+            realDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+            dg.leave()
+        }
+        dg.wait()
+        return realDelegate!
+    }
+
+    /**
+     @brief storyBoard를 변경한다.
+     */
+    func changeInitViewController() {
+        tabBarController = nil
+        self.navigationController = nil
+        tabBarController = nil
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let navigationController: UINavigationController?
+        navigationController = storyBoard.instantiateInitialViewController() as? UINavigationController
+        if navigationController?.topViewController is UITabBarController {
+            tabBarController = navigationController!.topViewController as? BaseTabBarViewController
+        }
+        self.navigationController = navigationController
+
+        // 네비게이션바 히든
+        navigationController?.isNavigationBarHidden = true
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+            SceneDelegate.applicationDelegate().window?.rootViewController?.view.alpha = 0
+        }) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                strongSelf.window?.rootViewController = strongSelf.navigationController
+                strongSelf.window?.rootViewController?.view.alpha = 0
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+                    SceneDelegate.applicationDelegate().window?.rootViewController?.view.alpha = 1
+                }, completion: { _ in
+                })
+            }
+        }
+    }
 }
-
