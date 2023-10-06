@@ -1,19 +1,11 @@
 
-import UIKit
-import SnapKit
 import Alamofire
+import SnapKit
+import UIKit
 
-
-
-
-
-
-class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate{
-    
-    
+class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     /// 배경 이미지 뷰
     lazy var backgroundImageView = UIImageView()
-    
     
     /// 전체 스크롤 뷰
     lazy var mainScrollView: UIScrollView = {
@@ -216,7 +208,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         return label
     }()
     
-    
     /// 대기질 - 맨 아래에 구분선
     lazy var bottomLineOfAirQualityFrameView: UIView = {
         let view = UIView()
@@ -266,7 +257,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         return label
     }()
     
-    
     /// 자외선 지수 - 맨 아래에 구분선
     lazy var bottomLineOfUVRaysFrameView: UIView = {
         let view = UIView()
@@ -293,8 +283,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func getCurrentWeatherData() {
-     
-        ECWeather.NetworkService.getCurrentWeather(lat: DataManager.shared.latitude ?? 0, lon: DataManager.shared.longitude ?? 0) { [weak self] (weatherData) in
+        ECWeather.NetworkService.getCurrentWeather(lat: DataManager.shared.latitude ?? 0, lon: DataManager.shared.longitude ?? 0) { [weak self] weatherData in
             if let weatherData = weatherData {
                 self?.locationOfCurrentWeatherLabel.text = weatherData.mainDescription
 //                self?.currentWeatherImageView.image = weatherData.icon
@@ -309,7 +298,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
 //                cell.imageView.image = UIImage(named: "WeatherIcon-sun")
 //                cell.bottomLabel.text = "온도"
                 
-                
 //
                
             } else {
@@ -318,329 +306,317 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
     }
 
+    func setLayout() {
+        setBackgroundImageView()
+        setScrollViewLayout()
+        setScrollViewContentViewLayout()
+        setMainTitleLayout()
+        setCurrentWeatherViewLayout()
+        setCurrentWeatherViewTopLineLayout()
+        setCurrentWeatherViewLocationLabelLayout()
+        setCurrentWeatherViewIconImageLayout()
+        setCurrentWeatherViewTemperatureLabelLayout()
+        setCurrentWeatherViewWeatherLabelLayout()
+        setCurrentWeatherViewDailyTemperatureLabelLayout()
+        setCurrentWeatherViewBottomLineLayout()
+            
+        setHourlyWeatherViewLayout()
+        setHourlyWeatherViewTopLineLayout()
+        setHourlyWeatherViewMentLabelLayout()
+        setHourlyWeatherViewMentLabelUnderLineLayout()
+        setHourlyWeatherViewCollectionViewLayout()
+        setHourlyWeatherViewBottomLineLayout()
+            
+        setAirQualityViewLayout()
+        setAirQualityViewTopLineLayout()
+        setAirQualityViewNameLabelLayout()
+        setAirQualityViewUnderLineLayout()
+        sethumidityAndWindStranthLayout()
+        setAirQualityViewBottomLineLayout()
+            
+        setUVRaysViewLayout()
+        setUVRaysViewTopLineLayout()
+        setUVRaysViewMainLabelLayout()
+        setUVRaysViewUnderLineLayout()
+        setSunRiseAndSetTimeLayout()
+        setUVRaysViewBottomLineLayout()
+            
+        scrollViewContentView.setCustomSpacing(10, after: mainPageTitleLabel)
+        scrollViewContentView.setCustomSpacing(15, after: currentWeatherFrameView)
+        currentWeatherFrameView.setCustomSpacing(15, after: currentWeatherFrameTopLine)
+        currentWeatherFrameView.setCustomSpacing(15, after: locationOfCurrentWeatherLabel)
+        currentWeatherFrameView.setCustomSpacing(15, after: currentWeatherImageView)
+        currentWeatherFrameView.setCustomSpacing(15, after: currentTemperatuerLabel)
+        currentWeatherFrameView.setCustomSpacing(15, after: currentWeatherLabel)
+        currentWeatherFrameView.setCustomSpacing(15, after: currentDailyTemperatuerLabel)
+        currentWeatherFrameView.setCustomSpacing(20, after: currentWeatherFrameBottomLine)
+            
+        scrollViewContentView.setCustomSpacing(20, after: hourlyWeatherFrameView)
+        hourlyWeatherFrameView.setCustomSpacing(20, after: hourlyWeatherFrameTopLine)
+        hourlyWeatherFrameView.setCustomSpacing(5, after: hourlyWeatherMentLabel)
+        hourlyWeatherFrameView.setCustomSpacing(10, after: underLineOfHourlyWeatherView)
+        hourlyWeatherFrameView.setCustomSpacing(10, after: todayCollectionView)
+        hourlyWeatherFrameView.setCustomSpacing(20, after: hourlyWeatherFrameBottomLine)
+            
+        scrollViewContentView.setCustomSpacing(20, after: airQualityFrameView)
+        airQualityFrameView.setCustomSpacing(5, after: topLineOfAirQualityFrameView)
+        airQualityFrameView.setCustomSpacing(5, after: airQualityNameLabel)
+        airQualityFrameView.setCustomSpacing(5, after: bottomLineOfAirQualityLabelView)
+        airQualityFrameView.setCustomSpacing(5, after: humidityAndWindStranth)
+        airQualityFrameView.setCustomSpacing(20, after: bottomLineOfAirQualityFrameView)
+            
+        scrollViewContentView.setCustomSpacing(20, after: uvRaysFrameView)
+        uvRaysFrameView.setCustomSpacing(5, after: topLineOfUVRaysFrameView)
+        uvRaysFrameView.setCustomSpacing(5, after: nameOfUVRaysFrameView)
+        uvRaysFrameView.setCustomSpacing(20, after: bottomLineOfUVRaysLabelView)
+        uvRaysFrameView.setCustomSpacing(20, after: sunRiseAndSetTime)
+        uvRaysFrameView.setCustomSpacing(20, after: bottomLineOfUVRaysFrameView)
+    }
         
-        
-        
-        func setLayout() {
-            setBackgroundImageView()
-            setScrollViewLayout()
-            setScrollViewContentViewLayout()
-            setMainTitleLayout()
-            setCurrentWeatherViewLayout()
-            setCurrentWeatherViewTopLineLayout()
-            setCurrentWeatherViewLocationLabelLayout()
-            setCurrentWeatherViewIconImageLayout()
-            setCurrentWeatherViewTemperatureLabelLayout()
-            setCurrentWeatherViewWeatherLabelLayout()
-            setCurrentWeatherViewDailyTemperatureLabelLayout()
-            setCurrentWeatherViewBottomLineLayout()
+    func setBackgroundImageView() {
+        view.addSubview(backgroundImageView)
             
-            setHourlyWeatherViewLayout()
-            setHourlyWeatherViewTopLineLayout()
-            setHourlyWeatherViewMentLabelLayout()
-            setHourlyWeatherViewMentLabelUnderLineLayout()
-            setHourlyWeatherViewCollectionViewLayout()
-            setHourlyWeatherViewBottomLineLayout()
-            
-            setAirQualityViewLayout()
-            setAirQualityViewTopLineLayout()
-            setAirQualityViewNameLabelLayout()
-            setAirQualityViewUnderLineLayout()
-            sethumidityAndWindStranthLayout()
-            setAirQualityViewBottomLineLayout()
-            
-            setUVRaysViewLayout()
-            setUVRaysViewTopLineLayout()
-            setUVRaysViewMainLabelLayout()
-            setUVRaysViewUnderLineLayout()
-            setSunRiseAndSetTimeLayout()
-            setUVRaysViewBottomLineLayout()
-            
-            
-            
-            scrollViewContentView.setCustomSpacing(10, after: mainPageTitleLabel)
-            scrollViewContentView.setCustomSpacing(15, after: currentWeatherFrameView)
-            currentWeatherFrameView.setCustomSpacing(15, after: currentWeatherFrameTopLine)
-            currentWeatherFrameView.setCustomSpacing(15, after: locationOfCurrentWeatherLabel)
-            currentWeatherFrameView.setCustomSpacing(15, after: currentWeatherImageView)
-            currentWeatherFrameView.setCustomSpacing(15, after: currentTemperatuerLabel)
-            currentWeatherFrameView.setCustomSpacing(15, after: currentWeatherLabel)
-            currentWeatherFrameView.setCustomSpacing(15, after: currentDailyTemperatuerLabel)
-            currentWeatherFrameView.setCustomSpacing(20, after: currentWeatherFrameBottomLine)
-            
-            scrollViewContentView.setCustomSpacing(20, after: hourlyWeatherFrameView)
-            hourlyWeatherFrameView.setCustomSpacing(20, after: hourlyWeatherFrameTopLine)
-            hourlyWeatherFrameView.setCustomSpacing(5, after: hourlyWeatherMentLabel)
-            hourlyWeatherFrameView.setCustomSpacing(10, after: underLineOfHourlyWeatherView)
-            hourlyWeatherFrameView.setCustomSpacing(10, after: todayCollectionView)
-            hourlyWeatherFrameView.setCustomSpacing(20, after: hourlyWeatherFrameBottomLine)
-            
-            scrollViewContentView.setCustomSpacing(20, after: airQualityFrameView)
-            airQualityFrameView.setCustomSpacing(5, after: topLineOfAirQualityFrameView)
-            airQualityFrameView.setCustomSpacing(5, after: airQualityNameLabel)
-            airQualityFrameView.setCustomSpacing(5, after: bottomLineOfAirQualityLabelView)
-            airQualityFrameView.setCustomSpacing(5, after: humidityAndWindStranth)
-            airQualityFrameView.setCustomSpacing(20, after: bottomLineOfAirQualityFrameView)
-            
-            scrollViewContentView.setCustomSpacing(20, after: uvRaysFrameView)
-            uvRaysFrameView.setCustomSpacing(5, after: topLineOfUVRaysFrameView)
-            uvRaysFrameView.setCustomSpacing(5, after: nameOfUVRaysFrameView)
-            uvRaysFrameView.setCustomSpacing(20, after: bottomLineOfUVRaysLabelView)
-            uvRaysFrameView.setCustomSpacing(20, after: sunRiseAndSetTime)
-            uvRaysFrameView.setCustomSpacing(20, after: bottomLineOfUVRaysFrameView)
-            
-            
+        backgroundImageView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
-        func setBackgroundImageView() {
-            view.addSubview(backgroundImageView)
             
-            backgroundImageView.snp.makeConstraints {
-                $0.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-            
-            NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { weather in
-                var backgroundImage = weather?.mainDescription
-                print(backgroundImage)
-                switch backgroundImage {
-                case BackgroundImage.Clouds.rawValue: self.backgroundImageView.image = BackgroundImage.Clouds.image
-                case BackgroundImage.Clear.rawValue: self.backgroundImageView.image = BackgroundImage.Clear.image
-                case BackgroundImage.Snow.rawValue: self.backgroundImageView.image = BackgroundImage.Snow.image
-                case BackgroundImage.Rain.rawValue: self.backgroundImageView.image = BackgroundImage.Rain.image
-                case BackgroundImage.Drizzle.rawValue: self.backgroundImageView.image = BackgroundImage.Drizzle.image
-                case BackgroundImage.Thunderstorm.rawValue: self.backgroundImageView.image = BackgroundImage.Thunderstorm.image
-                case .none: self.backgroundImageView.image = BackgroundImage.Mist.image
-                case .some(_):
-                    break
-                }
+        NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { weather in
+            var backgroundImage = weather?.mainDescription
+            print(backgroundImage)
+            switch backgroundImage {
+            case BackgroundImage.Clouds.rawValue: self.backgroundImageView.image = BackgroundImage.Clouds.image
+            case BackgroundImage.Clear.rawValue: self.backgroundImageView.image = BackgroundImage.Clear.image
+            case BackgroundImage.Snow.rawValue: self.backgroundImageView.image = BackgroundImage.Snow.image
+            case BackgroundImage.Rain.rawValue: self.backgroundImageView.image = BackgroundImage.Rain.image
+            case BackgroundImage.Drizzle.rawValue: self.backgroundImageView.image = BackgroundImage.Drizzle.image
+            case BackgroundImage.Thunderstorm.rawValue: self.backgroundImageView.image = BackgroundImage.Thunderstorm.image
+            case .none: self.backgroundImageView.image = BackgroundImage.Mist.image
+            case .some:
+                break
             }
         }
+    }
         
-        func setScrollViewLayout() {
-            backgroundImageView.addSubview(mainScrollView)
+    func setScrollViewLayout() {
+        backgroundImageView.addSubview(mainScrollView)
             
-            mainScrollView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
+        mainScrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+    }
         
-        func setScrollViewContentViewLayout() {
-            mainScrollView.addSubview(scrollViewContentView)
+    func setScrollViewContentViewLayout() {
+        mainScrollView.addSubview(scrollViewContentView)
             
-            scrollViewContentView.snp.makeConstraints {
-                $0.edges.equalTo(mainScrollView)
-                $0.centerX.equalTo(mainScrollView)
-            }
+        scrollViewContentView.snp.makeConstraints {
+            $0.edges.equalTo(mainScrollView)
+            $0.centerX.equalTo(mainScrollView)
         }
+    }
         
-        func setMainTitleLayout() {
-            scrollViewContentView.addArrangedSubview(mainPageTitleLabel)
+    func setMainTitleLayout() {
+        scrollViewContentView.addArrangedSubview(mainPageTitleLabel)
             
-            mainPageTitleLabel.snp.makeConstraints {
-                $0.top.equalTo(scrollViewContentView).offset(10)
-                $0.leading.equalTo(scrollViewContentView).offset(20)
-            }
+        mainPageTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(scrollViewContentView).offset(10)
+            $0.leading.equalTo(scrollViewContentView).offset(20)
         }
+    }
         
-        func setCurrentWeatherViewLayout() {
-            scrollViewContentView.addArrangedSubview(currentWeatherFrameView)
+    func setCurrentWeatherViewLayout() {
+        scrollViewContentView.addArrangedSubview(currentWeatherFrameView)
             
-            currentWeatherFrameView.snp.makeConstraints {
-                $0.top.equalTo(mainPageTitleLabel.snp.bottom).offset(20)
-                $0.leading.equalTo(scrollViewContentView).offset(20)
-                $0.trailing.equalTo(scrollViewContentView).offset(-20)
-            }
+        currentWeatherFrameView.snp.makeConstraints {
+            $0.top.equalTo(mainPageTitleLabel.snp.bottom).offset(20)
+            $0.leading.equalTo(scrollViewContentView).offset(20)
+            $0.trailing.equalTo(scrollViewContentView).offset(-20)
         }
+    }
         
-        func setCurrentWeatherViewTopLineLayout() {
-            currentWeatherFrameView.addArrangedSubview(currentWeatherFrameTopLine)
+    func setCurrentWeatherViewTopLineLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherFrameTopLine)
             
-            currentWeatherFrameTopLine.snp.makeConstraints {
-                //            $0.top.equalTo(currentWeatherFrameView.snp.top)
-                $0.leading.equalTo(currentWeatherFrameView).offset(25)
-                $0.trailing.equalTo(currentWeatherFrameView).offset(-25)
-                $0.height.equalTo(2)
-            }
+        currentWeatherFrameTopLine.snp.makeConstraints {
+            //            $0.top.equalTo(currentWeatherFrameView.snp.top)
+            $0.leading.equalTo(currentWeatherFrameView).offset(25)
+            $0.trailing.equalTo(currentWeatherFrameView).offset(-25)
+            $0.height.equalTo(2)
         }
+    }
         
-        func setCurrentWeatherViewLocationLabelLayout() {
-            currentWeatherFrameView.addArrangedSubview(locationOfCurrentWeatherLabel)
+    func setCurrentWeatherViewLocationLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(locationOfCurrentWeatherLabel)
             
-            //        locationOfCurrentWeatherLabel.snp.makeConstraints {
-            //            $0.top.equalTo(currentWeatherFrameTopLine.snp.bottom).offset(20)
+        //        locationOfCurrentWeatherLabel.snp.makeConstraints {
+        //            $0.top.equalTo(currentWeatherFrameTopLine.snp.bottom).offset(20)
+        //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+        //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+        //        }
+    }
+        
+    func setCurrentWeatherViewIconImageLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherImageView)
+            
+        currentWeatherImageView.snp.makeConstraints {
+            $0.height.equalTo(105)
+            $0.top.equalTo(locationOfCurrentWeatherLabel.snp.bottom).offset(10)
+            $0.centerX.equalTo(currentWeatherFrameView.snp.centerX)
             //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
             //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
-            //        }
         }
+    }
         
-        func setCurrentWeatherViewIconImageLayout() {
-            currentWeatherFrameView.addArrangedSubview(currentWeatherImageView)
+    func setCurrentWeatherViewTemperatureLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentTemperatuerLabel)
             
-            currentWeatherImageView.snp.makeConstraints {
-                $0.height.equalTo(105)
-                $0.top.equalTo(locationOfCurrentWeatherLabel.snp.bottom).offset(10)
-                $0.centerX.equalTo(currentWeatherFrameView.snp.centerX)
-                //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
-                //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
-            }
+        currentTemperatuerLabel.snp.makeConstraints {
+            //            $0.top.equalTo(currentWeatherImageView.snp.bottom).offset(10)
+            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
         }
+    }
         
-        func setCurrentWeatherViewTemperatureLabelLayout() {
-            currentWeatherFrameView.addArrangedSubview(currentTemperatuerLabel)
+    func setCurrentWeatherViewWeatherLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherLabel)
             
-            currentTemperatuerLabel.snp.makeConstraints {
-                //            $0.top.equalTo(currentWeatherImageView.snp.bottom).offset(10)
-                $0.leading.equalTo(currentWeatherFrameView).offset(10)
-                $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
-            }
-        }
+        //        currentWeatherLabel.snp.makeConstraints {
+        //            $0.top.equalTo(currentTemperatuerLabel.snp.bottom).offset(10)
+        //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+        //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+        //        }
+    }
         
-        func setCurrentWeatherViewWeatherLabelLayout() {
-            currentWeatherFrameView.addArrangedSubview(currentWeatherLabel)
+    func setCurrentWeatherViewDailyTemperatureLabelLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentDailyTemperatuerLabel)
             
-            //        currentWeatherLabel.snp.makeConstraints {
-            //            $0.top.equalTo(currentTemperatuerLabel.snp.bottom).offset(10)
-            //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
-            //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
-            //        }
-        }
+        //        currentDailyTemperatuerLabel.snp.makeConstraints {
+        //            $0.top.equalTo(currentWeatherLabel.snp.bottom).offset(10)
+        //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+        //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+        //        }
+    }
         
-        func setCurrentWeatherViewDailyTemperatureLabelLayout() {
-            currentWeatherFrameView.addArrangedSubview(currentDailyTemperatuerLabel)
+    func setCurrentWeatherViewBottomLineLayout() {
+        currentWeatherFrameView.addArrangedSubview(currentWeatherFrameBottomLine)
             
-            //        currentDailyTemperatuerLabel.snp.makeConstraints {
-            //            $0.top.equalTo(currentWeatherLabel.snp.bottom).offset(10)
-            //            $0.leading.equalTo(currentWeatherFrameView).offset(10)
-            //            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
-            //        }
+        currentWeatherFrameBottomLine.snp.makeConstraints {
+            //            $0.top.equalTo(currentDailyTemperatuerLabel.snp.bottom).offset(10)
+            $0.leading.equalTo(currentWeatherFrameView).offset(25)
+            $0.trailing.equalTo(currentWeatherFrameView).offset(-25)
+            $0.height.equalTo(2)
+            $0.bottom.equalTo(currentWeatherFrameView.snp.bottom)
         }
+    }
         
-        func setCurrentWeatherViewBottomLineLayout() {
-            currentWeatherFrameView.addArrangedSubview(currentWeatherFrameBottomLine)
+    // 두번째 프레임
+    func setHourlyWeatherViewLayout() {
+        scrollViewContentView.addArrangedSubview(hourlyWeatherFrameView)
             
-            currentWeatherFrameBottomLine.snp.makeConstraints {
-                //            $0.top.equalTo(currentDailyTemperatuerLabel.snp.bottom).offset(10)
-                $0.leading.equalTo(currentWeatherFrameView).offset(25)
-                $0.trailing.equalTo(currentWeatherFrameView).offset(-25)
-                $0.height.equalTo(2)
-                $0.bottom.equalTo(currentWeatherFrameView.snp.bottom)
-            }
+        hourlyWeatherFrameView.snp.makeConstraints {
+            $0.top.equalTo(currentWeatherFrameView.snp.bottom).offset(20)
+            $0.leading.equalTo(scrollViewContentView).offset(20)
+            $0.trailing.equalTo(scrollViewContentView).offset(-20)
         }
+    }
         
-        
-        
-        // 두번째 프레임
-        func setHourlyWeatherViewLayout() {
-            scrollViewContentView.addArrangedSubview(hourlyWeatherFrameView)
+    func setHourlyWeatherViewTopLineLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameTopLine)
             
-            hourlyWeatherFrameView.snp.makeConstraints {
-                $0.top.equalTo(currentWeatherFrameView.snp.bottom).offset(20)
-                $0.leading.equalTo(scrollViewContentView).offset(20)
-                $0.trailing.equalTo(scrollViewContentView).offset(-20)
-            }
+        hourlyWeatherFrameTopLine.snp.makeConstraints {
+            //            $0.top.equalTo(hourlyWeatherFrameView)
+            $0.height.equalTo(2)
+            //            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+            //            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
         }
+    }
         
-        func setHourlyWeatherViewTopLineLayout() {
-            hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameTopLine)
+    func setHourlyWeatherViewMentLabelLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherMentLabel)
             
-            hourlyWeatherFrameTopLine.snp.makeConstraints {
-                //            $0.top.equalTo(hourlyWeatherFrameView)
-                $0.height.equalTo(2)
-                //            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
-                //            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
-            }
+        hourlyWeatherMentLabel.snp.makeConstraints {
+            $0.top.equalTo(hourlyWeatherFrameTopLine.snp.bottom).offset(10)
+            $0.leading.equalTo(hourlyWeatherFrameView).offset(5)
+            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-5)
         }
+    }
         
-        func setHourlyWeatherViewMentLabelLayout() {
-            hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherMentLabel)
+    func setHourlyWeatherViewMentLabelUnderLineLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(underLineOfHourlyWeatherView)
             
-            hourlyWeatherMentLabel.snp.makeConstraints {
-                $0.top.equalTo(hourlyWeatherFrameTopLine.snp.bottom).offset(10)
-                $0.leading.equalTo(hourlyWeatherFrameView).offset(5)
-                $0.trailing.equalTo(hourlyWeatherFrameView).offset(-5)
-            }
+        underLineOfHourlyWeatherView.snp.makeConstraints {
+            //            $0.top.equalTo(hourlyWeatherMentLabel.snp.bottom)
+            $0.height.equalTo(2)
+            //            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+            //            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
         }
+    }
         
-        func setHourlyWeatherViewMentLabelUnderLineLayout() {
-            hourlyWeatherFrameView.addArrangedSubview(underLineOfHourlyWeatherView)
+    func setHourlyWeatherViewCollectionViewLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(todayCollectionView)
             
-            underLineOfHourlyWeatherView.snp.makeConstraints {
-                //            $0.top.equalTo(hourlyWeatherMentLabel.snp.bottom)
-                $0.height.equalTo(2)
-                //            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
-                //            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
-            }
+        todayCollectionView.snp.makeConstraints {
+            $0.top.equalTo(underLineOfHourlyWeatherView.snp.bottom)
+            $0.height.equalTo(85)
+            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
+            $0.bottom.equalTo(hourlyWeatherFrameView.snp.bottom).offset(-5)
         }
+    }
         
-        func setHourlyWeatherViewCollectionViewLayout() {
-            hourlyWeatherFrameView.addArrangedSubview(todayCollectionView)
+    func setHourlyWeatherViewBottomLineLayout() {
+        hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameBottomLine)
             
-            todayCollectionView.snp.makeConstraints {
-                $0.top.equalTo(underLineOfHourlyWeatherView.snp.bottom)
-                $0.height.equalTo(85)
-                $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
-                $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
-                $0.bottom.equalTo(hourlyWeatherFrameView.snp.bottom).offset(-5)
-            }
+        hourlyWeatherFrameBottomLine.snp.makeConstraints {
+            //            $0.top.equalTo(todayCollectionView.snp.bottom)
+            $0.height.equalTo(2)
+            //            $0.bottom.equalTo(hourlyWeatherFrameView)
+            $0.leading.equalTo(hourlyWeatherFrameView).offset(25)
+            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-25)
         }
+    }
         
-        func setHourlyWeatherViewBottomLineLayout() {
-            hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherFrameBottomLine)
+    // 세번째 프레임
+    func setAirQualityViewLayout() {
+        scrollViewContentView.addArrangedSubview(airQualityFrameView)
             
-            hourlyWeatherFrameBottomLine.snp.makeConstraints {
-                //            $0.top.equalTo(todayCollectionView.snp.bottom)
-                $0.height.equalTo(2)
-                //            $0.bottom.equalTo(hourlyWeatherFrameView)
-                $0.leading.equalTo(hourlyWeatherFrameView).offset(25)
-                $0.trailing.equalTo(hourlyWeatherFrameView).offset(-25)
-            }
+        airQualityFrameView.snp.makeConstraints {
+            $0.top.equalTo(hourlyWeatherFrameView.snp.bottom).offset(20)
+            $0.leading.equalTo(scrollViewContentView).offset(20)
+            $0.trailing.equalTo(scrollViewContentView).offset(-20)
         }
+    }
         
-        // 세번째 프레임
-        func setAirQualityViewLayout() {
-            scrollViewContentView.addArrangedSubview(airQualityFrameView)
+    func setAirQualityViewTopLineLayout() {
+        airQualityFrameView.addArrangedSubview(topLineOfAirQualityFrameView)
             
-            airQualityFrameView.snp.makeConstraints {
-                $0.top.equalTo(hourlyWeatherFrameView.snp.bottom).offset(20)
-                $0.leading.equalTo(scrollViewContentView).offset(20)
-                $0.trailing.equalTo(scrollViewContentView).offset(-20)
-            }
+        topLineOfAirQualityFrameView.snp.makeConstraints {
+            $0.top.equalTo(airQualityFrameView.snp.top)
+            $0.height.equalTo(2)
+            $0.leading.equalTo(airQualityFrameView).offset(25)
+            $0.trailing.equalTo(airQualityFrameView).offset(-25)
         }
-        
-        func setAirQualityViewTopLineLayout() {
-            airQualityFrameView.addArrangedSubview(topLineOfAirQualityFrameView)
-            
-            topLineOfAirQualityFrameView.snp.makeConstraints {
-                $0.top.equalTo(airQualityFrameView.snp.top)
-                $0.height.equalTo(2)
-                $0.leading.equalTo(airQualityFrameView).offset(25)
-                $0.trailing.equalTo(airQualityFrameView).offset(-25)
-            }
-        }
+    }
     
-    
-  
-        
-        func setAirQualityViewNameLabelLayout() {
-            airQualityFrameView.addArrangedSubview(airQualityNameLabel)
+    func setAirQualityViewNameLabelLayout() {
+        airQualityFrameView.addArrangedSubview(airQualityNameLabel)
             
-            airQualityNameLabel.snp.makeConstraints {
-                $0.top.equalTo(topLineOfAirQualityFrameView.snp.bottom).offset(5)
-                $0.leading.equalTo(airQualityFrameView).offset(5)
-                $0.trailing.equalTo(airQualityFrameView).offset(-5)
-            }
+        airQualityNameLabel.snp.makeConstraints {
+            $0.top.equalTo(topLineOfAirQualityFrameView.snp.bottom).offset(5)
+            $0.leading.equalTo(airQualityFrameView).offset(5)
+            $0.trailing.equalTo(airQualityFrameView).offset(-5)
         }
+    }
         
-        func setAirQualityViewUnderLineLayout() {
-            airQualityFrameView.addArrangedSubview(bottomLineOfAirQualityLabelView)
+    func setAirQualityViewUnderLineLayout() {
+        airQualityFrameView.addArrangedSubview(bottomLineOfAirQualityLabelView)
             
-            bottomLineOfAirQualityLabelView.snp.makeConstraints {
-                $0.top.equalTo(airQualityNameLabel.snp.bottom).offset(5)
-                $0.height.equalTo(2)
-                $0.leading.equalTo(airQualityFrameView).offset(25)
-                $0.trailing.equalTo(airQualityFrameView).offset(-25)
-            }
+        bottomLineOfAirQualityLabelView.snp.makeConstraints {
+            $0.top.equalTo(airQualityNameLabel.snp.bottom).offset(5)
+            $0.height.equalTo(2)
+            $0.leading.equalTo(airQualityFrameView).offset(25)
+            $0.trailing.equalTo(airQualityFrameView).offset(-25)
         }
+    }
     
     func sethumidityAndWindStranthLayout() {
         airQualityFrameView.addArrangedSubview(humidityAndWindStranth)
@@ -653,207 +629,197 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
     }
     
-        
-        func setAirQualityViewBottomLineLayout() {
-            airQualityFrameView.addArrangedSubview(bottomLineOfAirQualityFrameView)
+    func setAirQualityViewBottomLineLayout() {
+        airQualityFrameView.addArrangedSubview(bottomLineOfAirQualityFrameView)
             
-            bottomLineOfAirQualityFrameView.snp.makeConstraints {
-                            $0.top.equalTo(humidityAndWindStranth.snp.bottom)
-                $0.height.equalTo(2)
-                $0.leading.equalTo(airQualityFrameView).offset(25)
-                $0.trailing.equalTo(airQualityFrameView).offset(-25)
-                //            $0.bottom.equalTo(airQualityFrameView)
-            }
+        bottomLineOfAirQualityFrameView.snp.makeConstraints {
+            $0.top.equalTo(humidityAndWindStranth.snp.bottom)
+            $0.height.equalTo(2)
+            $0.leading.equalTo(airQualityFrameView).offset(25)
+            $0.trailing.equalTo(airQualityFrameView).offset(-25)
+            //            $0.bottom.equalTo(airQualityFrameView)
         }
+    }
         
-        // 네번째 뷰
-        func setUVRaysViewLayout() {
-            scrollViewContentView.addArrangedSubview(uvRaysFrameView)
+    // 네번째 뷰
+    func setUVRaysViewLayout() {
+        scrollViewContentView.addArrangedSubview(uvRaysFrameView)
             
-            uvRaysFrameView.snp.makeConstraints {
-                $0.top.equalTo(airQualityFrameView.snp.bottom).offset(20)
-                $0.leading.equalTo(scrollViewContentView).offset(20)
-                $0.trailing.equalTo(scrollViewContentView).offset(-20)
-            }
+        uvRaysFrameView.snp.makeConstraints {
+            $0.top.equalTo(airQualityFrameView.snp.bottom).offset(20)
+            $0.leading.equalTo(scrollViewContentView).offset(20)
+            $0.trailing.equalTo(scrollViewContentView).offset(-20)
         }
+    }
         
-        func setUVRaysViewTopLineLayout() {
-            uvRaysFrameView.addArrangedSubview(topLineOfUVRaysFrameView)
+    func setUVRaysViewTopLineLayout() {
+        uvRaysFrameView.addArrangedSubview(topLineOfUVRaysFrameView)
             
-            topLineOfUVRaysFrameView.snp.makeConstraints {
-                $0.top.equalTo(uvRaysFrameView.snp.top)
-                $0.height.equalTo(2)
-                $0.leading.equalTo(uvRaysFrameView).offset(25)
-                $0.trailing.equalTo(uvRaysFrameView).offset(-25)
-            }
+        topLineOfUVRaysFrameView.snp.makeConstraints {
+            $0.top.equalTo(uvRaysFrameView.snp.top)
+            $0.height.equalTo(2)
+            $0.leading.equalTo(uvRaysFrameView).offset(25)
+            $0.trailing.equalTo(uvRaysFrameView).offset(-25)
         }
+    }
         
-        func setUVRaysViewMainLabelLayout() {
-            uvRaysFrameView.addArrangedSubview(nameOfUVRaysFrameView)
+    func setUVRaysViewMainLabelLayout() {
+        uvRaysFrameView.addArrangedSubview(nameOfUVRaysFrameView)
             
-            nameOfUVRaysFrameView.snp.makeConstraints {
-                $0.top.equalTo(topLineOfUVRaysFrameView.snp.bottom)
-                $0.leading.equalTo(uvRaysFrameView).offset(5)
-                $0.trailing.equalTo(uvRaysFrameView).offset(-5)
-            }
+        nameOfUVRaysFrameView.snp.makeConstraints {
+            $0.top.equalTo(topLineOfUVRaysFrameView.snp.bottom)
+            $0.leading.equalTo(uvRaysFrameView).offset(5)
+            $0.trailing.equalTo(uvRaysFrameView).offset(-5)
         }
+    }
         
-        func setUVRaysViewUnderLineLayout() {
-            uvRaysFrameView.addArrangedSubview(bottomLineOfUVRaysLabelView)
+    func setUVRaysViewUnderLineLayout() {
+        uvRaysFrameView.addArrangedSubview(bottomLineOfUVRaysLabelView)
             
-            bottomLineOfUVRaysLabelView.snp.makeConstraints {
-                //            $0.top.equalTo(nameOfUVRaysFrameView.snp.bottom)
-                $0.height.equalTo(2)
-                $0.leading.equalTo(uvRaysFrameView).offset(25)
-                $0.trailing.equalTo(uvRaysFrameView).offset(-25)
-            }
+        bottomLineOfUVRaysLabelView.snp.makeConstraints {
+            //            $0.top.equalTo(nameOfUVRaysFrameView.snp.bottom)
+            $0.height.equalTo(2)
+            $0.leading.equalTo(uvRaysFrameView).offset(25)
+            $0.trailing.equalTo(uvRaysFrameView).offset(-25)
         }
+    }
     
-    func setSunRiseAndSetTimeLayout(){
+    func setSunRiseAndSetTimeLayout() {
         uvRaysFrameView.addArrangedSubview(sunRiseAndSetTime)
         
         sunRiseAndSetTime.snp.makeConstraints {
-                        $0.top.equalTo(bottomLineOfUVRaysLabelView.snp.bottom)
+            $0.top.equalTo(bottomLineOfUVRaysLabelView.snp.bottom)
 //            $0.height.equalTo(2)
             $0.leading.equalTo(uvRaysFrameView).offset(5)
             $0.trailing.equalTo(uvRaysFrameView).offset(-5)
         }
     }
     
-        
-        func setUVRaysViewBottomLineLayout() {
-            uvRaysFrameView.addArrangedSubview(bottomLineOfUVRaysFrameView)
+    func setUVRaysViewBottomLineLayout() {
+        uvRaysFrameView.addArrangedSubview(bottomLineOfUVRaysFrameView)
             
-            bottomLineOfUVRaysFrameView.snp.makeConstraints {
-                //            $0.top.equalTo(bottomLineOfUVRaysLabelView.snp.bottom)
-                $0.height.equalTo(2)
-                $0.leading.equalTo(uvRaysFrameView).offset(25)
-                $0.trailing.equalTo(uvRaysFrameView).offset(-25)
-                //            $0.bottom.equalTo(uvRaysFrameView)
-            }
-        }
-        
-        
-        
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return numberOfHours
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as? WeatherCell else { return UICollectionViewCell() }
-            
-            //        let itemIndex = indexPath.item % 7
-            
-            // 이미지와 텍스트를 설정합니다. 예를 들어, 각 셀에 다른 데이터를 표시하려면 아래와 같이 설정할 수 있습니다.
-            
-            
-            
-            cell.topLabel.text = "시간"
-            cell.imageView.image = UIImage(named: "WeatherIcon-sun")
-            cell.bottomLabel.text = "온도"
-            
-            return cell
-        }
-        
-        // 시간대에 따른 가상의 날씨 데이터를 반환하는 함수
-        func getWeatherDataForHour(_ hour: Int) -> String {
-            // 실제 날씨 데이터를 가져오거나 시뮬레이션할 수 있습니다.
-            // 이 함수에서는 시간대를 기반으로 가상의 데이터를 반환합니다.
-            return "예시 날씨 데이터 \(hour)시"
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let cellWidth = collectionView.bounds.width / CGFloat(7)
-            let cellHeight = collectionView.bounds.height
-            return CGSize(width: cellWidth, height: cellHeight)
-        }
-        
-        // 컬렉션 뷰의 여백을 조정하는 메서드
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        }
-        
-    }
-    
-    
-    
-    class WeatherCell: UICollectionViewCell {
-        lazy var verticalStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .vertical
-            stackView.alignment = .center
-            stackView.distribution = .fillEqually
-            stackView.spacing = 0
-            return stackView
-        }()
-        
-        lazy var imageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
-            imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-            return imageView
-        }()
-        
-        lazy var topLabel: UILabel = {
-            let label = UILabel()
-            label.textAlignment = .center
-            //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
-            label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
-            label.font = UIFont(name: "Helvetica-Bold", size: 9)
-            label.textAlignment = .left
-            return label
-        }()
-        
-        lazy var bottomLabel: UILabel = {
-            let label = UILabel()
-            label.textAlignment = .center
-            //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
-            label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
-            label.font = UIFont(name: "Helvetica-Bold", size: 9)
-            label.textAlignment = .left
-            return label
-        }()
-        
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            setupUI()
-        }
-        
-        required init?(coder aDecoder: NSCoder) {
-            super.init(coder: aDecoder)
-            setupUI()
-        }
-        
-        private func setupUI() {
-            // 서브뷰를 스택뷰에 추가합니다.
-            verticalStackView.addArrangedSubview(topLabel)
-            verticalStackView.addArrangedSubview(imageView)
-            verticalStackView.addArrangedSubview(bottomLabel)
-            
-            // 스택뷰를 셀의 contentView에 추가합니다.
-            contentView.addSubview(verticalStackView)
-            
-            // Auto Layout 설정
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            //        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0).isActive = true
-            imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-            imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            //        imageView.topAnchor.constraint(equalTo: self.verticalStackView.topAnchor, constant: 0).isActive = true // 위 여백 조절
-            //        imageView.bottomAnchor.constraint(equalTo: self.verticalStackView.bottomAnchor, constant: 0).isActive = true // 아래 여백 조절
-            topLabel.translatesAutoresizingMaskIntoConstraints = false
-            topLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
-            topLabel.heightAnchor.constraint(equalToConstant: 9).isActive = true
-            topLabel.textAlignment = .center
-            bottomLabel.translatesAutoresizingMaskIntoConstraints = false
-            bottomLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
-            bottomLabel.heightAnchor.constraint(equalToConstant: 9).isActive = true
-            bottomLabel.textAlignment = .center
-            verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        bottomLineOfUVRaysFrameView.snp.makeConstraints {
+            //            $0.top.equalTo(bottomLineOfUVRaysLabelView.snp.bottom)
+            $0.height.equalTo(2)
+            $0.leading.equalTo(uvRaysFrameView).offset(25)
+            $0.trailing.equalTo(uvRaysFrameView).offset(-25)
+            //            $0.bottom.equalTo(uvRaysFrameView)
         }
     }
+        
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return numberOfHours
+    }
+        
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as? WeatherCell else { return UICollectionViewCell() }
+            
+        //        let itemIndex = indexPath.item % 7
+            
+        // 이미지와 텍스트를 설정합니다. 예를 들어, 각 셀에 다른 데이터를 표시하려면 아래와 같이 설정할 수 있습니다.
+            
+        cell.topLabel.text = "시간"
+        cell.imageView.image = UIImage(named: "WeatherIcon-sun")
+        cell.bottomLabel.text = "온도"
+            
+        return cell
+    }
+        
+    // 시간대에 따른 가상의 날씨 데이터를 반환하는 함수
+    func getWeatherDataForHour(_ hour: Int) -> String {
+        // 실제 날씨 데이터를 가져오거나 시뮬레이션할 수 있습니다.
+        // 이 함수에서는 시간대를 기반으로 가상의 데이터를 반환합니다.
+        return "예시 날씨 데이터 \(hour)시"
+    }
+        
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = collectionView.bounds.width / CGFloat(7)
+        let cellHeight = collectionView.bounds.height
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+        
+    // 컬렉션 뷰의 여백을 조정하는 메서드
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+    }
+}
     
-
+class WeatherCell: UICollectionViewCell {
+    lazy var verticalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
+        stackView.spacing = 0
+        return stackView
+    }()
+        
+    lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        return imageView
+    }()
+        
+    lazy var topLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
+        label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 9)
+        label.textAlignment = .left
+        return label
+    }()
+        
+    lazy var bottomLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        //        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
+        label.textColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 1.0)
+        label.font = UIFont(name: "Helvetica-Bold", size: 9)
+        label.textAlignment = .left
+        return label
+    }()
+        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+        
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupUI()
+    }
+        
+    private func setupUI() {
+        // 서브뷰를 스택뷰에 추가합니다.
+        verticalStackView.addArrangedSubview(topLabel)
+        verticalStackView.addArrangedSubview(imageView)
+        verticalStackView.addArrangedSubview(bottomLabel)
+            
+        // 스택뷰를 셀의 contentView에 추가합니다.
+        contentView.addSubview(verticalStackView)
+            
+        // Auto Layout 설정
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        //        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        //        imageView.topAnchor.constraint(equalTo: self.verticalStackView.topAnchor, constant: 0).isActive = true // 위 여백 조절
+        //        imageView.bottomAnchor.constraint(equalTo: self.verticalStackView.bottomAnchor, constant: 0).isActive = true // 아래 여백 조절
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        topLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        topLabel.heightAnchor.constraint(equalToConstant: 9).isActive = true
+        topLabel.textAlignment = .center
+        bottomLabel.translatesAutoresizingMaskIntoConstraints = false
+        bottomLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        bottomLabel.heightAnchor.constraint(equalToConstant: 9).isActive = true
+        bottomLabel.textAlignment = .center
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
+}
+    

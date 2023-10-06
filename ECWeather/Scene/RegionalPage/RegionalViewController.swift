@@ -14,7 +14,7 @@ class RegionalViewController: BaseViewController {
     
     private let mapView = RegionalMapView()
 
-    private lazy var locationList:Array<CustomAnnotation> = []
+    private lazy var locationList: [CustomAnnotation] = []
     
     private let indicator: UIActivityIndicatorView = {
         var view = UIActivityIndicatorView(style: .large)
@@ -56,93 +56,93 @@ class RegionalViewController: BaseViewController {
     private func getLoactionWeather() {
         removeAnnotation()
         
-        self.viewModel.getCustomAnnotation(cityName: "Seoul") { item in
+        viewModel.getCustomAnnotation(cityName: "Seoul") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Seoul" }?.title = "서울"
+            self.locationList.first { $0.title == "Seoul" }?.title = "서울"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Uijeongbu-si") { item in
+        viewModel.getCustomAnnotation(cityName: "Uijeongbu-si") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Uijeongbu-si" }?.title = "의정부"
+            self.locationList.first { $0.title == "Uijeongbu-si" }?.title = "의정부"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Namyangju") { item in
+        viewModel.getCustomAnnotation(cityName: "Namyangju") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Namyangju" }?.title = "남양주"
+            self.locationList.first { $0.title == "Namyangju" }?.title = "남양주"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "chuncheon") { item in
+        viewModel.getCustomAnnotation(cityName: "chuncheon") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "chuncheon" }?.title = "춘천"
+            self.locationList.first { $0.title == "chuncheon" }?.title = "춘천"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "gangneung") { item in
+        viewModel.getCustomAnnotation(cityName: "gangneung") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "gangneung" }?.title = "강릉"
+            self.locationList.first { $0.title == "gangneung" }?.title = "강릉"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Bucheon-si") { item in
+        viewModel.getCustomAnnotation(cityName: "Bucheon-si") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Bucheon-si" }?.title = "부천"
+            self.locationList.first { $0.title == "Bucheon-si" }?.title = "부천"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Seongnam-si") { item in
+        viewModel.getCustomAnnotation(cityName: "Seongnam-si") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Seongnam-si" }?.title = "성남"
+            self.locationList.first { $0.title == "Seongnam-si" }?.title = "성남"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Cheongju-si") { item in
+        viewModel.getCustomAnnotation(cityName: "Cheongju-si") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Cheongju-si" }?.title = "청주"
+            self.locationList.first { $0.title == "Cheongju-si" }?.title = "청주"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Andong") { item in
+        viewModel.getCustomAnnotation(cityName: "Andong") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Andong" }?.title = "안동"
+            self.locationList.first { $0.title == "Andong" }?.title = "안동"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Daegu") { item in
+        viewModel.getCustomAnnotation(cityName: "Daegu") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Daegu" }?.title = "대구"
+            self.locationList.first { $0.title == "Daegu" }?.title = "대구"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Jeonju") { item in
+        viewModel.getCustomAnnotation(cityName: "Jeonju") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Jeonju" }?.title = "전주"
+            self.locationList.first { $0.title == "Jeonju" }?.title = "전주"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Mokpo") { item in
+        viewModel.getCustomAnnotation(cityName: "Mokpo") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Mokpo" }?.title = "목표"
+            self.locationList.first { $0.title == "Mokpo" }?.title = "목표"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Changwon") { item in
+        viewModel.getCustomAnnotation(cityName: "Changwon") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Changwon" }?.title = "창원"
+            self.locationList.first { $0.title == "Changwon" }?.title = "창원"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Busan") { item in
+        viewModel.getCustomAnnotation(cityName: "Busan") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Busan" }?.title = "부산"
+            self.locationList.first { $0.title == "Busan" }?.title = "부산"
             self.addCustomPin()
         }
         
-        self.viewModel.getCustomAnnotation(cityName: "Jeju-do") { item in
+        viewModel.getCustomAnnotation(cityName: "Jeju-do") { item in
             self.locationList.append(item!)
-            self.locationList.first{ $0.title == "Jeju-do" }?.title = "제주"
+            self.locationList.first { $0.title == "Jeju-do" }?.title = "제주"
             self.addCustomPin()
             
             self.indicator.stopAnimating()
@@ -169,7 +169,7 @@ class RegionalViewController: BaseViewController {
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
         
-        self.viewModel.getMyLocationAnnotation(latitude: DataManager.shared.latitude!, longitude: DataManager.shared.longitude!) { item in
+        viewModel.getMyLocationAnnotation(latitude: DataManager.shared.latitude!, longitude: DataManager.shared.longitude!) { item in
             self.mapView.map.addAnnotation(item!)
         }
     }
@@ -198,10 +198,8 @@ extension RegionalViewController: MKMapViewDelegate {
         return annotationView
     }
     
-    //TODO: callout의 타이틀을 없애거나 위치를 조정하거나..
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
-    }
+    // TODO: callout의 타이틀을 없애거나 위치를 조정하거나..
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {}
 }
 
 extension RegionalViewController: UITableViewDelegate, UITableViewDataSource {

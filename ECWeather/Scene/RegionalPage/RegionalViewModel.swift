@@ -28,7 +28,7 @@ class RegionalViewModel {
             }
         }
     }
-    
+
     func getMyLocationAnnotation(latitude: Double, longitude: Double, completion: @escaping (CustomAnnotation?) -> Void) {
         var location: CustomAnnotation?
         NetworkService.getCurrentWeather(lat: latitude, lon: longitude) { item in

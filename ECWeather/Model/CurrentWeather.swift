@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - CurrentWeather
+
 struct CurrentWeather: Codable {
     let coord: Coord
     let weather: [Weather]
@@ -24,18 +25,21 @@ struct CurrentWeather: Codable {
 }
 
 // MARK: - Clouds
+
 struct Clouds: Codable {
     // 구름 양
     let all: Int
 }
 
 // MARK: - Coord
+
 struct Coord: Codable {
     // 경도, 위도
     let lon, lat: Double
 }
 
 // MARK: - Main
+
 struct Main: Codable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, humidity: Int
@@ -53,6 +57,7 @@ struct Main: Codable {
 }
 
 // MARK: - Rain
+
 struct Rain: Codable {
     let the1H: Double?
 
@@ -62,6 +67,7 @@ struct Rain: Codable {
 }
 
 // MARK: - Sys
+
 struct Sys: Codable {
     // type, id, 국가코드, 일출시간, 일몰시간
     let type, id: Int?
@@ -70,6 +76,7 @@ struct Sys: Codable {
 }
 
 // MARK: - Weather
+
 struct Weather: Codable {
     // id, 주요 키워드, 상세 키워드, 아이콘
     let id: Int
@@ -77,6 +84,7 @@ struct Weather: Codable {
 }
 
 // MARK: - Wind
+
 struct Wind: Codable {
     // 풍속, 풍향, 돌풍
     let speed: Double
@@ -99,6 +107,7 @@ struct CustomWeather {
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return dateFormatter.string(from: dataDate)
     }
+
     let humidity: Int
     var sunrise: Int
     var sunriseTimestamp: String {
@@ -108,6 +117,7 @@ struct CustomWeather {
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return dateFormatter.string(from: sunriseDate)
     }
+
     var sunset: Int
     var sunsetTimestamp: String {
         let sunsetDate = Date(timeIntervalSince1970: Double(sunset))
@@ -116,6 +126,7 @@ struct CustomWeather {
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return dateFormatter.string(from: sunsetDate)
     }
+
     let id: Int
     let mainDescription: String
     let description: String

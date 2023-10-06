@@ -22,7 +22,7 @@ class DataManager {
     static let notificationSoundList: [String: String] = [
         "뭐지": "notification_sound_moji",
         "꽥": "notification_sound_quack",
-        "탸댜아아ㅏ" : "notification_sound_taddddaaaaa",
-        "오와우우으" : "notification_sound_wow",
+        "탸댜아아ㅏ": "notification_sound_taddddaaaaa",
+        "오와우우으": "notification_sound_wow",
     ]
 }

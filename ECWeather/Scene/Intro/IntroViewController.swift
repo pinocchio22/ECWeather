@@ -5,11 +5,10 @@
 //  Created by 김지은 on 2023/09/28.
 //
 
-import UIKit
 import MapKit
+import UIKit
 
 class IntroViewController: UIViewController {
-    
     lazy var introImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "AppLogo")
@@ -101,7 +100,6 @@ class IntroViewController: UIViewController {
             checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
         }
     }
-    
 }
 
 extension IntroViewController: CLLocationManagerDelegate {
@@ -117,8 +115,8 @@ extension IntroViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            self.latitude = location.coordinate.latitude
-            self.longitude = location.coordinate.longitude
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
             print("현재 위치 - 위도: \(String(describing: latitude)), 경도: \(String(describing: longitude))")
             DataManager.shared.latitude = latitude
             DataManager.shared.longitude = longitude
