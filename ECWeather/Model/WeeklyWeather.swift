@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - WeeklyWeather
+
 struct WeeklyWeather: Codable {
     let cod: String
     let message, cnt: Int
@@ -68,8 +69,8 @@ struct WeeklyWeather: Codable {
             let pod: Pod
             
             enum Pod: String, Codable {
-                case d = "d"
-                case n = "n"
+                case d
+                case n
             }
         }
         
@@ -85,7 +86,6 @@ struct WeeklyWeather: Codable {
             let deg: Int
             let gust: Double
         }
-
     }
 }
 
@@ -99,5 +99,4 @@ struct CustomWeeklyWeather {
     let id: Int
     let description: String
     let icon: String
-    
 }

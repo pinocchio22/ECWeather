@@ -8,7 +8,6 @@
 import UIKit
 
 class AlarmTableViewCell: UITableViewCell {
-    
     let leadingLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -47,13 +46,13 @@ class AlarmTableViewCell: UITableViewCell {
         }
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

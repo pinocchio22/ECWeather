@@ -5,12 +5,11 @@
 //  Created by t2023-m0056 on 2023/09/25.
 //
 
-import UIKit
-import SnapKit
 import MapKit
+import SnapKit
+import UIKit
 
 class SettingViewController: BaseViewController {
-    
     /// 설정 title label
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -137,9 +136,8 @@ extension SettingViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            self.latitude = location.coordinate.latitude
-            self.longitude = location.coordinate.longitude
-            print("현재 위치 - 위도: \(latitude ?? 0), 경도: \(longitude ?? 0)")
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
             DataManager.shared.latitude = latitude
             DataManager.shared.longitude = longitude
             
@@ -171,7 +169,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
             let vc = SearchViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.row == 1 {
             locationManager.requestWhenInUseAuthorization()
             locationManager.delegate = self

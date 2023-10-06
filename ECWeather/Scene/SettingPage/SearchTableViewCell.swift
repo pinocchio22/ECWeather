@@ -8,7 +8,6 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
@@ -36,9 +35,9 @@ class SearchTableViewCell: UITableViewCell {
         setLayout()
     }
     
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-        
     }
     
     func registerTableview() {
@@ -70,16 +69,15 @@ class SearchTableViewCell: UITableViewCell {
     func getWeeklyWeatherAPI() {
         for i in DataManager.shared.searchKeyword {
             NetworkService.getWeeklyWeather(cityName: i) { data in
-                self.weatherData = data?.filter({ i in
+                self.weatherData = data?.filter { i in
                     i.dateTime.toDate()?.toString() == Date().toString()
-                })
-                Util.print(output: self.weatherData ?? Data())
+                }
                 self.collectionView.reloadData()
             }
         }
     }
-    
 }
+
 extension SearchTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return weatherData?.count ?? 0

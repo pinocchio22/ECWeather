@@ -14,7 +14,6 @@ class RegionalViewModel {
         NetworkService.getCurrentWeather(cityName: cityName) { item in
             if let item = item {
                 NetworkService.getIcon(iconCode: item.icon) { icon in
-                    print("\(item.maxTemp) + \(item.minTemp)")
                     DispatchQueue.main.async {
                         location = CustomAnnotation(
                             title: cityName,
@@ -28,7 +27,7 @@ class RegionalViewModel {
             }
         }
     }
-    
+
     func getMyLocationAnnotation(latitude: Double, longitude: Double, completion: @escaping (CustomAnnotation?) -> Void) {
         var location: CustomAnnotation?
         NetworkService.getCurrentWeather(lat: latitude, lon: longitude) { item in
@@ -47,7 +46,7 @@ class RegionalViewModel {
             }
         }
     }
-    
+
     func getDailyWeather(cityName: String, completion: @escaping ([CustomWeeklyWeather]?) -> Void) {
         var location: [CustomWeeklyWeather]?
         NetworkService.getWeeklyWeather(cityName: cityName) { item in

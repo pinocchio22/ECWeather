@@ -10,7 +10,6 @@ import SnapKit
 import UIKit
 
 class SelectNotificationSoundViewController: BaseViewController {
-
     // MARK: - Properties
     
     private var audioPlayer: AVAudioPlayer?
@@ -23,6 +22,7 @@ class SelectNotificationSoundViewController: BaseViewController {
     }()
     
     // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCellIndexFromUserDefaults()
@@ -30,8 +30,8 @@ class SelectNotificationSoundViewController: BaseViewController {
     }
     
     // MARK: - Methods & Selectors
+
     private func configureUI() {
-        
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = false
         
@@ -46,7 +46,6 @@ class SelectNotificationSoundViewController: BaseViewController {
     }
     
     private func configureNavigationBar() {
-        
         title = "알림 수신음 선택"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.ECWeatherColor3 ?? .gray]
          
@@ -54,7 +53,6 @@ class SelectNotificationSoundViewController: BaseViewController {
 
         navigationItem.leftBarButtonItem = backButton
         navigationItem.leftBarButtonItem?.tintColor = .ECWeatherColor3
-    
     }
 
     @objc private func backButtonTapped() {
@@ -93,10 +91,9 @@ class SelectNotificationSoundViewController: BaseViewController {
 }
 
 // MARK: - TableView
+
 extension SelectNotificationSoundViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return DataManager.notificationSoundList.count
     }
     
@@ -125,9 +122,7 @@ extension SelectNotificationSoundViewController: UITableViewDataSource, UITableV
         let soundNames = Array(DataManager.notificationSoundList.keys).sorted()
         if soundNames.indices.contains(indexPath.row) {
             let soundName = soundNames[indexPath.row]
-            print("soundName : ", soundName)
             if let fileName = DataManager.notificationSoundList[soundName] {
-                print("fileName : ", fileName)
                 playNotificationSound(fileName)
                 
                 UserDefaults.standard.setValue(selectedCellIndex, forKey: "SelectedCellIndex")

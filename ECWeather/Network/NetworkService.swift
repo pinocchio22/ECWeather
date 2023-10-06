@@ -16,7 +16,7 @@ class NetworkService {
             switch response.result {
             case .success(let currentWeather):
                 if let weather = currentWeather.weather.first {
-                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id,mainDescription: weather.main, description: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed, name: currentWeather.name))
+                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id, mainDescription: weather.main, description: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed, name: currentWeather.name))
                 }
             case .failure(let error):
                 print("API 요청 실패: \(error)")
@@ -32,7 +32,7 @@ class NetworkService {
             switch response.result {
             case .success(let currentWeather):
                 if let weather = currentWeather.weather.first {
-                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id,mainDescription: weather.main, description: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed, name: currentWeather.name))
+                    completion(CustomWeather(lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, currentTemp: currentWeather.main.temp, maxTemp: currentWeather.main.tempMax, minTemp: currentWeather.main.tempMin, feelTemp: currentWeather.main.feelsLike, dt: currentWeather.dt, humidity: currentWeather.main.humidity, sunrise: currentWeather.sys.sunrise, sunset: currentWeather.sys.sunset, id: currentWeather.id, mainDescription: weather.main, description: weather.description, icon: weather.icon, windSpeed: currentWeather.wind.speed, name: currentWeather.name))
                 }
             case .failure(let error):
                 print("API 요청 실패: \(error)")
@@ -83,17 +83,17 @@ class NetworkService {
         }
     }
     
-    static func getIcon(iconCode: String, completion: @escaping (Data?) -> Void ) {
+    static func getIcon(iconCode: String, completion: @escaping (Data?) -> Void) {
         let iconURLString = "https://openweathermap.org/img/w/\(iconCode).png"
         DispatchQueue.global().async {
             if let iconURL = URL(string: iconURLString) {
                 // 이미지를 다운로드
                 if let data = try? Data(contentsOf: iconURL) {
-                     completion(data)
+                    completion(data)
                 } else {
                     completion(nil)
                 }
             }
-        } 
+        }
     }
 }

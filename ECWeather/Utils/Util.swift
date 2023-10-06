@@ -54,13 +54,13 @@ enum Temperature: String {
 enum BackgroundImage: String {
     case Clouds
     case Clear
-    case Mist,Smoke,Haze,Dust,Fog,Sand,Ash,Squall,Tornado
+    case Mist, Smoke, Haze, Dust, Fog, Sand, Ash, Squall, Tornado
     case Snow
     case Rain
     case Drizzle
     case Thunderstorm
-    
+
     var image: UIImage? {
-            return UIImage(named: self.rawValue)
-        }
+        return UIImage(named: self.rawValue)
+    }
 }

@@ -4,9 +4,9 @@ import SnapKit
 import UIKit
 
 class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-    
     lazy var backgroundImageView = UIImageView()
     
+    /// 전체 스크롤 뷰
     lazy var mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
@@ -28,7 +28,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         label.layer.cornerRadius = 15
         return label
     }()
-    
     
     lazy var mainPageTitleStackView: UIStackView = {
         let stackView = UIStackView()
@@ -240,7 +239,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     }()
     
     let cellIdentifier = "WeatherCell"
-
     var currentWeatherData: CustomWeather?
     var weatherDataList = [CustomWeeklyWeather]()
     
@@ -287,7 +285,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
                     }
                 }
                 self?.locationOfCurrentWeatherLabel.text = weatherData.name
-//
                 self?.currentTemperatuerLabel.text = "\(Int(weatherData.currentTemp))°C"
                 self?.currentWeatherLabel.text = weatherData.description
                 self?.currentDailyTemperatuerLabel.text = "최고: \(Int(weatherData.maxTemp))°C / 최저: \(Int(weatherData.minTemp))°C"
@@ -337,7 +334,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         setUVRaysViewUnderLineLayout()
         setSunRiseAndSetTimeLayout()
         setUVRaysViewBottomLineLayout()
-            
+
         scrollViewContentView.setCustomSpacing(10, after: mainPageTitleLabel)
         
         scrollViewContentView.setCustomSpacing(10, after: currentWeatherFrameView)
@@ -395,20 +392,17 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
         
     func setScrollViewLayout() {
-        self.view.addSubview(mainScrollView)
+        view.addSubview(mainScrollView)
             
         mainScrollView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
             $0.top.bottom.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(0)
         }
     }
         
     func setScrollViewContentViewLayout() {
-
         mainScrollView.addSubview(scrollViewContentView)
 
-        
         mainScrollView.contentLayoutGuide.snp.makeConstraints {
             $0.edges.equalTo(scrollViewContentView)
         }
@@ -440,7 +434,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         currentWeatherFrameView.addArrangedSubview(currentWeatherFrameTopLine)
             
         currentWeatherFrameTopLine.snp.makeConstraints {
-                        $0.top.equalTo(currentWeatherFrameView.snp.top)
+            $0.top.equalTo(currentWeatherFrameView.snp.top)
             $0.leading.equalTo(currentWeatherFrameView).offset(25)
             $0.trailing.equalTo(currentWeatherFrameView).offset(-25)
             $0.height.equalTo(2)
@@ -449,6 +443,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     func setCurrentWeatherViewLocationLabelLayout() {
         currentWeatherFrameView.addArrangedSubview(locationOfCurrentWeatherLabel)
+
     }
         
     func setCurrentWeatherViewIconImageLayout() {
@@ -461,6 +456,11 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     func setCurrentWeatherViewTemperatureLabelLayout() {
         currentWeatherFrameView.addArrangedSubview(currentTemperatuerLabel)
+            
+        currentTemperatuerLabel.snp.makeConstraints {
+            $0.leading.equalTo(currentWeatherFrameView).offset(10)
+            $0.trailing.equalTo(currentWeatherFrameView).offset(-10)
+        }
     }
         
     func setCurrentWeatherViewWeatherLabelLayout() {
@@ -475,11 +475,14 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         currentWeatherFrameView.addArrangedSubview(currentWeatherFrameBottomLine)
             
         currentWeatherFrameBottomLine.snp.makeConstraints {
+            $0.leading.equalTo(currentWeatherFrameView).offset(25)
+            $0.trailing.equalTo(currentWeatherFrameView).offset(-25)
             $0.height.equalTo(2)
+            $0.bottom.equalTo(currentWeatherFrameView.snp.bottom)
         }
     }
         
-// 두번째 프레임
+    // 두번째 프레임
     func setHourlyWeatherViewLayout() {
         scrollViewContentView.addArrangedSubview(hourlyWeatherFrameView)
             
@@ -500,6 +503,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     func setHourlyWeatherViewMentLabelLayout() {
         hourlyWeatherFrameView.addArrangedSubview(hourlyWeatherMentLabel)
+      
         hourlyWeatherMentLabel.snp.makeConstraints {
             $0.leading.equalTo(hourlyWeatherFrameView).offset(5)
         }
@@ -517,7 +521,11 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         hourlyWeatherFrameView.addArrangedSubview(todayCollectionView)
             
         todayCollectionView.snp.makeConstraints {
+            $0.top.equalTo(underLineOfHourlyWeatherView.snp.bottom)
             $0.height.equalTo(85)
+            $0.leading.equalTo(hourlyWeatherFrameView).offset(10)
+            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-10)
+            $0.bottom.equalTo(hourlyWeatherFrameView.snp.bottom).offset(-5)
         }
     }
         
@@ -526,6 +534,8 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
             
         hourlyWeatherFrameBottomLine.snp.makeConstraints {
             $0.height.equalTo(2)
+            $0.leading.equalTo(hourlyWeatherFrameView).offset(25)
+            $0.trailing.equalTo(hourlyWeatherFrameView).offset(-25)
         }
     }
         
@@ -701,6 +711,13 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         return cell
     }
         
+    // 시간대에 따른 가상의 날씨 데이터를 반환하는 함수
+    func getWeatherDataForHour(_ hour: Int) -> String {
+        // 실제 날씨 데이터를 가져오거나 시뮬레이션할 수 있습니다.
+        // 이 함수에서는 시간대를 기반으로 가상의 데이터를 반환합니다.
+        return "예시 날씨 데이터 \(hour)시"
+    }
+        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = collectionView.bounds.width / CGFloat(7)
         let cellHeight = collectionView.bounds.height
@@ -712,3 +729,4 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
 }
     
+

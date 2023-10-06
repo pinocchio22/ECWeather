@@ -24,7 +24,6 @@
 		E7500BA52ACA884600668DF6 /* notification_sound_moji.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */; };
 		E7500BA62ACA884600668DF6 /* notification_sound_wow.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */; };
 		E7500BA72ACA884600668DF6 /* notification_sound_quack.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA32ACA884600668DF6 /* notification_sound_quack.caf */; };
-		E7500BAB2ACE9A9600668DF6 /* KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7500BAA2ACE9A9600668DF6 /* KEY.swift */; };
 		E777D6F22AC989020066C559 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */; };
 		E777D6F32AC989020066C559 /* SelectNotificationSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
@@ -32,6 +31,8 @@
 		FF22B6542AC134C800686B4F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B6532AC134C800686B4F /* MainViewController.swift */; };
 		FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF22B6582AC134C900686B4F /* Assets.xcassets */; };
 		FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF22B65A2AC134C900686B4F /* LaunchScreen.storyboard */; };
+		FF48404B2ACFDCE70095E095 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FF48404A2ACFDCE70095E095 /* Alamofire */; };
+		FF48404E2ACFDCF00095E095 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF48404D2ACFDCF00095E095 /* SnapKit */; };
 		FF4939862ACA9D410063B274 /* WeeklyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4939852ACA9D410063B274 /* WeeklyWeather.swift */; };
 		FF7B085C2AC279DD00ACDE03 /* RegionalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */; };
 		FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */; };
@@ -39,14 +40,14 @@
 		FF7D08182AC556590004CC4E /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D08172AC556590004CC4E /* CustomAnnotationView.swift */; };
 		FF7D081D2AC566BB0004CC4E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D081C2AC566BB0004CC4E /* Util.swift */; };
 		FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */; };
-		FF85789E2AC7086400902A69 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FF85789D2AC7086400902A69 /* Alamofire */; };
-		FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FF8F2EF42AC1975300C2C85D /* SnapKit */; };
 		FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2EFF2AC1A02000C2C85D /* NetworkService.swift */; };
 		FF8F2F022AC1A03500C2C85D /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F012AC1A03500C2C85D /* CurrentWeather.swift */; };
 		FF8F2F082AC1A77A00C2C85D /* WeeklyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F072AC1A77A00C2C85D /* WeeklyViewController.swift */; };
 		FF8F2F0A2AC1A78B00C2C85D /* RegionalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F092AC1A78B00C2C85D /* RegionalViewController.swift */; };
 		FF8F2F0C2AC1A79900C2C85D /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F0B2AC1A79900C2C85D /* AlarmViewController.swift */; };
 		FF8F2F0E2AC1A7A400C2C85D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8F2F0D2AC1A7A400C2C85D /* SettingViewController.swift */; };
+		FFC15AA12ACE98F9006991ED /* Secret in Resources */ = {isa = PBXBuildFile; fileRef = FFC15AA02ACE98F9006991ED /* Secret */; };
+		FFC15AA72ACE997B006991ED /* KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC15AA62ACE997B006991ED /* KEY.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +68,6 @@
 		E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_moji.caf; sourceTree = "<group>"; };
 		E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_wow.caf; sourceTree = "<group>"; };
 		E7500BA32ACA884600668DF6 /* notification_sound_quack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_quack.caf; sourceTree = "<group>"; };
-		E7500BAA2ACE9A9600668DF6 /* KEY.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KEY.swift; sourceTree = "<group>"; };
 		E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectNotificationSoundViewController.swift; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +90,8 @@
 		FF8F2F092AC1A78B00C2C85D /* RegionalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalViewController.swift; sourceTree = "<group>"; };
 		FF8F2F0B2AC1A79900C2C85D /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		FF8F2F0D2AC1A7A400C2C85D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		FFC15AA02ACE98F9006991ED /* Secret */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Secret; sourceTree = "<group>"; };
+		FFC15AA62ACE997B006991ED /* KEY.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KEY.swift; path = Secret/KEY.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +99,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF8F2EF52AC1975300C2C85D /* SnapKit in Frameworks */,
-				FF85789E2AC7086400902A69 /* Alamofire in Frameworks */,
+				FF48404B2ACFDCE70095E095 /* Alamofire in Frameworks */,
+				FF48404E2ACFDCF00095E095 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +151,7 @@
 			children = (
 				FF22B64E2AC134C800686B4F /* ECWeather */,
 				FF22B64D2AC134C800686B4F /* Products */,
+				FF4840482ACFDB520095E095 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,10 +166,11 @@
 		FF22B64E2AC134C800686B4F /* ECWeather */ = {
 			isa = PBXGroup;
 			children = (
-				FFC15A942ACE5FF3006991ED /* Secret */,
 				FF22B64F2AC134C800686B4F /* AppDelegate.swift */,
 				FF22B6512AC134C800686B4F /* SceneDelegate.swift */,
 				56D88AEF2AC714C4006EB784 /* Main.storyboard */,
+				FFC15AA02ACE98F9006991ED /* Secret */,
+				FFC15AA62ACE997B006991ED /* KEY.swift */,
 				56D88AE12AC347D8006EB784 /* Extension */,
 				FF7D081B2AC566AD0004CC4E /* Utils */,
 				FF8F2EF92AC19E9500C2C85D /* Scene */,
@@ -175,6 +179,14 @@
 				FF8F2EF62AC19E7000C2C85D /* Resource */,
 			);
 			path = ECWeather;
+			sourceTree = "<group>";
+		};
+		FF4840482ACFDB520095E095 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				E7500BAA2ACE9A9600668DF6 /* KEY.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		FF7D081B2AC566AD0004CC4E /* Utils */ = {
@@ -288,14 +300,6 @@
 			path = SettingPage;
 			sourceTree = "<group>";
 		};
-		FFC15A942ACE5FF3006991ED /* Secret */ = {
-			isa = PBXGroup;
-			children = (
-				E7500BAA2ACE9A9600668DF6 /* KEY.swift */,
-			);
-			path = Secret;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -313,8 +317,8 @@
 			);
 			name = ECWeather;
 			packageProductDependencies = (
-				FF8F2EF42AC1975300C2C85D /* SnapKit */,
-				FF85789D2AC7086400902A69 /* Alamofire */,
+				FF48404A2ACFDCE70095E095 /* Alamofire */,
+				FF48404D2ACFDCF00095E095 /* SnapKit */,
 			);
 			productName = ECWeather;
 			productReference = FF22B64C2AC134C800686B4F /* ECWeather.app */;
@@ -345,8 +349,8 @@
 			);
 			mainGroup = FF22B6432AC134C800686B4F;
 			packageReferences = (
-				FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */,
-				FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FF4840492ACFDCE70095E095 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FF48404C2ACFDCF00095E095 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = FF22B64D2AC134C800686B4F /* Products */;
 			projectDirPath = "";
@@ -366,6 +370,7 @@
 				56D88AF02AC714C5006EB784 /* Main.storyboard in Resources */,
 				FF22B65C2AC134C900686B4F /* LaunchScreen.storyboard in Resources */,
 				E7500BA42ACA884600668DF6 /* notification_sound_taddddaaaaa.caf in Resources */,
+				FFC15AA12ACE98F9006991ED /* Secret in Resources */,
 				FF22B6592AC134C900686B4F /* Assets.xcassets in Resources */,
 				E7500BA62ACA884600668DF6 /* notification_sound_wow.caf in Resources */,
 				E7500BA72ACA884600668DF6 /* notification_sound_quack.caf in Resources */,
@@ -390,8 +395,9 @@
 				56A8E55A2ACBE53600AA381B /* String+Extension.swift in Sources */,
 				FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */,
 				FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */,
+
 				CB33C0A12ACFE4D3002BF080 /* MainCollectionViewCell.swift in Sources */,
-				E7500BAB2ACE9A9600668DF6 /* KEY.swift in Sources */,
+
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
 				56A8E5582ACAB50E00AA381B /* DataManager.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,
@@ -408,6 +414,7 @@
 				E777D6F32AC989020066C559 /* SelectNotificationSoundViewController.swift in Sources */,
 				FF22B6522AC134C800686B4F /* SceneDelegate.swift in Sources */,
 				FF8F2F022AC1A03500C2C85D /* CurrentWeather.swift in Sources */,
+				FFC15AA72ACE997B006991ED /* KEY.swift in Sources */,
 				FF8F2F0A2AC1A78B00C2C85D /* RegionalViewController.swift in Sources */,
 				FF7B08602AC2C69D00ACDE03 /* CustomAnnotation.swift in Sources */,
 			);
@@ -619,7 +626,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		FF4840492ACFDCE70095E095 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -627,7 +634,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		FF48404C2ACFDCF00095E095 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -638,14 +645,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FF85789D2AC7086400902A69 /* Alamofire */ = {
+		FF48404A2ACFDCE70095E095 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FF85789C2AC7086400902A69 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = FF4840492ACFDCE70095E095 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		FF8F2EF42AC1975300C2C85D /* SnapKit */ = {
+		FF48404D2ACFDCF00095E095 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FF8F2EF32AC1975300C2C85D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = FF48404C2ACFDCF00095E095 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -10,14 +10,6 @@ import SnapKit
 import UIKit
 
 class CustomAnnotationView: MKAnnotationView {
-//    private lazy var backgroundButton: UIButton = {
-//        let button = UIButton()
-//        button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
-//        button.layer.cornerRadius = 10
-//        button.addTarget(self, action: #selector(tappedBackgroundButton), for: .touchUpInside)
-//        return button
-//    }()
-    
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
@@ -72,7 +64,6 @@ class CustomAnnotationView: MKAnnotationView {
     private func configureUI() {
         addSubview(indicator)
         addSubview(backgroundView)
-//        addSubview(backgroundButton)
         backgroundView.addSubview(titleLabel)
         backgroundView.addSubview(customImageView)
         backgroundView.addSubview(temperatureLabel)
@@ -115,7 +106,6 @@ class CustomAnnotationView: MKAnnotationView {
             titleLabel.text = " \(title) "
         }
         customImageView.image = annotation.iconImage
-//        indicator.stopAnimating()
         
         setNeedsLayout()
     }
@@ -125,8 +115,4 @@ class CustomAnnotationView: MKAnnotationView {
         bounds.size = CGSize(width: 80, height: 80)
         centerOffset = CGPoint(x: 0, y: 40)
     }
-    
-//    @objc func tappedBackgroundButton() {
-//        DataManager.shared.currentLocation = titleLabel.text ?? ""
-//    }
 }

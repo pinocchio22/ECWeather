@@ -14,7 +14,7 @@ class RegionalViewController: BaseViewController {
     
     private let mapView = RegionalMapView()
 
-    private lazy var locationList:Array<CustomAnnotation> = []
+    private lazy var locationList: [CustomAnnotation] = []
     
     private let indicator: UIActivityIndicatorView = {
         var view = UIActivityIndicatorView(style: .large)
@@ -94,7 +94,7 @@ class RegionalViewController: BaseViewController {
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
         
-        self.viewModel.getMyLocationAnnotation(latitude: DataManager.shared.latitude!, longitude: DataManager.shared.longitude!) { item in
+        viewModel.getMyLocationAnnotation(latitude: DataManager.shared.latitude!, longitude: DataManager.shared.longitude!) { item in
             self.mapView.map.addAnnotation(item!)
         }
     }
@@ -116,17 +116,10 @@ extension RegionalViewController: MKMapViewDelegate {
         if let customAnnotation = annotation as? CustomAnnotation {
             annotationView = setupAnnotationView(for: customAnnotation, on: mapView)
             annotationView?.canShowCallout = true
-            
-//            let customCalloutView = CustomCalloutView()
-//            annotationView?.detailCalloutAccessoryView = customCalloutView
         }
         return annotationView
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        if let title = view.annotation?.title {
-//            DataManager.shared.currentLocation = title ?? ""
-//        }
-//        print("@@@@@@@@@ didSelect \(DataManager.shared.currentLocation)")
     }
 }

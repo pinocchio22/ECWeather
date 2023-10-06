@@ -14,14 +14,14 @@ extension Date {
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: self)
     }
-    
+
     func toTimeString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH"
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: self)
     }
-    
+
     func toWeekString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
@@ -29,7 +29,7 @@ extension Date {
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: self)
     }
-    
+
     func toDayString() -> String {
         let dateFormatter = DateFormatter()
 

@@ -8,14 +8,13 @@
 import UIKit
 
 class TemperatureCollectionViewCell: UICollectionViewCell {
-    
     lazy var timeLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         return label
     }()
     
     lazy var weatherImage: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.image = UIImage(systemName: "circle")
         return imageView
     }()
@@ -30,14 +29,15 @@ class TemperatureCollectionViewCell: UICollectionViewCell {
         setLayout()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func setLayout() {
-        self.addSubview(timeLabel)
-        self.addSubview(weatherImage)
-        self.addSubview(temperatureLabel)
+        addSubview(timeLabel)
+        addSubview(weatherImage)
+        addSubview(temperatureLabel)
         
         timeLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -56,7 +56,6 @@ class TemperatureCollectionViewCell: UICollectionViewCell {
             $0.bottom.equalToSuperview()
         }
         
-        self.backgroundColor = .ECWeatherColor4
+        backgroundColor = .ECWeatherColor4
     }
-    
 }

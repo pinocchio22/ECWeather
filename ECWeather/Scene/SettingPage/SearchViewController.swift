@@ -8,7 +8,6 @@
 import UIKit
 
 class SearchViewController: BaseViewController {
-    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         return tableView
@@ -28,9 +27,9 @@ class SearchViewController: BaseViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
         
-        self.navigationItem.searchController = searchController
-        self.navigationItem.title = "Search"
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.searchController = searchController
+        navigationItem.title = "Search"
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     func setLayout() {
@@ -49,7 +48,6 @@ class SearchViewController: BaseViewController {
         tableView.dataSource = self
         tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
     }
-    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -66,9 +64,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        //        self.filteredArr = self.arr.filter { $0.lowercased().hasPrefix(text) }
-        //        dump(filteredArr)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
