@@ -176,7 +176,7 @@ class WeeklyViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         for i in weatherList {
-            guard let koreanDay = i.dateTime.toDate()?.toDayString() else { return }
+            guard let koreanDay = i.dateTime.toDate()?.toWeekString() else { return }
             let weatherDescription = i.description
             let key = i.dateTime.toDate()!.toString()
             let maxTemp = getMax(key: key)
