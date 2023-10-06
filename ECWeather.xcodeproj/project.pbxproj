@@ -23,6 +23,7 @@
 		E7500BA52ACA884600668DF6 /* notification_sound_moji.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */; };
 		E7500BA62ACA884600668DF6 /* notification_sound_wow.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */; };
 		E7500BA72ACA884600668DF6 /* notification_sound_quack.caf in Resources */ = {isa = PBXBuildFile; fileRef = E7500BA32ACA884600668DF6 /* notification_sound_quack.caf */; };
+		E7500BAB2ACE9A9600668DF6 /* KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7500BAA2ACE9A9600668DF6 /* KEY.swift */; };
 		E777D6F22AC989020066C559 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */; };
 		E777D6F32AC989020066C559 /* SelectNotificationSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */; };
 		FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22B64F2AC134C800686B4F /* AppDelegate.swift */; };
@@ -66,6 +67,7 @@
 		E7500BA12ACA884600668DF6 /* notification_sound_moji.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_moji.caf; sourceTree = "<group>"; };
 		E7500BA22ACA884600668DF6 /* notification_sound_wow.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_wow.caf; sourceTree = "<group>"; };
 		E7500BA32ACA884600668DF6 /* notification_sound_quack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_sound_quack.caf; sourceTree = "<group>"; };
+		E7500BAA2ACE9A9600668DF6 /* KEY.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KEY.swift; sourceTree = "<group>"; };
 		E777D6F02AC989010066C559 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		E777D6F12AC989020066C559 /* SelectNotificationSoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectNotificationSoundViewController.swift; sourceTree = "<group>"; };
 		FF22B64C2AC134C800686B4F /* ECWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				FF7B085B2AC279DD00ACDE03 /* RegionalMapView.swift */,
-				FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */,
 				FF7D08172AC556590004CC4E /* CustomAnnotationView.swift */,
 				FF7D081E2AC56A7A0004CC4E /* CustomCalloutView.swift */,
 			);
@@ -269,6 +270,7 @@
 		FF8F2EFD2AC19F0200C2C85D /* RegionalPage */ = {
 			isa = PBXGroup;
 			children = (
+				FF7B085F2AC2C69D00ACDE03 /* CustomAnnotation.swift */,
 				FF8F2F092AC1A78B00C2C85D /* RegionalViewController.swift */,
 				FF7B085D2AC2C64400ACDE03 /* RegionalViewModel.swift */,
 				FF7D08202AC574780004CC4E /* View */,
@@ -286,6 +288,14 @@
 				56D88AE62AC405B8006EB784 /* TemperatureCollectionViewCell.swift */,
 			);
 			path = SettingPage;
+			sourceTree = "<group>";
+		};
+		FFC15A942ACE5FF3006991ED /* Secret */ = {
+			isa = PBXGroup;
+			children = (
+				E7500BAA2ACE9A9600668DF6 /* KEY.swift */,
+			);
+			path = Secret;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -383,6 +393,7 @@
 				56A8E55A2ACBE53600AA381B /* String+Extension.swift in Sources */,
 				FF22B6502AC134C800686B4F /* AppDelegate.swift in Sources */,
 				FF7D081F2AC56A7A0004CC4E /* CustomCalloutView.swift in Sources */,
+				E7500BAB2ACE9A9600668DF6 /* KEY.swift in Sources */,
 				FF7B085E2AC2C64400ACDE03 /* RegionalViewModel.swift in Sources */,
 				56A8E5582ACAB50E00AA381B /* DataManager.swift in Sources */,
 				FF8F2F002AC1A02000C2C85D /* NetworkService.swift in Sources */,

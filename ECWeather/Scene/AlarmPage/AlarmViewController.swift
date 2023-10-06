@@ -6,7 +6,6 @@
 //
 
 import AVFoundation
-import CoreLocation
 import SnapKit
 import UIKit
 import UserNotifications
@@ -14,15 +13,14 @@ import UserNotifications
 class AlarmViewController: BaseViewController {
     // MARK: - Properties
     
-    private let locationManager = CLLocationManager()
     private var weatherCellStatus: Bool? = nil
     private var temperatureCellStatus: Bool? = nil
     
     private let weekdays: [String] = ["월", "화", "수", "목", "금", "토", "일"]
     private var selectedWeekdays: [Int] = []
     
-    private var maxTemp: Double = 0
-    private var minTemp: Double = 0
+    private var maxTemp: Int = 0
+    private var minTemp: Int = 0
     private var currentWeather: String = ""
     
     private var tempColorForSwitch: UIColor? = UIColor(red: 0.00, green: 0.80, blue: 1.00, alpha: 1.00)
@@ -44,8 +42,8 @@ class AlarmViewController: BaseViewController {
         return label
     }()
     
-    // !!BUTTON FOR TEST - 나중에 삭제
-    private lazy var btnForTest: UIButton = {
+    // !!BUTTON FOR PRESENTATION - 나중에 삭제
+    private lazy var btnForPresentation: UIButton = {
         let button = UIButton()
         button.setTitle("[시연용 버튼]", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -53,7 +51,7 @@ class AlarmViewController: BaseViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setTitleColor(.gray, for: .normal)
         button.backgroundColor = .gray.withAlphaComponent(0.3)
-        button.addTarget(self, action: #selector(testBtnTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(presentationBtnTapped), for: .touchUpInside)
         button.bounds = CGRect(x: 0, y: 0, width: 20, height: 20) // TODO: - 원형 만들기
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         return button
@@ -172,6 +170,7 @@ class AlarmViewController: BaseViewController {
         // 요일별 알림 값
         if let savedSelectedWeekdays = UserDefaults.standard.array(forKey: "selectedWeekdaysKey") as? [Int] {
             selectedWeekdays = savedSelectedWeekdays
+            print("요일별 알림: ",selectedWeekdays)
             for (index, button) in weekdaysBtnStack.arrangedSubviews.enumerated() {
                 if let button = button as? UIButton {
                     if selectedWeekdays.contains(index) {
@@ -199,7 +198,7 @@ class AlarmViewController: BaseViewController {
         makeWeekdaysBtnStack()
         configureTableView()
         view.addSubview(titleLabel)
-        view.addSubview(btnForTest) // !!BUTTON FOR TEST - 나중에 삭제
+        view.addSubview(btnForPresentation) // !!BUTTON FOR PRESENTATION - 나중에 삭제
         view.addSubview(notificationSwitch)
         view.addSubview(descriptionLabel)
         view.addSubview(timePicker)
@@ -217,8 +216,8 @@ class AlarmViewController: BaseViewController {
             $0.leading.equalToSuperview().offset(25)
         }
         
-        // !!BUTTON FOR TEST - 나중에 삭제
-        btnForTest.snp.makeConstraints {
+        // !!BUTTON FOR PRESENTATION
+        btnForPresentation.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
             $0.trailing.equalTo(notificationSwitch.snp.leading).offset(-15)
         }
@@ -317,21 +316,17 @@ class AlarmViewController: BaseViewController {
     private func getCurrentWeatherInfo() {
         NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { item in
             if let item = item {
-                // 켈빈에서 섭씨로 변환
-//                let maxTempKelvinToCelsius = (item.maxTemp - 273.15)
-//                let minTempKelvinToCelsius = (item.minTemp - 273.15)
-                
-                // 반올림 (소수점 첫 번째 자리까지)
-                self.maxTemp = round(item.maxTemp * 10) / 10
-                self.minTemp = round(item.minTemp * 10) / 10
-                
+
+                self.maxTemp = Int(item.maxTemp)
+                self.minTemp = Int(item.minTemp)
                 self.currentWeather = item.description
             }
         }
     }
     
-    // !!BUTTON FOR TEST - 나중에 삭제
-    @objc private func testBtnTapped() {
+    // !!BUTTON FOR PRESENTATION - 나중에 삭제
+    @objc private func presentationBtnTapped() {
+        
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
@@ -489,22 +484,26 @@ class AlarmViewController: BaseViewController {
                 if let title = sender.currentTitle {
                     if let weekdaysIndex = weekdays.firstIndex(of: title) {
                         selectedWeekdays.append(weekdaysIndex)
+                        print(selectedWeekdays)
                         UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
-                    }
+                        scheduleNotification()
+                   }
                 }
             } else {
-                sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
-                if let title = sender.currentTitle {
-                    if let weekdaysIndex = weekdays.firstIndex(of: title) {
-                        if selectedWeekdays.contains(weekdaysIndex) {
-                            if let index = selectedWeekdays.firstIndex(of: weekdaysIndex) {
-                                selectedWeekdays.remove(at: index)
-                                UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
-                            }
-                        }
-                    }
-                }
-            }
+               sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+               if let title = sender.currentTitle {
+                   if let weekdaysIndex = weekdays.firstIndex(of: title) {
+                       if selectedWeekdays.contains(weekdaysIndex) {
+                           if let index = selectedWeekdays.firstIndex(of: weekdaysIndex) {
+                               selectedWeekdays.remove(at: index)
+                               print(selectedWeekdays)
+                               UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
+                               scheduleNotification()
+                           }
+                       }
+                   }
+               }
+           }
         }
     }
     
@@ -532,11 +531,13 @@ class AlarmViewController: BaseViewController {
             notificationContentTable.reloadData()
             
             UserDefaults.standard.set(false, forKey: "notificationSwitchStatus")
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests() // 모든 대기열에 있는 알림을 삭제
         }
     }
     
     @objc private func timePickerValueChanged() {
         UserDefaults.standard.set(timePicker.date, forKey: "timePickerValue")
+        scheduleNotification()
     }
 }
 
@@ -620,12 +621,14 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                                     cell.accessoryType = .none
                                     UserDefaults.standard.set(false, forKey: "weatherCellSelectedKey")
                                     weatherCellStatus = !(weatherCellStatus ?? true)
+                                    scheduleNotification()
                                 }
                             }
                         } else {
                             cell.accessoryType = .checkmark
                             UserDefaults.standard.set(true, forKey: "weatherCellSelectedKey")
                             weatherCellStatus = !(weatherCellStatus ?? false)
+                            scheduleNotification()
                         }
                     } else if indexPath.row == 1 {
                         // 온도
@@ -635,12 +638,14 @@ extension AlarmViewController: UITableViewDataSource, UITableViewDelegate {
                                     cell.accessoryType = .none
                                     UserDefaults.standard.set(false, forKey: "temperatureCellSelectedKey")
                                     temperatureCellStatus = !(temperatureCellStatus ?? true)
+                                    scheduleNotification()
                                 }
                             }
                         } else {
                             cell.accessoryType = .checkmark
                             UserDefaults.standard.set(true, forKey: "temperatureCellSelectedKey")
                             temperatureCellStatus = !(temperatureCellStatus ?? false)
+                            scheduleNotification()
                         }
                     }
                 }
