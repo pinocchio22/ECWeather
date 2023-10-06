@@ -31,8 +31,9 @@ extension Date {
     
     func toDayString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "EEEE"
+
+        dateFormatter.dateFormat = "dd"
+
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: self)
     }
