@@ -104,7 +104,7 @@ struct CustomWeather {
     var sunriseTimestamp: String {
         let sunriseDate = Date(timeIntervalSince1970: Double(sunrise))
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "HH:mm:ss"
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return dateFormatter.string(from: sunriseDate)
     }
@@ -112,7 +112,7 @@ struct CustomWeather {
     var sunsetTimestamp: String {
         let sunsetDate = Date(timeIntervalSince1970: Double(sunset))
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "HH:mm:ss"
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return dateFormatter.string(from: sunsetDate)
     }
