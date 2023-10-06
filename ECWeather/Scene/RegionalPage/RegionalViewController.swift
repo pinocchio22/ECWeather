@@ -117,8 +117,8 @@ extension RegionalViewController: MKMapViewDelegate {
             annotationView = setupAnnotationView(for: customAnnotation, on: mapView)
             annotationView?.canShowCallout = true
             
-            let customCalloutView = CustomCalloutView()
-            annotationView?.detailCalloutAccessoryView = customCalloutView
+//            let customCalloutView = CustomCalloutView()
+//            annotationView?.detailCalloutAccessoryView = customCalloutView
         }
         return annotationView
     }
