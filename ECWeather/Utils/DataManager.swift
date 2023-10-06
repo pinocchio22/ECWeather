@@ -18,6 +18,8 @@ class DataManager {
     
     var searchKeyword: [String] = []
     
+    var currentLocation = ""
+    
     /// 알림 수신음 정의 - AlarmViewController, SelectNotificationSoundViewController 사용
     static let notificationSoundList: [String: String] = [
         "뭐지": "notification_sound_moji",
@@ -25,4 +27,6 @@ class DataManager {
         "탸댜아아ㅏ" : "notification_sound_taddddaaaaa",
         "오와우우으" : "notification_sound_wow",
     ]
+    
+    let locationList = ["Seoul", "Uijeongbu-si", "Namyangju", "chuncheon", "gangneung", "Bucheon-si", "Seongnam-si", "Cheongju-si", "Andong", "Daegu", "Jeonju", "Mokpo", "Changwon", "Busan", "Jeju-do"]
 }

@@ -10,6 +10,14 @@ import SnapKit
 import UIKit
 
 class CustomAnnotationView: MKAnnotationView {
+//    private lazy var backgroundButton: UIButton = {
+//        let button = UIButton()
+//        button.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
+//        button.layer.cornerRadius = 10
+//        button.addTarget(self, action: #selector(tappedBackgroundButton), for: .touchUpInside)
+//        return button
+//    }()
+    
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.8)
@@ -22,6 +30,9 @@ class CustomAnnotationView: MKAnnotationView {
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textColor = .ECWeatherColor2
         label.backgroundColor = .ECWeatherColor3
+        label.lineBreakMode = .byWordWrapping
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.clipsToBounds = true
         label.layer.cornerRadius = 5
         label.textAlignment = .center
@@ -61,6 +72,7 @@ class CustomAnnotationView: MKAnnotationView {
     private func configureUI() {
         addSubview(indicator)
         addSubview(backgroundView)
+//        addSubview(backgroundButton)
         backgroundView.addSubview(titleLabel)
         backgroundView.addSubview(customImageView)
         backgroundView.addSubview(temperatureLabel)
@@ -72,7 +84,7 @@ class CustomAnnotationView: MKAnnotationView {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(5)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(40)
+            $0.width.equalTo(60)
         }
         
         customImageView.snp.makeConstraints {
@@ -99,9 +111,11 @@ class CustomAnnotationView: MKAnnotationView {
         guard let annotation = annotation as? CustomAnnotation else { return }
         
         temperatureLabel.text = annotation.subtitle
-        titleLabel.text = annotation.title
+        if let title = annotation.title {
+            titleLabel.text = " \(title) "
+        }
         customImageView.image = annotation.iconImage
-        indicator.stopAnimating()
+//        indicator.stopAnimating()
         
         setNeedsLayout()
     }
@@ -111,4 +125,8 @@ class CustomAnnotationView: MKAnnotationView {
         bounds.size = CGSize(width: 80, height: 80)
         centerOffset = CGPoint(x: 0, y: 40)
     }
+    
+//    @objc func tappedBackgroundButton() {
+//        DataManager.shared.currentLocation = titleLabel.text ?? ""
+//    }
 }
