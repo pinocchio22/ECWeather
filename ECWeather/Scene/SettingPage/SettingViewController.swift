@@ -139,7 +139,7 @@ extension SettingViewController: CLLocationManagerDelegate {
         if let location = locations.last {
             self.latitude = location.coordinate.latitude
             self.longitude = location.coordinate.longitude
-            print("현재 위치 - 위도: \(latitude), 경도: \(longitude)")
+            print("현재 위치 - 위도: \(latitude ?? 0), 경도: \(longitude ?? 0)")
             DataManager.shared.latitude = latitude
             DataManager.shared.longitude = longitude
             
