@@ -45,36 +45,6 @@ class CustomCalloutView: UIView {
     }
     
     private func setCollectionView() {
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
         collectionView.register(TemperatureCollectionViewCell.self, forCellWithReuseIdentifier: "TemperatureCollectionViewCell")
     }
-    
-//    func getDailyWeather(cityName: String) -> [CustomWeeklyWeather] {
-//        print("@@@@@@@@@ 1      \(DataManager.shared.currentLocation)")
-//        print("@@@@@@@@@ 2 \(cityName)")
-//        var weatherList = [CustomWeeklyWeather]()
-//        viewModel.getDailyWeather(cityName: cityName) { weather in
-//            print("@@@@@@@@@ \(weather?.count)")
-//            if let weather = weather {
-//                weatherList = weather.filter { $0.dateTime.toDate()?.toDayString() == DataManager.shared.currentLocation }
-//            }
-//        }
-//        return weatherList
-//    }
 }
-
-//extension CustomCalloutView: UICollectionViewDelegate, UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        print("@@@@@ \(getDailyWeather(cityName: DataManager.shared.currentLocation).count)")
-//        return getDailyWeather(cityName: DataManager.shared.currentLocation).count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TemperatureCollectionViewCell", for: indexPath) as? TemperatureCollectionViewCell else { return UICollectionViewCell() }
-//        cell.timeLabel.text = getDailyWeather(cityName: DataManager.shared.currentLocation)[indexPath.row].dateTime
-//        cell.temperatureLabel.text = "\(getDailyWeather(cityName: DataManager.shared.currentLocation)[indexPath.row].currentTemp)℃"
-//
-//        return cell
-//    }
-//}

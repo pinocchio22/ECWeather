@@ -170,7 +170,7 @@ class AlarmViewController: BaseViewController {
         // 요일별 알림 값
         if let savedSelectedWeekdays = UserDefaults.standard.array(forKey: "selectedWeekdaysKey") as? [Int] {
             selectedWeekdays = savedSelectedWeekdays
-            print("요일별 알림: ",selectedWeekdays)
+            print("요일별 알림: ", selectedWeekdays)
             for (index, button) in weekdaysBtnStack.arrangedSubviews.enumerated() {
                 if let button = button as? UIButton {
                     if selectedWeekdays.contains(index) {
@@ -316,7 +316,6 @@ class AlarmViewController: BaseViewController {
     private func getCurrentWeatherInfo() {
         NetworkService.getCurrentWeather(lat: DataManager.shared.latitude!, lon: DataManager.shared.longitude!) { item in
             if let item = item {
-
                 self.maxTemp = Int(item.maxTemp)
                 self.minTemp = Int(item.minTemp)
                 self.currentWeather = item.description
@@ -326,7 +325,6 @@ class AlarmViewController: BaseViewController {
     
     // !!BUTTON FOR PRESENTATION - 나중에 삭제
     @objc private func presentationBtnTapped() {
-        
         let content = UNMutableNotificationContent()
         content.title = "ECWeather - 날씨 알리미"
         
@@ -484,26 +482,24 @@ class AlarmViewController: BaseViewController {
                 if let title = sender.currentTitle {
                     if let weekdaysIndex = weekdays.firstIndex(of: title) {
                         selectedWeekdays.append(weekdaysIndex)
-                        print(selectedWeekdays)
                         UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
                         scheduleNotification()
-                   }
+                    }
                 }
             } else {
-               sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
-               if let title = sender.currentTitle {
-                   if let weekdaysIndex = weekdays.firstIndex(of: title) {
-                       if selectedWeekdays.contains(weekdaysIndex) {
-                           if let index = selectedWeekdays.firstIndex(of: weekdaysIndex) {
-                               selectedWeekdays.remove(at: index)
-                               print(selectedWeekdays)
-                               UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
-                               scheduleNotification()
-                           }
-                       }
-                   }
-               }
-           }
+                sender.backgroundColor = .ECWeatherColor4?.withAlphaComponent(0.3)
+                if let title = sender.currentTitle {
+                    if let weekdaysIndex = weekdays.firstIndex(of: title) {
+                        if selectedWeekdays.contains(weekdaysIndex) {
+                            if let index = selectedWeekdays.firstIndex(of: weekdaysIndex) {
+                                selectedWeekdays.remove(at: index)
+                                UserDefaults.standard.set(selectedWeekdays, forKey: "selectedWeekdaysKey")
+                                scheduleNotification()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     

@@ -29,7 +29,7 @@ extension Date {
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: self)
     }
-    
+
     func toDayString() -> String {
         let dateFormatter = DateFormatter()
 

@@ -116,17 +116,10 @@ extension RegionalViewController: MKMapViewDelegate {
         if let customAnnotation = annotation as? CustomAnnotation {
             annotationView = setupAnnotationView(for: customAnnotation, on: mapView)
             annotationView?.canShowCallout = true
-            
-//            let customCalloutView = CustomCalloutView()
-//            annotationView?.detailCalloutAccessoryView = customCalloutView
         }
         return annotationView
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        if let title = view.annotation?.title {
-//            DataManager.shared.currentLocation = title ?? ""
-//        }
-//        print("@@@@@@@@@ didSelect \(DataManager.shared.currentLocation)")
     }
 }

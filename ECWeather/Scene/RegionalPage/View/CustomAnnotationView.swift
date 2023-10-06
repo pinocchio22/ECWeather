@@ -115,7 +115,6 @@ class CustomAnnotationView: MKAnnotationView {
             titleLabel.text = " \(title) "
         }
         customImageView.image = annotation.iconImage
-//        indicator.stopAnimating()
         
         setNeedsLayout()
     }
@@ -125,8 +124,4 @@ class CustomAnnotationView: MKAnnotationView {
         bounds.size = CGSize(width: 80, height: 80)
         centerOffset = CGPoint(x: 0, y: 40)
     }
-    
-//    @objc func tappedBackgroundButton() {
-//        DataManager.shared.currentLocation = titleLabel.text ?? ""
-//    }
 }
